@@ -37,5 +37,8 @@
     "eslint-plugin-standard": "^4.0.1",
     "nanoevents": "^2.0.0",
     "nanoid": "^2.1.9"
+  },
+  "dependencies": {
+    "esm": "^3.2.25"
   }
 }
