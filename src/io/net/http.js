@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-19, 15:18:26 (zhenliang.sun)
- * Last Modified: 2020-01-19, 17:15:13 (zhenliang.sun)
+ * Last Modified: 2020-01-19, 18:36:21 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -21,21 +21,27 @@ export default class Http {
       error: this._onError.bind(this),
       timeout: this._onTimeout.bind(this),
       onload: this._onLoad.bind(this),
-      onloadend: this._onloadend.bind(this)
+      onloadend: this._onLoadend.bind(this),
+      onloadstart: this._onLoadStart.bind(this),
+      onabort: this._onAbort.bind(this)
     }
 
     this.xhr = new XMLHttpRequest()
     this.xhr.timeout = 5000
     this.xhr.responseType = 'arraybuffer'
     this.xhr.ontimeout = this.e.timeout
-    this.xhr.onloadend = this.e.onLoadend
+    this.xhr.onloadend = this.e.onloadend
     this.xhr.onerror = this.e.error
     this.xhr.onload = this.e.onload
+    this.xhr.onloadstart = this.e.onloadstart
+    this.xhr.onabort = this.e.onabort
 
     this.onError = null
     this.onLoad = null
-    this.onLoadend = null
+    this.onLoadEnd = null
     this.onTimeout = null
+    this.onLoadStart = null
+    this.onAbort = null
   }
 
   fire(url) {
@@ -45,6 +51,10 @@ export default class Http {
 
     this.xhr.open('GET', url)
     this.xhr.send()
+  }
+
+  abort() {
+    this.xhr.abort()
   }
 
   destroy() {
@@ -63,10 +73,12 @@ export default class Http {
     this.onLoad = null
     this.onLoadend = null
     this.onTimeout = null
+    this.onLoadStart = null
   }
 
   _onError(e) {
-    this.onError && this.onError(e.target.response)
+    const { status, statusText } = e.target
+    this.onError && this.onError({ status, statusText })
     this.onError = null
   }
 
@@ -94,8 +106,18 @@ export default class Http {
     this.onLoad = null
   }
 
-  _onloadend(e) {
+  _onLoadend(e) {
     this.onLoadend && this.onLoadend(e.target)
     this.onLoadend = null
+  }
+
+  _onLoadStart(e) {
+    this.onLoadStart && this.onLoadStart(e)
+    this.onLoadStart = null
+  }
+
+  _onAbort(e) {
+    this.onAbort && this.onAbort(e)
+    this.onAbort = null
   }
 }
