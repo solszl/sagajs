@@ -14,9 +14,6 @@ module.exports = {
       'error',
       {
         overrides: {
-          if: {
-            after: false
-          },
           for: {
             after: false
           },

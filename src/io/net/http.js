@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-19, 15:18:26 (zhenliang.sun)
- * Last Modified: 2020-01-19, 15:58:27 (zhenliang.sun)
+ * Last Modified: 2020-01-19, 17:15:13 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -26,7 +26,7 @@ export default class Http {
 
     this.xhr = new XMLHttpRequest()
     this.xhr.timeout = 5000
-    this.xhr.responseType = 'arrayBuffer'
+    this.xhr.responseType = 'arraybuffer'
     this.xhr.ontimeout = this.e.timeout
     this.xhr.onloadend = this.e.onLoadend
     this.xhr.onerror = this.e.error
@@ -84,13 +84,13 @@ export default class Http {
       return
     }
 
-    const { code, data, msg } = e.target.response
-    if (+code !== 200) {
+    const { status, response } = e.target
+    if (+status !== 200) {
       this._onError(e)
       return
     }
 
-    this.onLoad && this.onLoad(data)
+    this.onLoad && this.onLoad(response)
     this.onLoad = null
   }
 
