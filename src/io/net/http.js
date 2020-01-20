@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-19, 15:18:26 (zhenliang.sun)
- * Last Modified: 2020-01-20, 11:33:57 (zhenliang.sun)
+ * Last Modified: 2020-01-20, 20:56:43 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -79,12 +79,10 @@ export default class Http {
   _onError(e) {
     const { status, statusText } = e.target
     this.onError && this.onError({ status, statusText })
-    this.onError = null
   }
 
   _onTimeout(e) {
     this.onTimeout && this.onTimeout(e.target)
-    this.onTimeout = null
   }
 
   _onLoad(e) {
@@ -103,21 +101,17 @@ export default class Http {
     }
 
     this.onLoad && this.onLoad(response)
-    this.onLoad = null
   }
 
   _onLoadend(e) {
     this.onLoadend && this.onLoadend(e.target)
-    this.onLoadend = null
   }
 
   _onLoadStart(e) {
     this.onLoadStart && this.onLoadStart(e)
-    this.onLoadStart = null
   }
 
   _onAbort(e) {
     this.onAbort && this.onAbort(e)
-    this.onAbort = null
   }
 }
