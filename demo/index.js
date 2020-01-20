@@ -1,10 +1,11 @@
 import Loader from '../src/io/loader'
 import { LOAD_EVENT_ENUM } from '../src/constants/loader-event'
+import { parse } from '../src/io/process/dataProcess'
 
 /**
  *
  * Created Date: 2020-01-19, 17:04:33 (zhenliang.sun)
- * Last Modified: 2020-01-19, 18:33:54 (zhenliang.sun)
+ * Last Modified: 2020-01-20, 11:36:07 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -16,7 +17,11 @@ const url =
 
 const loader = new Loader()
 loader.on(LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE, e => {
-  console.log(e)
+  console.log('数据加载完成', e)
+  const { buffer } = e
+
+  const data = parse(buffer)
+  console.log(data)
 })
 
 loader.on(LOAD_EVENT_ENUM.ITEM_LOAD_ERROR, e => {
@@ -24,7 +29,7 @@ loader.on(LOAD_EVENT_ENUM.ITEM_LOAD_ERROR, e => {
 })
 
 loader.on(LOAD_EVENT_ENUM.ITEM_LOAD_ABORT, e => {
-  console.log('aaa')
+  console.log('abort')
 })
 loader.load(url)
 

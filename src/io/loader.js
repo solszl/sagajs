@@ -5,7 +5,7 @@ import { LOAD_EVENT_ENUM } from '../constants/loader-event'
 /**
  *
  * Created Date: 2020-01-19, 00:56:45 (zhenliang.sun)
- * Last Modified: 2020-01-19, 18:30:19 (zhenliang.sun)
+ * Last Modified: 2020-01-20, 11:41:45 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -25,13 +25,21 @@ export default class Loader extends IEvent {
     /** 是否正在加载 */
     this.isLoading = false
 
+    this.costTime = 0
     this.xhr = new Http()
     this.xhr.onLoadStart = e => {
       this.isLoading = true
+      this.costTime = Date.now()
       this.emit(LOAD_EVENT_ENUM.ITEM_LOAD_START, e)
     }
     this.xhr.onLoad = e => {
-      this.emit(LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE, e)
+      this.costTime = Date.now() - this.costTime
+      const obj = {
+        buffer: e,
+        costTime: this.costTime
+      }
+
+      this.emit(LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE, obj)
     }
     this.xhr.onError = e => {
       this.emit(LOAD_EVENT_ENUM.ITEM_LOAD_ERROR, e)
