@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-19, 15:05:39 (zhenliang.sun)
- * Last Modified: 2020-01-20, 12:24:59 (zhenliang.sun)
+ * Last Modified: 2020-01-21, 12:26:45 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -38,14 +38,15 @@ export const METADATA_UNIT = {
   x00280011: 'US',
   x00281052: 'DS',
   x00281053: 'DS',
-  x00200032: 'DS',
-  x00200037: 'DS',
+  x00200032: 'CUSTOM_DS',
+  x00200037: 'CUSTOM_DS',
   x00180050: 'DS',
-  x00280030: 'DS'
+  x00280030: 'CUSTOM_DS'
 }
 
 export const METADATA_UNIT_CONVERTOR = {
   US: 'uint16',
   CS: 'string',
-  DS: 'floatString'
+  DS: 'floatString',
+  CUSTOM_DS: 'string'
 }
