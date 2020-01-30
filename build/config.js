@@ -6,6 +6,7 @@ const config = {
   buildDetail: false,
   devServer: {
     contentBase: path.resolve('dist'),
+    host: '192.168.199.136',
     port: 2333,
     open: true,
     hot: true,

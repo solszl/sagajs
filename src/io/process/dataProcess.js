@@ -8,7 +8,7 @@ import {
 /**
  *
  * Created Date: 2020-01-19, 15:05:20 (zhenliang.sun)
- * Last Modified: 2020-01-21, 12:27:36 (zhenliang.sun)
+ * Last Modified: 2020-01-30, 01:41:43 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -17,6 +17,7 @@ import {
 
 const parse = buffer => {
   const dataSet = dicomParser.parseDicom(new Uint8Array(buffer))
+  window.parser = dicomParser
 
   const samplesPerPixel = getData(dataSet, METADATA_TYPE.SAMPLES_PER_PIXEL)
   const photometricInterpretation =

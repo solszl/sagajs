@@ -1,9 +1,9 @@
-import IEvent from '../event'
+import IEvent from './event'
 
 /**
  *
  * Created Date: 2020-01-21, 16:03:26 (zhenliang.sun)
- * Last Modified: 2020-01-21, 16:35:29 (zhenliang.sun)
+ * Last Modified: 2020-01-31, 03:09:16 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -20,12 +20,6 @@ import IEvent from '../event'
 export default class TXComponent extends IEvent {
   constructor() {
     super()
-  }
-
-  render() {}
-
-  renderNextFrame() {
-    requestAnimationFrame(this.render)
   }
 
   destroy() {}
