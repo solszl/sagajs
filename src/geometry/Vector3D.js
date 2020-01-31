@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 03:11:34 (zhenliang.sun)
- * Last Modified: 2020-01-31, 14:44:38 (zhenliang.sun)
+ * Last Modified: 2020-01-31, 14:48:02 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -20,6 +20,22 @@ export default class Vector3D {
     this._x = x
     this._y = y
     this._z = z
+  }
+
+  /**
+   * 判断两个向量是否相等
+   *
+   * @param {*} vector3d
+   * @returns
+   * @memberof Vector3D
+   */
+  equals(vector3d) {
+    return (
+      !!vector3d &&
+      this.x === vector3d.x &&
+      this.y === vector3d.y &&
+      this.z === vector3d.z
+    )
   }
 
   /**
