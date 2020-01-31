@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 03:11:34 (zhenliang.sun)
- * Last Modified: 2020-01-31, 14:54:38 (zhenliang.sun)
+ * Last Modified: 2020-01-31, 14:59:32 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -9,8 +9,8 @@
  */
 
 /**
- *
- *
+ * 向量的操作
+ * http://www.waitingfy.com/archives/320
  * @export
  * @class Vector3D
  * @author zhenliang.sun
