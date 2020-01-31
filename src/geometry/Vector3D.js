@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 03:11:34 (zhenliang.sun)
- * Last Modified: 2020-01-31, 14:48:02 (zhenliang.sun)
+ * Last Modified: 2020-01-31, 14:54:38 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -65,6 +65,18 @@ export default class Vector3D {
    */
   dotProduct(vector3d) {
     return this.x * vector3d.x + this.y * vector3d.y + this.z * vector3d.z
+  }
+
+  /**
+   * 规范化当前向量
+   * normalize 修改当前向量
+   * normalized 返回一个新的向量
+   *
+   * @returns
+   * @memberof Vector3D
+   */
+  normalize() {
+    return Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2)
   }
 
   get x() {
