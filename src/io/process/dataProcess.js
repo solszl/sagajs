@@ -4,20 +4,22 @@ import {
   METADATA_UNIT,
   METADATA_UNIT_CONVERTOR
 } from './metadata'
+import { decodeImageData } from './decode'
 
 /**
  *
  * Created Date: 2020-01-19, 15:05:20 (zhenliang.sun)
- * Last Modified: 2020-01-30, 01:41:43 (zhenliang.sun)
+ * Last Modified: 2020-02-02, 01:48:13 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-const parse = buffer => {
+const parse = async buffer => {
   const dataSet = dicomParser.parseDicom(new Uint8Array(buffer))
   window.parser = dicomParser
+  window.data = dataSet
 
   const samplesPerPixel = getData(dataSet, METADATA_TYPE.SAMPLES_PER_PIXEL)
   const photometricInterpretation =
@@ -45,7 +47,8 @@ const parse = buffer => {
     origin,
     orientation,
     pixelSpacing,
-    thickness
+    thickness,
+    ...(await decodeImageData(dataSet))
   }
 }
 

@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 15:57:44 (zhenliang.sun)
- * Last Modified: 2020-01-31, 20:16:39 (zhenliang.sun)
+ * Last Modified: 2020-02-01, 00:06:47 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -18,6 +18,10 @@
 export default class Geometry {
   constructor(origin, spacing, size, orientation) {
     this.origins = [origin]
+    this.origin = origin
+    this.spacing = spacing
+    this.size = size
+    this.orientation = orientation
   }
 
   /**

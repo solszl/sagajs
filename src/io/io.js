@@ -5,11 +5,12 @@ import Loader from './loader'
 import Cache from './cache'
 import { LOAD_EVENT_ENUM } from '../constants/loader-event'
 import { parse } from './process/dataProcess'
+import IEvent from '../component/event'
 
 /**
  *
  * Created Date: 2020-01-19, 01:52:21 (zhenliang.sun)
- * Last Modified: 2020-01-20, 21:15:59 (zhenliang.sun)
+ * Last Modified: 2020-02-01, 01:52:46 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -20,11 +21,12 @@ import { parse } from './process/dataProcess'
  * io管理类
  *
  * @export
- * @class IOManager
+ * @class IO
  * @author zhenliang.sun
  */
-export default class IOManager {
+export default class IO extends IEvent {
   constructor(option = {}) {
+    super()
     // 创建上下文
     this.context = new LoadContext()
     this.context.strategy = option.dynamic
@@ -42,6 +44,8 @@ export default class IOManager {
       LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE,
       this._itemLoadComplete.bind(this)
     )
+
+    this.itemLoadCallBK = null
   }
 
   setUrls(urls, autoLoad = true) {
@@ -67,7 +71,7 @@ export default class IOManager {
 
     const { buffer, imageId } = e
     this.cache.setCache(imageId, parse(buffer))
-
+    this.emit(LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE, e)
     this._next()
   }
 

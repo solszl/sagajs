@@ -1,12 +1,13 @@
 import Loader from '../src/io/loader'
 import { LOAD_EVENT_ENUM } from '../src/constants/loader-event'
 import { parse } from '../src/io/process/dataProcess'
-import IOManager from '../src/io/ioManager'
+import IO from '../src/io/io'
+import Image from '../src/image/image'
 
 /**
  *
  * Created Date: 2020-01-19, 17:04:33 (zhenliang.sun)
- * Last Modified: 2020-01-29, 23:53:10 (zhenliang.sun)
+ * Last Modified: 2020-02-01, 01:54:01 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -40,7 +41,6 @@ const urls = [
   'http://192.168.199.136:8887/1.2.840.113704.1.111.5560.1384995324.5919.dcm'
 ]
 
-const io = new IOManager({ dynamic: true })
-io.setUrls(urls)
-
-window.io = io
+const img = new Image()
+img.setURLS(urls)
+window.img = img

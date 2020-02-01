@@ -1,11 +1,11 @@
 import Http from './net/http'
-import IEvent from '../event'
+import IEvent from '../component/event'
 import { LOAD_EVENT_ENUM } from '../constants/loader-event'
 
 /**
  *
  * Created Date: 2020-01-19, 00:56:45 (zhenliang.sun)
- * Last Modified: 2020-01-20, 21:08:32 (zhenliang.sun)
+ * Last Modified: 2020-02-01, 00:46:28 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
