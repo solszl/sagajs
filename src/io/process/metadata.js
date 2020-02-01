@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-19, 15:05:39 (zhenliang.sun)
- * Last Modified: 2020-01-21, 12:26:45 (zhenliang.sun)
+ * Last Modified: 2020-02-02, 04:02:33 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -28,7 +28,11 @@ export const METADATA_TYPE = {
   /** 层厚， VR: DS */
   THICKNESS: 'x00180050',
   /** 层间距 VR:DS */
-  SPACING: 'x00280030'
+  SPACING: 'x00280030',
+  SPACING2: 'x00181164',
+  SPACING3: 'x00182010',
+  /** 层数， VR:IS  */
+  SLICE_POSITION: 'x00200013'
 }
 
 export const METADATA_UNIT = {
@@ -41,12 +45,16 @@ export const METADATA_UNIT = {
   x00200032: 'CUSTOM_DS',
   x00200037: 'CUSTOM_DS',
   x00180050: 'DS',
-  x00280030: 'CUSTOM_DS'
+  x00280030: 'CUSTOM_DS',
+  x00181164: 'CUSTOM_DS',
+  x00182010: 'CUSTOM_DS',
+  x00200013: 'IS'
 }
 
 export const METADATA_UNIT_CONVERTOR = {
   US: 'uint16',
   CS: 'string',
   DS: 'floatString',
-  CUSTOM_DS: 'string'
+  CUSTOM_DS: 'string',
+  IS: 'floatString'
 }

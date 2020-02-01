@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 03:11:34 (zhenliang.sun)
- * Last Modified: 2020-01-31, 14:59:32 (zhenliang.sun)
+ * Last Modified: 2020-02-02, 03:14:52 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -77,6 +77,16 @@ export default class Vector3D {
    */
   normalize() {
     return Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2)
+  }
+
+  toArray() {
+    return [this.x, this.y, this.z]
+  }
+
+  fromArray(arr) {
+    this._x = arr[0]
+    this._y = arr[1]
+    this._z = arr[2]
   }
 
   get x() {

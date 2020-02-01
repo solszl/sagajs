@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 03:13:05 (zhenliang.sun)
- * Last Modified: 2020-01-31, 03:54:57 (zhenliang.sun)
+ * Last Modified: 2020-02-02, 03:14:18 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -27,6 +27,16 @@ export default class Point3D {
     const y = this.y - to.y
     const z = this.z - to.z
     return pow(pow(x, 2) + pow(y, 2) + pow(z, 2), 0.5)
+  }
+
+  toArray() {
+    return [this.x, this.y, this.z]
+  }
+
+  fromArray(arr) {
+    this._x = arr[0]
+    this._y = arr[1]
+    this._z = arr[2]
   }
 
   get x() {

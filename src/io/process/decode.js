@@ -123,9 +123,7 @@ const parseImageFrame = dataSet => {
 }
 
 const decodeImageData = async dataSet => {
-  const start = +new Date()
-
-  // TODO multi-frame support
+  const start = Date.now()
 
   const transferSyntax = dataSet.string('x00020010')
   const bitsAllocated = dataSet.uint16('x00280100')
@@ -136,7 +134,7 @@ const decodeImageData = async dataSet => {
   const pixelDataByteArray = parseImageFrame(dataSet)
 
   const makeTexture = pixelData => {
-    const end = +new Date()
+    const end = Date.now()
     const decodeTimeInMs = end - start
     return {
       transferSyntax,

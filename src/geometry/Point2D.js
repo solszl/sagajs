@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 03:12:56 (zhenliang.sun)
- * Last Modified: 2020-01-31, 03:23:44 (zhenliang.sun)
+ * Last Modified: 2020-02-02, 03:14:33 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -28,6 +28,15 @@ export default class Point2D {
 
   equals(to) {
     return !!to && to.x === this.x && to.y === this.y
+  }
+
+  toArray() {
+    return [this.x, this.y]
+  }
+
+  fromArray(arr) {
+    this._x = arr[0]
+    this._y = arr[1]
   }
 
   get x() {
