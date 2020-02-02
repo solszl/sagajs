@@ -5,7 +5,7 @@ import { LOAD_EVENT_ENUM } from '../constants/loader-event'
 /**
  *
  * Created Date: 2020-01-19, 00:56:45 (zhenliang.sun)
- * Last Modified: 2020-02-01, 00:46:28 (zhenliang.sun)
+ * Last Modified: 2020-02-03, 00:26:28 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -68,5 +68,7 @@ export default class Loader extends IEvent {
     if (this.isLoading) {
       this.abort()
     }
+
+    // remove eventListener
   }
 }

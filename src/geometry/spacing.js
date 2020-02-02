@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 22:36:23 (zhenliang.sun)
- * Last Modified: 2020-01-31, 22:41:03 (zhenliang.sun)
+ * Last Modified: 2020-02-03, 01:02:42 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -18,7 +18,7 @@ export default class Spacing {
   constructor(columnSpacing, rowSpacing, sliceSpacing) {
     this._column = columnSpacing
     this._row = rowSpacing
-    this._slice = sliceSpacing
+    this._slice = sliceSpacing || 1.0
   }
 
   equals(item) {

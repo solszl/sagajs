@@ -3,7 +3,7 @@ import Vector3D from './Vector3D'
 /**
  *
  * Created Date: 2020-02-02, 03:36:32 (zhenliang.sun)
- * Last Modified: 2020-02-02, 04:10:09 (zhenliang.sun)
+ * Last Modified: 2020-02-03, 01:05:04 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -36,7 +36,7 @@ export default class Matrix33 {
   }
 
   get(row, col) {
-    return this.mat[row * 3 + col]
+    return this._mat[row * 3 + col]
   }
 
   multiply(vector3d) {

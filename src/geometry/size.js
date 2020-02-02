@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 22:41:39 (zhenliang.sun)
- * Last Modified: 2020-01-31, 22:47:30 (zhenliang.sun)
+ * Last Modified: 2020-02-03, 00:50:15 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -9,7 +9,7 @@
  */
 
 export default class Size {
-  constructor(columns, rows, slices) {
+  constructor(columns, rows, slices = 0) {
     this._column = columns
     this._row = rows
     this._slice = slices
@@ -37,6 +37,10 @@ export default class Size {
     }
 
     return true
+  }
+
+  increaseSlice() {
+    this._slice += 1
   }
 
   get sliceSize() {

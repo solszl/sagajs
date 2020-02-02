@@ -1,13 +1,9 @@
-import Loader from '../src/io/loader'
-import { LOAD_EVENT_ENUM } from '../src/constants/loader-event'
-import { parse } from '../src/io/process/dataProcess'
-import IO from '../src/io/io'
-import Image from '../src/image/image'
+import View from '../src/view/view'
 
 /**
  *
  * Created Date: 2020-01-19, 17:04:33 (zhenliang.sun)
- * Last Modified: 2020-02-01, 01:54:01 (zhenliang.sun)
+ * Last Modified: 2020-02-03, 00:06:35 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -41,6 +37,6 @@ const urls = [
   'http://192.168.199.136:8887/1.2.840.113704.1.111.5560.1384995324.5919.dcm'
 ]
 
-const img = new Image()
-img.setURLS(urls)
-window.img = img
+const view = new View()
+view.urls = urls
+window.view = view

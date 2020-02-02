@@ -11,7 +11,7 @@ import Spacing from '../geometry/spacing'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-02-02, 04:12:51 (zhenliang.sun)
+ * Last Modified: 2020-02-03, 01:16:15 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -27,24 +27,28 @@ export default class Image {
     )
     this.firstParse = true
     this.pixelBuffer = new Map()
-
-    this.size = null
   }
 
   setURLS(urls) {
     this.io.setUrls(urls)
   }
 
-  appendSlice(parsedObject, index) {
-    const { columns, rows, slicePosition } = parsedObject
-    const sliceIndex = index || slicePosition || 0
-    this.size = new Size(columns, rows, sliceIndex)
+  appendSlice(parsedObject) {
+    const { origin, slicePosition } = parsedObject
+    this.geometry.size.increaseSlice()
+    this.geometry.appendOrigin(origin, slicePosition)
   }
 
-  appendBuffer(pixelBuffer) {}
+  appendBuffer(pixelBuffer, index) {
+    this.pixelBuffer.set(index, pixelBuffer)
+  }
 
-  addOrigin(origin) {}
-
+  /**
+   * 创建一个集合空间
+   *
+   * @param {*} parsedObject
+   * @memberof Image
+   */
   createGeometry(parsedObject) {
     const { origin, orientation, pixelSpacing, columns, rows } = parsedObject
     const _origin = new Point3D()
@@ -71,6 +75,7 @@ export default class Image {
     const _spacing = new Spacing(pixelSpacing[0], pixelSpacing[1])
 
     const _size = new Size(columns, rows)
+
     this.geometry = new Geometry(_origin, _spacing, _size, _orientationMatrix)
   }
 
@@ -80,13 +85,11 @@ export default class Image {
     const parsedObject = await parse(buffer)
     if (this.firstParse) {
       this.createGeometry(parsedObject)
-      this.appendSlice(parsedObject)
       this.firstParse = false
-      return
     }
 
-    const { pixelData, origin } = parsedObject
-    this.addOrigin(origin)
-    this.appendBuffer(pixelData)
+    const { pixelData, slicePosition } = parsedObject
+    this.appendSlice(parsedObject)
+    this.appendBuffer(pixelData, slicePosition)
   }
 }
