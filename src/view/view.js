@@ -1,10 +1,10 @@
 import TXComponent from '../component/component'
-import Image from './image'
+import Image from '../image/image'
 import Index3D from '../geometry/index3d'
 /**
  *
  * Created Date: 2020-02-02, 16:04:54 (zhenliang.sun)
- * Last Modified: 2020-02-03, 00:05:30 (zhenliang.sun)
+ * Last Modified: 2020-02-05, 00:52:16 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -23,8 +23,23 @@ export default class View extends TXComponent {
   constructor() {
     super()
 
+    // 图像
     this.image = new Image()
+    // 配色表
+    this._colourMap = null
+
+    // 当前序列
     this.currentSliceIndex = new Index3D(0, 0, 0)
+  }
+
+  generateImageData(buffer) {
+    // 获取WindowLut
+
+    // 获取颜色表
+
+    // 根据广度解释进行颜色变换
+    const imageSize = this.image.geometry.size.sliceSize // 获取图片尺寸， 即 512 * 512
+    for (let i = 0; i < imageSize; i += 1) {}
   }
 
   set urls(urls) {
@@ -47,5 +62,14 @@ export default class View extends TXComponent {
 
     this.emit('切换了')
     return true
+  }
+
+  set colourMap(colourMap) {
+    this._colourMap = colourMap
+    // TODO: dispatch colour map change
+  }
+
+  get colourMap() {
+    return this._colourMap
   }
 }

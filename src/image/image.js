@@ -7,11 +7,12 @@ import Point3D from '../geometry/Point3D'
 import Vector3D from '../geometry/Vector3D'
 import Matrix33 from '../geometry/matrix33'
 import Spacing from '../geometry/spacing'
+import RescaleSlopeIntercept from '../geometry/RescaleSlopeIntercept'
 
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-02-03, 01:16:15 (zhenliang.sun)
+ * Last Modified: 2020-02-05, 01:05:30 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -27,6 +28,7 @@ export default class Image {
     )
     this.firstParse = true
     this.pixelBuffer = new Map()
+    this.rsis = []
   }
 
   setURLS(urls) {
@@ -34,9 +36,15 @@ export default class Image {
   }
 
   appendSlice(parsedObject) {
+    // 给空间追加各种信息
     const { origin, slicePosition } = parsedObject
     this.geometry.size.increaseSlice()
     this.geometry.appendOrigin(origin, slicePosition)
+
+    // 添加缩放系数
+    const { slope, intercept } = parsedObject
+    const rsi = new RescaleSlopeIntercept(slope, intercept)
+    this.rsis.splice(slicePosition, 0, rsi)
   }
 
   appendBuffer(pixelBuffer, index) {

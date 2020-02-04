@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-02-02, 15:28:20 (zhenliang.sun)
- * Last Modified: 2020-02-02, 15:38:04 (zhenliang.sun)
+ * Last Modified: 2020-02-05, 00:56:59 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -9,7 +9,7 @@
  */
 
 export default class RescaleSlopeIntercept {
-  constructor(slope, intercept) {
+  constructor(slope = 1, intercept = 0) {
     this._slope = slope
     this._intercept = intercept
   }

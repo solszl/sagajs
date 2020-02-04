@@ -5,6 +5,11 @@
     "dicom",
     "happypack",
     "nanoevents",
-    "sagajs"
+    "rsis",
+    "sagajs",
+    "ymin",
+    "ymax",
+    "xmin",
+    "xmax"
   ]
 }
