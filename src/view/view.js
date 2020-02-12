@@ -1,10 +1,11 @@
 import TXComponent from '../component/component'
 import Image from '../image/image'
 import Index3D from '../geometry/index3d'
+import { SLICE_EVENT_ENUM } from '../constants/slice-event'
 /**
  *
  * Created Date: 2020-02-02, 16:04:54 (zhenliang.sun)
- * Last Modified: 2020-02-05, 00:52:16 (zhenliang.sun)
+ * Last Modified: 2020-02-13, 00:59:25 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -57,16 +58,17 @@ export default class View extends TXComponent {
     }
 
     if (this.currentSliceIndex.equals(pos)) {
-      return
+      return false
     }
 
-    this.emit('切换了')
+    this.currentSliceIndex = pos
+    this.emit(SLICE_EVENT_ENUM.SLICE_CHANGED, pos.k)
     return true
   }
 
   set colourMap(colourMap) {
     this._colourMap = colourMap
-    // TODO: dispatch colour map change
+    this.emit(SLICE_EVENT_ENUM.COLOUR_MAP_CHANGED)
   }
 
   get colourMap() {

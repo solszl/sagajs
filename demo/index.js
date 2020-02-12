@@ -3,7 +3,7 @@ import View from '../src/view/view'
 /**
  *
  * Created Date: 2020-01-19, 17:04:33 (zhenliang.sun)
- * Last Modified: 2020-02-03, 00:06:35 (zhenliang.sun)
+ * Last Modified: 2020-02-13, 00:39:38 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -39,4 +39,17 @@ const urls = [
 
 const view = new View()
 view.urls = urls
+view.on('saga-colour-map-changed', () => {
+  console.log('颜色表换了')
+})
+view.on('saga-wwwc-width-changed', () => {
+  console.log('窗宽变了')
+})
+view.on('saga-wwwc-center-changed', () => {
+  console.log('窗位变了')
+})
+view.on('saga-slice-changed', () => {
+  console.log('索引变了')
+})
+
 window.view = view
