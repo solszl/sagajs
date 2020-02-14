@@ -3,16 +3,16 @@ import { LOAD_EVENT_ENUM } from '../constants/loader-event'
 import { parse } from '../io/process/dataProcess'
 import Size from '../geometry/size'
 import Geometry from '../geometry/geometry'
-import Point3D from '../geometry/Point3D'
-import Vector3D from '../geometry/Vector3D'
+import Point3D from '../geometry/point3D'
+import Vector3D from '../geometry/vector3D'
 import Matrix33 from '../geometry/matrix33'
 import Spacing from '../geometry/spacing'
-import RescaleSlopeIntercept from '../geometry/RescaleSlopeIntercept'
+import RescaleSlopeIntercept from '../geometry/rescaleSlopeIntercept'
 
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-02-05, 01:05:30 (zhenliang.sun)
+ * Last Modified: 2020-02-13, 02:02:22 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -41,7 +41,7 @@ export default class Image {
     this.geometry.size.increaseSlice()
     this.geometry.appendOrigin(origin, slicePosition)
 
-    // 添加缩放系数
+    // 添加校准系数
     const { slope, intercept } = parsedObject
     const rsi = new RescaleSlopeIntercept(slope, intercept)
     this.rsis.splice(slicePosition, 0, rsi)

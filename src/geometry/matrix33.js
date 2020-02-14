@@ -1,9 +1,9 @@
-import Vector3D from './Vector3D'
+import Vector3D from './vector3D'
 
 /**
  *
  * Created Date: 2020-02-02, 03:36:32 (zhenliang.sun)
- * Last Modified: 2020-02-03, 01:05:04 (zhenliang.sun)
+ * Last Modified: 2020-02-13, 02:00:02 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.

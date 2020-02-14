@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-02-02, 23:49:58 (zhenliang.sun)
- * Last Modified: 2020-02-05, 02:09:37 (zhenliang.sun)
+ * Last Modified: 2020-02-15, 01:44:42 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -17,18 +17,20 @@
  * @author zhenliang.sun
  */
 export default class WWWC {
-  constructor(center, width) {
+  constructor(width, center) {
     this._center = center
     this._width = width
 
     this._ymin = 0
-    this._ymax = 0
+    this._ymax = 255
 
     this._xmin = null
-    this._ymax = null
+    this._xmax = null
 
     this._slop = null
     this._intercept = null
+
+    this.init()
   }
 
   setRange(min = 0, max = 255) {
@@ -43,8 +45,8 @@ export default class WWWC {
   }
 
   init() {
-    this.xmin = this.center - 0.5 - (this.width - 1) / 2
-    this.xmax = this.center - 0.5 + (this.width - 1) / 2
+    this._xmin = this.center - 0.5 - (this.width - 1) / 2
+    this._xmax = this.center - 0.5 + (this.width - 1) / 2
 
     this._slop = (this._ymax - this._ymin) / (this.width - 1)
     this._intercept =
@@ -54,9 +56,9 @@ export default class WWWC {
   }
 
   apply(value) {
-    if (value <= this.xmin) {
+    if (value <= this._xmin) {
       return this._ymin
-    } else if (value > this.xmax) {
+    } else if (value > this._xmax) {
       return this._ymax
     } else {
       return parseInt(value * this._slop + this._intercept, 10)

@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-02-02, 15:28:20 (zhenliang.sun)
- * Last Modified: 2020-02-05, 00:56:59 (zhenliang.sun)
+ * Last Modified: 2020-02-15, 02:07:25 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -30,5 +30,9 @@ export default class RescaleSlopeIntercept {
 
   get intercept() {
     return this._intercept
+  }
+
+  toString() {
+    return `${this.slope}, ${this.intercept}`
   }
 }

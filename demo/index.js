@@ -1,9 +1,10 @@
 import View from '../src/view/view'
+import WWWC from '../src/image/lut/wwwc'
 
 /**
  *
  * Created Date: 2020-01-19, 17:04:33 (zhenliang.sun)
- * Last Modified: 2020-02-13, 00:39:38 (zhenliang.sun)
+ * Last Modified: 2020-02-15, 01:57:08 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -37,19 +38,69 @@ const urls = [
   'http://192.168.199.136:8887/1.2.840.113704.1.111.5560.1384995324.5919.dcm'
 ]
 
+const buffer = new ImageData(512, 512)
+const canvas = document.querySelector('#cvs')
+let ready = false
+
 const view = new View()
 view.urls = urls
+
 view.on('saga-colour-map-changed', () => {
   console.log('颜色表换了')
+  drawBuffer()
 })
-view.on('saga-wwwc-width-changed', () => {
-  console.log('窗宽变了')
-})
-view.on('saga-wwwc-center-changed', () => {
-  console.log('窗位变了')
+view.on('saga-wwwc-changed', e => {
+  const { ww, wc } = e
+  console.log('窗宽、窗位变了', ww, wc)
+  drawBuffer()
 })
 view.on('saga-slice-changed', () => {
   console.log('索引变了')
 })
 
+view.colourMap = 'normal'
+view.setWWWC(448, 856)
+
 window.view = view
+
+let isMousedown = false
+let lastX = 0
+let lastY = 0
+canvas.addEventListener('mousedown', e => {
+  console.log('mousedown', e)
+  isMousedown = true
+  lastX = e.pageX
+  lastY = e.pageY
+})
+
+canvas.addEventListener('mouseup', e => {
+  isMousedown = false
+})
+
+canvas.addEventListener('mousemove', e => {
+  if (!isMousedown) {
+    return
+  }
+
+  var deltaX = e.pageX - lastX
+  var deltaY = e.pageY - lastY
+  lastX = e.pageX
+  lastY = e.pageY
+
+  console.log(deltaX, deltaY)
+  const currentWWWC = view.currentWWWC
+  view.setWWWC(currentWWWC.width + deltaX, currentWWWC.center + deltaY)
+})
+
+setTimeout(() => {
+  ready = true
+  drawBuffer()
+}, 2000)
+
+function drawBuffer() {
+  if (!ready) {
+    return
+  }
+  view.generateImageData(buffer)
+  canvas.getContext('2d').putImageData(buffer, 0, 0)
+}
