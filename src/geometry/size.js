@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 22:41:39 (zhenliang.sun)
- * Last Modified: 2020-02-03, 00:50:15 (zhenliang.sun)
+ * Last Modified: 2020-02-15, 03:05:47 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -31,7 +31,7 @@ export default class Size {
       j < 0 ||
       j > this.row - 1 ||
       k < 0 ||
-      k > this.slice - 1
+      k > this.slice
     ) {
       return false
     }
@@ -41,6 +41,12 @@ export default class Size {
 
   increaseSlice() {
     this._slice += 1
+  }
+
+  increaseSliceTo(val) {
+    if (val > this.slice) {
+      this._slice = val
+    }
   }
 
   get sliceSize() {

@@ -12,7 +12,7 @@ import RescaleSlopeIntercept from '../geometry/rescaleSlopeIntercept'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-02-13, 02:02:22 (zhenliang.sun)
+ * Last Modified: 2020-02-15, 02:45:39 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -38,7 +38,8 @@ export default class Image {
   appendSlice(parsedObject) {
     // 给空间追加各种信息
     const { origin, slicePosition } = parsedObject
-    this.geometry.size.increaseSlice()
+    // this.geometry.size.increaseSlice()
+    this.geometry.size.increaseSliceTo(slicePosition)
     this.geometry.appendOrigin(origin, slicePosition)
 
     // 添加校准系数

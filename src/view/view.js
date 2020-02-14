@@ -7,7 +7,7 @@ import ColourMap from '../image/lut/colourmap'
 /**
  *
  * Created Date: 2020-02-02, 16:04:54 (zhenliang.sun)
- * Last Modified: 2020-02-15, 01:44:42 (zhenliang.sun)
+ * Last Modified: 2020-02-15, 02:50:55 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -34,7 +34,7 @@ export default class View extends TXComponent {
     this.wwwcs = {}
 
     // 当前序列
-    this.currentSliceIndex = new Index3D(0, 0, 1)
+    this.currentSliceIndex = null
     this.currentWWWC = null
   }
 
@@ -89,7 +89,7 @@ export default class View extends TXComponent {
       return false
     }
 
-    if (this.currentSliceIndex.equals(pos)) {
+    if (this.currentSliceIndex && this.currentSliceIndex.equals(pos)) {
       return false
     }
 
