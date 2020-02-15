@@ -26,7 +26,7 @@ class ColourMap {
     this._colour = null
 
     this._min = 0
-    this._max = 255
+    this._max = 256
     this.colours = {
       normal: {},
       inverse: {},

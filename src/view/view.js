@@ -4,10 +4,12 @@ import Index3D from '../geometry/index3d'
 import { SLICE_EVENT_ENUM } from '../constants/slice-event'
 import WWWC from '../image/lut/wwwc'
 import ColourMap from '../image/lut/colourmap'
+import Rescale from '../image/lut/rescale'
+import W from '../image/lut/window'
 /**
  *
  * Created Date: 2020-02-02, 16:04:54 (zhenliang.sun)
- * Last Modified: 2020-02-15, 02:50:55 (zhenliang.sun)
+ * Last Modified: 2020-02-16, 02:28:36 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -36,21 +38,24 @@ export default class View extends TXComponent {
     // 当前序列
     this.currentSliceIndex = null
     this.currentWWWC = null
+    this.windowLut = null
   }
 
   generateImageData(buffer /** imageData */) {
     // 获取lut映射表
-    const wwwc = this.currentWWWC
+    if (!this.windowLut) {
+      this.generateDefaultWindowLut()
+    }
+
     // 获取颜色表
     const colourMap = this.colourMap.colour
-    // 根据广度解释进行颜色变换
-    const imageSize = this.image.geometry.size.sliceSize // 获取图片尺寸， 即 512 * 512
-    const originPixelData = this.image.pixelBuffer.get(this.sliceIndex.k) // 根据原始图像数据进行加工
-    // for (let i = 0; i < imageSize; i += 4) {
+    // 获取原始图像数据进行加工、加工的是一个imageData，将其直接绘制到canvas
+    const originPixelData = this.image.pixelBuffer.get(this.sliceIndex.k)
+
     let pixelIndex = 0
     let bufferIndex = 0
     while (pixelIndex < originPixelData.length) {
-      const pixelData = wwwc.apply(originPixelData[pixelIndex])
+      const pixelData = this.windowLut.getValue(originPixelData[pixelIndex])
       buffer.data[bufferIndex] = colourMap.red[pixelData] // red
       buffer.data[bufferIndex + 1] = colourMap.green[pixelData] // green
       buffer.data[bufferIndex + 2] = colourMap.blue[pixelData] // blue
@@ -61,6 +66,11 @@ export default class View extends TXComponent {
   }
 
   setWWWC(width, center) {
+    const rsi = this.image.rsis[0]
+    const { bitsStored, pixelRepresentation } = this.image.metaData
+    const rescaleLut = new Rescale(rsi, bitsStored)
+    const windowLut = new W(rescaleLut, pixelRepresentation)
+
     // 设置窗宽窗位后，重建lut映射表
     const newWWWC = new WWWC(width, center)
 
@@ -69,10 +79,25 @@ export default class View extends TXComponent {
     }
 
     this.currentWWWC = newWWWC
+
+    windowLut.setWWWC(this.currentWWWC)
+
+    this.windowLut = windowLut
     this.emit(SLICE_EVENT_ENUM.WINDOW_WWWC_CHANGED, {
       wc: newWWWC.center,
       ww: newWWWC.width
     })
+  }
+
+  generateDefaultWindowLut() {
+    const rsi = this.image.rsis[0]
+    const { bitsStored, pixelRepresentation } = this.image.metaData
+    const rescaleLut = new Rescale(rsi, bitsStored)
+    const windowLut = new W(rescaleLut, pixelRepresentation)
+    const wwwc = new WWWC(1500, -600) // 默认(1500,-600) 即肺产品线
+    windowLut.setWWWC(wwwc)
+    this.currentWWWC = wwwc
+    this.windowLut = windowLut
   }
 
   set urls(urls) {

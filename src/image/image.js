@@ -12,7 +12,7 @@ import RescaleSlopeIntercept from '../geometry/rescaleSlopeIntercept'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-02-15, 02:45:39 (zhenliang.sun)
+ * Last Modified: 2020-02-16, 01:50:35 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -29,6 +29,8 @@ export default class Image {
     this.firstParse = true
     this.pixelBuffer = new Map()
     this.rsis = []
+
+    this.metaData = {}
   }
 
   setURLS(urls) {
@@ -88,12 +90,21 @@ export default class Image {
     this.geometry = new Geometry(_origin, _spacing, _size, _orientationMatrix)
   }
 
+  createMetaData(parsedObject) {
+    const { bitsStored, pixelRepresentation } = parsedObject
+    this.metaData = {
+      bitsStored,
+      pixelRepresentation
+    }
+  }
+
   async _itemLoadComplete(e) {
     console.log('dicom加载完成', e)
     const { buffer } = e
     const parsedObject = await parse(buffer)
     if (this.firstParse) {
       this.createGeometry(parsedObject)
+      this.createMetaData(parsedObject)
       this.firstParse = false
     }
 

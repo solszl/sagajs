@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-02-02, 23:49:58 (zhenliang.sun)
- * Last Modified: 2020-02-15, 01:44:42 (zhenliang.sun)
+ * Last Modified: 2020-02-16, 02:19:30 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -30,10 +30,12 @@ export default class WWWC {
     this._slop = null
     this._intercept = null
 
+    this._offset = 0
+
     this.init()
   }
 
-  setRange(min = 0, max = 255) {
+  setRange(min = 0, max = 256) {
     this._ymin = min
     this._ymax = max
 
@@ -45,13 +47,13 @@ export default class WWWC {
   }
 
   init() {
-    this._xmin = this.center - 0.5 - (this.width - 1) / 2
-    this._xmax = this.center - 0.5 + (this.width - 1) / 2
+    const c = this.center + this._offset
+    this._xmin = c - 0.5 - (this.width - 1) / 2
+    this._xmax = c - 0.5 + (this.width - 1) / 2
 
     this._slop = (this._ymax - this._ymin) / (this.width - 1)
     this._intercept =
-      (-(this.center - 0.5) / (this.width - 1) + 0.5) *
-        (this._ymax - this._ymin) +
+      (-(c - 0.5) / (this.width - 1) + 0.5) * (this._ymax - this._ymin) +
       this._ymin
   }
 
@@ -63,6 +65,11 @@ export default class WWWC {
     } else {
       return parseInt(value * this._slop + this._intercept, 10)
     }
+  }
+
+  set offset(val) {
+    this._offset = val
+    this.init()
   }
 
   get center() {
