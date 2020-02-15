@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-02-16, 01:27:11 (zhenliang.sun)
- * Last Modified: 2020-02-16, 02:22:41 (zhenliang.sun)
+ * Last Modified: 2020-02-16, 03:19:12 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -25,7 +25,7 @@ class W {
     this.wwwc = wwwc
     if (this.signed) {
       const size = this.rescaleLut.length
-      this.signedShift = size / 2
+      this.signedShift = size >> 1
       this.wwwc.offset = this.rescaleLut.rsi.slope * this.signedShift
     }
 

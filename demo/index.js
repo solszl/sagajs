@@ -5,7 +5,7 @@ import Index3D from '../src/geometry/index3d'
 /**
  *
  * Created Date: 2020-01-19, 17:04:33 (zhenliang.sun)
- * Last Modified: 2020-02-16, 02:27:03 (zhenliang.sun)
+ * Last Modified: 2020-02-16, 03:19:59 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -113,7 +113,6 @@ canvas.addEventListener('mousemove', e => {
   var deltaX = e.pageX - lastX
   var deltaY = e.pageY - lastY
 
-  console.log(deltaX, deltaY)
   const currentWWWC = view.currentWWWC
   view.setWWWC(currentWWWC.width + deltaX, currentWWWC.center + deltaY)
 

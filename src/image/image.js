@@ -12,7 +12,7 @@ import RescaleSlopeIntercept from '../geometry/rescaleSlopeIntercept'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-02-16, 01:50:35 (zhenliang.sun)
+ * Last Modified: 2020-02-16, 03:28:37 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -26,10 +26,14 @@ export default class Image {
       LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE,
       this._itemLoadComplete.bind(this)
     )
+
+    // 是否是首次加载完成、首次的话构建一些必要数据
     this.firstParse = true
+    // 加载进来所有图片的数据缓存
     this.pixelBuffer = new Map()
     this.rsis = []
 
+    // 元数据
     this.metaData = {}
   }
 
@@ -41,6 +45,9 @@ export default class Image {
     // 给空间追加各种信息
     const { origin, slicePosition } = parsedObject
     // this.geometry.size.increaseSlice()
+    // 序列不一定是顺序递增的，可能跳跃增加也有可能不全。所以总数量需要按照元数据解析出来的数量匹配
+    // 使用这种方式后，可能造成的问题是，如果不是完整数据某些页数据可能不存在
+    // 如，原始数据[1,2,3,4,5,6]  给定的数据为 [2,3,5], 这样最大层数为5 获取数据的时候，1，4可能为空
     this.geometry.size.increaseSliceTo(slicePosition)
     this.geometry.appendOrigin(origin, slicePosition)
 
@@ -90,6 +97,12 @@ export default class Image {
     this.geometry = new Geometry(_origin, _spacing, _size, _orientationMatrix)
   }
 
+  /**
+   * 填充元数据
+   *
+   * @param {*} parsedObject
+   * @memberof Image
+   */
   createMetaData(parsedObject) {
     const { bitsStored, pixelRepresentation } = parsedObject
     this.metaData = {
