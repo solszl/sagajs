@@ -28,7 +28,7 @@ const baseConfig = {
   devtool: isProd ? '' : 'source-map',
   entry: {
     sdk: resolve('src/index.js'),
-    'demo/test': resolve('demo/index.js')
+    'demo/test': resolve('demo/wand.js')
   },
   output: {
     filename: '[name].js',

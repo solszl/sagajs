@@ -5,7 +5,7 @@ const path = require('path')
 const config = {
   buildDetail: false,
   devServer: {
-    contentBase: path.resolve('dist'),
+    contentBase: path.resolve('demo'),
     host: '0.0.0.0',
     port: 2333,
     open: true,

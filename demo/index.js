@@ -61,7 +61,7 @@ const canvas = document.querySelector('#cvs')
 
 const urls = []
 const slices = []
-for (let i = 1; i < 30; i += 1) {
+for(let i = 1; i < 30; i += 1) {
   urls.push(`http://127.0.0.1:8887/${i}`)
   slices.push(i)
 }
