@@ -1,6 +1,9 @@
+import MouseDelegate from './mouseDelegate'
+
 const canvas = document.querySelector('#cvs')
 const context = canvas.getContext('2d')
 
+const delegate = new MouseDelegate(canvas)
 // 画肺
 const img = document.querySelector('#lung')
 context.drawImage(img, 0, 0)
@@ -34,7 +37,7 @@ const avgSmall = mean(toGray(smallData))
 function toGray(imgData) {
   const data = imgData.data
   const grays = []
-  for (let i = 0; i < data.length; i += 4) {
+  for(let i = 0; i < data.length; i += 4) {
     const gray = (data[i] * 38 + data[i + 1] * 75 + data[i + 2] * 15) >> 7
     data[i] = gray
     data[i + 1] = gray
@@ -64,7 +67,7 @@ function calc(bigGrays, small, threshold = 20) {
   console.log(bigData)
   const data = bigData.data
   let index = 0
-  for (let i = 0; i < bigGrays.length; i += 1) {
+  for(let i = 0; i < bigGrays.length; i += 1) {
     // if (hammingDistance(bigGrays[i], small) < threshold) {
     // console.log(bigGrays[i], small)
     if (Math.abs(bigGrays[i] - small) < threshold) {
@@ -80,24 +83,32 @@ function calc(bigGrays, small, threshold = 20) {
 var dom = document.getElementById('container')
 var myChart = echarts.init(dom)
 var app = {}
-option = null
+var option = null
 var xAxisData = []
 var data1 = []
-var gray = toGray(smallData)
-console.log(gray)
-for (var i = 0; i < 255; i++) {
+var data2 = []
+var bigGray = toGray(bigData)
+var smallGray = toGray(smallData)
+console.log(bigGray)
+for(var i = 0; i < 255; i++) {
   xAxisData.push(i)
 }
 
 data1 = new Array(255).fill(0)
-for (var i = 0; i < gray.length; i++) {
-  const index = gray[i]
+data2 = new Array(255).fill(0)
+for(var i = 0; i < bigGray.length; i++) {
+  const index = bigGray[i]
   data1[index] = data1[index] + 1
+  const index2 = smallGray[i]
+  data2[index2] = data2[index2] + 1
 }
 
 option = {
   title: {
     text: '灰度直方图'
+  },
+  legend: {
+    data: ['bar', 'small']
   },
   toolbox: {
     // y: 'bottom',
@@ -121,9 +132,13 @@ option = {
   yAxis: {},
   series: [
     {
-      name: 'count',
+      name: 'big',
       type: 'bar',
       data: data1
+    }, {
+      name: 'small',
+      type: 'bar',
+      data: data2
     }
   ]
 }
