@@ -4,12 +4,13 @@
     "arraybuffer",
     "dicom",
     "happypack",
+    "konva",
     "nanoevents",
     "rsis",
     "sagajs",
-    "ymin",
-    "ymax",
+    "xmax",
     "xmin",
-    "xmax"
+    "ymax",
+    "ymin"
   ]
 }

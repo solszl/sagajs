@@ -44,6 +44,7 @@
     "nanoid": "^2.1.9",
     "ora": "^4.0.3",
     "progress-bar-webpack-plugin": "^2.1.0",
+    "stats.js": "^0.17.0",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1",

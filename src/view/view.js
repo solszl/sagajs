@@ -1,15 +1,14 @@
 import TXComponent from '../component/component'
-import Image from '../image/image'
-import Index3D from '../geometry/index3d'
 import { SLICE_EVENT_ENUM } from '../constants/slice-event'
-import WWWC from '../image/lut/wwwc'
+import Image from '../image/image'
 import ColourMap from '../image/lut/colourmap'
 import Rescale from '../image/lut/rescale'
 import W from '../image/lut/window'
+import WWWC from '../image/lut/wwwc'
 /**
  *
  * Created Date: 2020-02-02, 16:04:54 (zhenliang.sun)
- * Last Modified: 2020-02-16, 03:21:59 (zhenliang.sun)
+ * Last Modified: 2020-02-25, 17:08:13 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -60,7 +59,7 @@ export default class View extends TXComponent {
 
     let pixelIndex = 0
     let bufferIndex = 0
-    while (pixelIndex < originPixelData.length) {
+    while(pixelIndex < originPixelData.length) {
       const pixelData = this.windowLut.getValue(originPixelData[pixelIndex])
       buffer.data[bufferIndex] = colourMap.red[pixelData] // red
       buffer.data[bufferIndex + 1] = colourMap.green[pixelData] // green
