@@ -1,26 +1,29 @@
-import IO from '../io/io'
+import IEvent from '../component/event'
 import { LOAD_EVENT_ENUM } from '../constants/loader-event'
-import { parse } from '../io/process/dataProcess'
-import Size from '../geometry/size'
 import Geometry from '../geometry/geometry'
-import Point3D from '../geometry/point3D'
-import Vector3D from '../geometry/vector3D'
 import Matrix33 from '../geometry/matrix33'
-import Spacing from '../geometry/spacing'
+import Point3D from '../geometry/point3D'
 import RescaleSlopeIntercept from '../geometry/rescaleSlopeIntercept'
+import Size from '../geometry/size'
+import Spacing from '../geometry/spacing'
+import Vector3D from '../geometry/vector3D'
+import IO from '../io/io'
+import { parse } from '../io/process/dataProcess'
+import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
 
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-02-16, 03:28:37 (zhenliang.sun)
+ * Last Modified: 2020-02-26, 00:00:12 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-export default class Image {
+export default class Image extends IEvent {
   constructor() {
+    super()
     this.io = new IO()
     this.io.on(
       LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE,
@@ -118,6 +121,8 @@ export default class Image {
     if (this.firstParse) {
       this.createGeometry(parsedObject)
       this.createMetaData(parsedObject)
+      // 向上层派发第一张dicom文件加载完成事件
+      this.emit(INTERNAL_EVENT_ENUM.FIRST_SLICE_LOAD_COMPLETED)
       this.firstParse = false
     }
 

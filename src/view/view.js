@@ -5,10 +5,11 @@ import ColourMap from '../image/lut/colourmap'
 import Rescale from '../image/lut/rescale'
 import W from '../image/lut/window'
 import WWWC from '../image/lut/wwwc'
+import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
 /**
  *
  * Created Date: 2020-02-02, 16:04:54 (zhenliang.sun)
- * Last Modified: 2020-02-25, 17:08:13 (zhenliang.sun)
+ * Last Modified: 2020-02-25, 23:59:41 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -29,6 +30,9 @@ export default class View extends TXComponent {
 
     // 图像
     this.image = new Image()
+    this.image.on(INTERNAL_EVENT_ENUM.FIRST_SLICE_LOAD_COMPLETED, () => {
+      this.emit(INTERNAL_EVENT_ENUM.FIRST_SLICE_LOAD_COMPLETED)
+    })
     // 配色表
     this._colourMap = new ColourMap()
 
@@ -59,7 +63,7 @@ export default class View extends TXComponent {
 
     let pixelIndex = 0
     let bufferIndex = 0
-    while(pixelIndex < originPixelData.length) {
+    while (pixelIndex < originPixelData.length) {
       const pixelData = this.windowLut.getValue(originPixelData[pixelIndex])
       buffer.data[bufferIndex] = colourMap.red[pixelData] // red
       buffer.data[bufferIndex + 1] = colourMap.green[pixelData] // green
