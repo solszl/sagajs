@@ -14,7 +14,7 @@ import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-02-26, 00:00:12 (zhenliang.sun)
+ * Last Modified: 2020-03-01, 01:48:19 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -121,9 +121,15 @@ export default class Image extends IEvent {
     if (this.firstParse) {
       this.createGeometry(parsedObject)
       this.createMetaData(parsedObject)
+
+      const { pixelData, slicePosition } = parsedObject
+      this.appendSlice(parsedObject)
+      this.appendBuffer(pixelData, slicePosition)
+
       // 向上层派发第一张dicom文件加载完成事件
       this.emit(INTERNAL_EVENT_ENUM.FIRST_SLICE_LOAD_COMPLETED)
       this.firstParse = false
+      return
     }
 
     const { pixelData, slicePosition } = parsedObject

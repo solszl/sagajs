@@ -1,7 +1,9 @@
+import log from 'loglevel'
+
 /**
  *
  * Created Date: 2020-02-16, 23:34:17 (zhenliang.sun)
- * Last Modified: 2020-02-26, 01:21:50 (zhenliang.sun)
+ * Last Modified: 2020-03-01, 01:27:56 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -22,18 +24,22 @@ class ViewManager {
   }
 
   addView(view) {
+    log.info(`add new viewContainer, rootId: ${view.rootId}.`)
     this.views.set(view.rootId, view)
   }
 
   removeView(view) {
+    log.info(`remove a viewContainer, named: ${view.rootId}.`)
     this.views.delete(view.rootId)
   }
 
   getView(root) {
+    log.info(`get a viewContainer, named: ${root}.`)
     return this.views.get(root)
   }
 
   activeView(root) {
+    log.info(`active a viewContainer, named: ${root}`)
     const view = this.getView(root)
     if (view) {
       view.active = true
@@ -41,6 +47,7 @@ class ViewManager {
   }
 
   deactivateView(root) {
+    log.info(`deactivate a viewContainer, named: ${root}`)
     const view = this.getView(root)
     if (view) {
       view.active = false
