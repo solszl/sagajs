@@ -8,7 +8,7 @@ import View from './view'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-01, 02:13:35 (zhenliang.sun)
+ * Last Modified: 2020-03-02, 01:57:56 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -79,6 +79,8 @@ class ViewContainer {
       height
     })
 
+    // 适配窗口大小进行缩放
+    this._scaleToFit()
     this.draw()
   }
 
@@ -96,6 +98,8 @@ class ViewContainer {
   setURLs(urls) {
     this.view.urls = urls
   }
+
+  _scaleToFit() {}
 }
 
 export default ViewContainer
