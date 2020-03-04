@@ -8,7 +8,7 @@ import View from './view'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-02, 01:57:56 (zhenliang.sun)
+ * Last Modified: 2020-03-02, 15:42:17 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -99,7 +99,11 @@ class ViewContainer {
     this.view.urls = urls
   }
 
-  _scaleToFit() {}
+  _scaleToFit() {
+    // TODO: 填充 imageContainer
+
+    // TODO: 填充工具 toolsContainer
+  }
 }
 
 export default ViewContainer
