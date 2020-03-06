@@ -5,10 +5,11 @@ import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
 import { SLICE_EVENT_ENUM } from '../constants/slice-event'
 import Index3D from '../geometry/index3d'
 import View from './view'
+import TXLayer from '../component/layer'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-02, 15:42:17 (zhenliang.sun)
+ * Last Modified: 2020-03-07, 03:26:18 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -45,25 +46,30 @@ class ViewContainer {
     this.view.on(INTERNAL_EVENT_ENUM.FIRST_SLICE_LOAD_COMPLETED, () => {
       log.info('first image load completed. prepare for display.')
       // 需要向舞台添加一个图像容器
-      this.imageContainer = new Konva.Layer({ name: 'image' })
-      this.stage.add(this.imageContainer)
+      this.imageContainer = new TXLayer('image')
 
       // 向舞台添加一个工具容器
-      this.toolsContainer = new Konva.Layer({ name: 'tools' })
-      this.stage.add(this.toolsContainer)
+      this.toolsContainer = new TXLayer('tools')
 
       const { column, row } = this.view.image.geometry.size
-      this.imageData = this.imageContainer
-        .getContext()
-        .createImageData(column, row)
+      this.imageContainer.originSize(column, row)
+      this.imageData = this.imageContainer.context.createImageData(column, row)
 
       this.readyToShow = true
 
       this.view.colourMap = COLOUR_ENUM.NORMAL
       this.view.sliceIndex = new Index3D(0, 0, 1)
+
+      window.fit = this.imageContainer
+      window.stage = this.stage
+
+      this.stage.add(this.imageContainer)
+      this.stage.add(this.toolsContainer)
       // 重置一下舞台大小
       this.resize()
     })
+
+    this.scale = 1
   }
 
   resize(width, height) {
@@ -79,6 +85,8 @@ class ViewContainer {
       height
     })
 
+    this.imageContainer.size(width, height)
+
     // 适配窗口大小进行缩放
     this._scaleToFit()
     this.draw()
@@ -92,7 +100,8 @@ class ViewContainer {
     // 构建图像数据
     this.view.generateImageData(this.imageData)
     // image container 进行数据呈现
-    this.imageContainer.getContext().putImageData(this.imageData, 0, 0)
+    this.imageContainer.setImageData(this.imageData)
+    this.imageContainer.draw()
   }
 
   setURLs(urls) {
@@ -100,7 +109,21 @@ class ViewContainer {
   }
 
   _scaleToFit() {
-    // TODO: 填充 imageContainer
+    const stageWidth = this.stage.width()
+    const stageHeight = this.stage.height()
+
+    const { width, height } = this.imageContainer.originImageSize
+
+    const scale = Math.min(stageWidth / width, stageHeight / height)
+
+    const newWidth = width * scale
+    const newHeight = height * scale
+    this.imageContainer.size(stageWidth, stageHeight)
+    this.imageContainer.zoom(scale, scale)
+    this.imageContainer.move(
+      (stageWidth - newWidth) >> 1,
+      (stageHeight - newHeight) >> 1
+    )
 
     // TODO: 填充工具 toolsContainer
   }
