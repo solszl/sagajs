@@ -5,6 +5,7 @@
     "dicom",
     "happypack",
     "konva",
+    "layui",
     "nanoevents",
     "rsis",
     "sagajs",

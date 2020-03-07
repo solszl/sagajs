@@ -4,16 +4,74 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="./vender//jquery.min.js"></script>
+    <script src="vender/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="./vender/layui/css/layui.css" />
+    <link rel="stylesheet" href="./index.css" />
+    <script src="./tools.js"></script>
     <title>Document</title>
   </head>
   <body>
-    <!-- <canvas
-      id="cvs"
-      style="border: black solid 1px;"
-      width="300px"
-      height="300px"
-    ></canvas> -->
-
-    <div id="container" style="border: black solid 1px; width:800px; height:300px;"></div>
+    <div class="tool-bar">
+      <button id="tool-scroll" type="button" class="layui-btn layui-btn-sm">
+        快速滚动
+      </button>
+      <button id="tool-zoom" type="button" class="layui-btn layui-btn-sm">
+        缩放
+      </button>
+      <button id="tool-wwwc" type="button" class="layui-btn layui-btn-sm">
+        窗宽、窗位
+      </button>
+      <button id="tool-move" type="button" class="layui-btn layui-btn-sm">
+        移动
+      </button>
+      <button id="tool-length" type="button" class="layui-btn layui-btn-sm">
+        长度测量
+      </button>
+      <button id="tool-probe" type="button" class="layui-btn layui-btn-sm">
+        位置探针
+      </button>
+      <button id="tool-areaCT" type="button" class="layui-btn layui-btn-sm">
+        区域CT值
+      </button>
+      <button id="tool-angle" type="button" class="layui-btn layui-btn-sm">
+        角度测量
+      </button>
+      <button id="tool-zoom" type="button" class="layui-btn layui-btn-sm">
+        放大镜
+      </button>
+      <button id="tool-missed" type="button" class="layui-btn layui-btn-sm">
+        漏诊反馈
+      </button>
+      <button id="tool-reverse" type="button" class="layui-btn layui-btn-sm">
+        反色
+      </button>
+      <button id="tool-hide" type="button" class="layui-btn layui-btn-sm">
+        隐藏结果
+      </button>
+      <button id="tool-link" type="button" class="layui-btn layui-btn-sm">
+        联动
+      </button>
+      <button id="tool-play" type="button" class="layui-btn layui-btn-sm">
+        播放
+      </button>
+      <button id="tool-reset" type="button" class="layui-btn layui-btn-sm">
+        重置
+      </button>
+      <button id="tool-flip" type="button" class="layui-btn layui-btn-sm">
+        水平翻转
+      </button>
+      <hr />
+      <button id="tool-mpr" type="button" class="layui-btn layui-btn-sm">
+        MPR
+      </button>
+      <button id="tool-mip" type="button" class="layui-btn layui-btn-sm">
+        MIP
+      </button>
+    </div>
+    <div
+      id="container"
+      style="border: black solid 1px; width:800px; height:300px;"
+    ></div>
   </body>
 </html>
