@@ -3,7 +3,7 @@ import { Layer } from 'konva'
 /**
  *
  * Created Date: 2020-03-07, 01:29:42 (zhenliang.sun)
- * Last Modified: 2020-03-07, 03:22:55 (zhenliang.sun)
+ * Last Modified: 2020-03-07, 23:57:11 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -62,6 +62,8 @@ class TXLayer extends Layer {
   setImageData(data) {
     this.imageData = data
     this.cacheCanvas.getContext('2d').putImageData(data, 0, 0)
+
+    this.draw()
   }
 
   draw() {

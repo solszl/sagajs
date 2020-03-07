@@ -9,7 +9,7 @@ import TXLayer from '../component/layer'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-07, 03:26:18 (zhenliang.sun)
+ * Last Modified: 2020-03-07, 23:57:11 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -28,7 +28,7 @@ class ViewContainer {
     this.imageContainer = null
     this.toolsContainer = null
     this.imageData = null
-
+    this.scale = 1
     // 是否再容器之间共享图片数据， 可能存在前后片为同一套数据的情况、或者多分屏的情况
     this.shareImageData = false
     this.readyToShow = false
@@ -55,24 +55,23 @@ class ViewContainer {
       this.imageContainer.originSize(column, row)
       this.imageData = this.imageContainer.context.createImageData(column, row)
 
-      this.readyToShow = true
-
       this.view.colourMap = COLOUR_ENUM.NORMAL
       this.view.sliceIndex = new Index3D(0, 0, 1)
 
-      window.fit = this.imageContainer
-      window.stage = this.stage
-
       this.stage.add(this.imageContainer)
       this.stage.add(this.toolsContainer)
+
+      this.readyToShow = true
       // 重置一下舞台大小
       this.resize()
     })
-
-    this.scale = 1
   }
 
   resize(width, height) {
+    if (this.stage.width === width && this.stage.height === height) {
+      return
+    }
+
     if (!width && !height) {
       const rootElement = document.querySelector(`#${this.rootId}`)
       const rect = rootElement.getBoundingClientRect()
@@ -84,8 +83,6 @@ class ViewContainer {
       width,
       height
     })
-
-    this.imageContainer.size(width, height)
 
     // 适配窗口大小进行缩放
     this._scaleToFit()
@@ -101,7 +98,6 @@ class ViewContainer {
     this.view.generateImageData(this.imageData)
     // image container 进行数据呈现
     this.imageContainer.setImageData(this.imageData)
-    this.imageContainer.draw()
   }
 
   setURLs(urls) {
