@@ -6,10 +6,11 @@ import { SLICE_EVENT_ENUM } from '../constants/slice-event'
 import Index3D from '../geometry/index3d'
 import View from './view'
 import TXLayer from '../component/layer'
+import ToolsLayer from './toolsLayer'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-07, 23:57:11 (zhenliang.sun)
+ * Last Modified: 2020-03-10, 01:41:32 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -49,7 +50,7 @@ class ViewContainer {
       this.imageContainer = new TXLayer('image')
 
       // 向舞台添加一个工具容器
-      this.toolsContainer = new TXLayer('tools')
+      this.toolsContainer = new ToolsLayer('tools')
 
       const { column, row } = this.view.image.geometry.size
       this.imageContainer.originSize(column, row)

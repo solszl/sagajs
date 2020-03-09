@@ -10,19 +10,7 @@ module.exports = {
   rules: {
     indent: ['error', 2, { SwitchCase: 1 }],
     quotes: ['error', 'single'],
-    'keyword-spacing': [
-      'error',
-      {
-        overrides: {
-          for: {
-            after: false
-          },
-          while: {
-            after: false
-          }
-        }
-      }
-    ],
+    'keyword-spacing': 0,
     semi: 2,
     // 空的构造函数
     'no-useless-constructor': 0,
