@@ -4,7 +4,7 @@ import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
 /**
  *
  * Created Date: 2020-03-10, 00:40:58 (zhenliang.sun)
- * Last Modified: 2020-03-10, 01:24:05 (zhenliang.sun)
+ * Last Modified: 2020-03-10, 21:08:25 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -24,7 +24,7 @@ class MoveCommand extends BaseCommand {
 
     this._isDown = false
 
-    this.mouse = { x: 0, y: 0 }
+    this.mouse = { x: 0, y: 0, deltaX: 0, deltaY: 0 }
   }
 
   execute() {
@@ -56,8 +56,10 @@ class MoveCommand extends BaseCommand {
     if (deltaX !== 0 || deltaY !== 0) {
       this.mouse = pointer
       this.stage.fire(INTERNAL_EVENT_ENUM.POSITION_CHANGE, {
-        x: deltaX,
-        y: deltaY
+        x,
+        y,
+        deltaX,
+        deltaY
       })
     }
   }

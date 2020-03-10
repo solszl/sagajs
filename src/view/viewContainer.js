@@ -10,7 +10,7 @@ import ToolsLayer from './toolsLayer'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-10, 01:41:32 (zhenliang.sun)
+ * Last Modified: 2020-03-10, 21:10:23 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -37,6 +37,12 @@ class ViewContainer {
     // 显示视图舞台
     this.stage = new Konva.Stage({
       container: root
+    })
+
+    this.stage.on(INTERNAL_EVENT_ENUM.POSITION_CHANGE, pos => {
+      const { x, y } = pos
+      this.imageContainer.move(x, y)
+      this.draw()
     })
 
     // 逻辑视图
