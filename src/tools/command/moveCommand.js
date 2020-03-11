@@ -4,13 +4,20 @@ import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
 /**
  *
  * Created Date: 2020-03-10, 00:40:58 (zhenliang.sun)
- * Last Modified: 2020-03-10, 21:08:25 (zhenliang.sun)
+ * Last Modified: 2020-03-11, 23:55:02 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
+/**
+ * 移动工具
+ *
+ * @class MoveCommand
+ * @extends {BaseCommand}
+ * @author zhenliang.sun
+ */
 class MoveCommand extends BaseCommand {
   constructor(stage) {
     super(stage)
