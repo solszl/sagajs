@@ -10,7 +10,7 @@ import { INTERNAL_EVENT_ENUM } from '../src/constants/internal-event'
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-03-10, 21:09:15 (zhenliang.sun)
+ * Last Modified: 2020-03-12, 16:12:46 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -65,6 +65,6 @@ manager.addView(viewContainer)
 manager.activeView('container')
 
 setTimeout(() => {
-  const command = new MoveCommand(viewContainer.stage)
-  command.execute()
+  // const command = new MoveCommand(viewContainer.stage)
+  // command.execute()
 }, 1000)

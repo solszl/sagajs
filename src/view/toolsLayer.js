@@ -3,7 +3,7 @@ import Konva, { Layer } from 'konva'
 /**
  *
  * Created Date: 2020-03-08, 23:11:55 (zhenliang.sun)
- * Last Modified: 2020-03-09, 16:01:36 (zhenliang.sun)
+ * Last Modified: 2020-03-12, 16:17:01 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -19,7 +19,9 @@ import Konva, { Layer } from 'konva'
  */
 class ToolsLayer extends Layer {
   constructor(name) {
-    super({ name })
+    super({
+      name
+    })
 
     // konvajs 支持这些事件
     // mouse: mouseover, mousemove, mouseout, mouseenter, mouseleave, mousedown, mouseup, wheel,

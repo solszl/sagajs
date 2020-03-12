@@ -6,6 +6,7 @@
     "happypack",
     "konva",
     "layui",
+    "loglevel",
     "nanoevents",
     "rsis",
     "sagajs",
