@@ -8,7 +8,7 @@ import View from './view'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-14, 07:02:31 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 07:28:44 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -36,6 +36,9 @@ class ViewContainer {
     })
 
     this.stage.on(INTERNAL_EVENT_ENUM.RESET, () => this.resize())
+    this.stage.on(INTERNAL_EVENT_ENUM.POSITION_CHANGE, e => {
+      console.log(e)
+    })
 
     // 逻辑视图
     this.view = new View()
@@ -100,11 +103,11 @@ class ViewContainer {
     const { width: originWidth, height: originHeight } = this.originSize
     const scale = Math.min(width / originWidth, height / originHeight)
     this.stage.scale({ x: scale, y: scale })
-    const originPosition = { x: 0, y: 0 }
-    this.stage.position(originPosition)
+    const position = { x: 0, y: 0 }
+    this.stage.position(position)
     this.draw()
     this.stage.fire(INTERNAL_EVENT_ENUM.ZOOM_CHANGE, { scale })
-    this.stage.fire(INTERNAL_EVENT_ENUM.POSITION_CHANGE, { originPosition })
+    this.stage.fire(INTERNAL_EVENT_ENUM.POSITION_CHANGE, { position })
   }
 
   async draw() {
