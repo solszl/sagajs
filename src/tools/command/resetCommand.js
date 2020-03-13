@@ -4,7 +4,7 @@ import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
 /**
  *
  * Created Date: 2020-03-10, 01:29:34 (zhenliang.sun)
- * Last Modified: 2020-03-11, 23:54:16 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 06:58:43 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -25,6 +25,8 @@ class ResetCommand extends BaseCommand {
   }
 
   execute() {
+    super.execute()
+
     this.stage.fire(INTERNAL_EVENT_ENUM.RESET)
   }
 }

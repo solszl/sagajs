@@ -1,16 +1,14 @@
 import Konva from 'konva'
 import log from 'loglevel'
-import TXLayer from '../component/layer'
 import { COLOUR_ENUM } from '../constants/colour-enum'
 import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
 import { SLICE_EVENT_ENUM } from '../constants/slice-event'
 import Index3D from '../geometry/index3d'
-import ToolsLayer from './toolsLayer'
 import View from './view'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-12, 21:46:42 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 07:02:31 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -27,7 +25,6 @@ class ViewContainer {
   constructor(root) {
     this.rootId = root
     this.imageData = null
-    this.scale = 1
     this.originSize = { width: 512, height: 512 }
     // 是否再容器之间共享图片数据， 可能存在前后片为同一套数据的情况、或者多分屏的情况
     this.shareImageData = false
@@ -38,11 +35,7 @@ class ViewContainer {
       container: root
     })
 
-    this.stage.on(INTERNAL_EVENT_ENUM.POSITION_CHANGE, pos => {
-      const { x, y } = pos
-      this.imageContainer.move(x, y)
-      this.draw()
-    })
+    this.stage.on(INTERNAL_EVENT_ENUM.RESET, () => this.resize())
 
     // 逻辑视图
     this.view = new View()
@@ -63,13 +56,16 @@ class ViewContainer {
       })
 
       const { column, row } = this.view.image.geometry.size
-      this.originSize.width = column
-      this.originSize.height = row
+      this.originSize = { width: column, height: row }
 
-      this.dicomImage = new Konva.Image()
-      this.dynamicLayer.add(this.dicomImage)
+      this.dicomImage = new Konva.Image({ name: 'dicomImage' })
+      this.dynamicGroup = new Konva.Group({ name: 'group' })
+      this.dynamicGroup.add(this.dicomImage)
+      this.dynamicLayer.add(this.dynamicGroup)
       const { width, height } = this.originSize
-      this.imageData = this.dicomImage.getContext().createImageData(width, height)
+      this.imageData = this.dicomImage
+        .getContext()
+        .createImageData(width, height)
 
       this.view.colourMap = COLOUR_ENUM.NORMAL
       this.view.sliceIndex = new Index3D(0, 0, 1)
@@ -84,7 +80,7 @@ class ViewContainer {
   }
 
   resize(width, height) {
-    if (this.stage.width === width && this.stage.height === height) {
+    if (this.stage.width() === width && this.stage.height() === height) {
       return
     }
 
@@ -101,8 +97,14 @@ class ViewContainer {
     })
 
     // 适配窗口大小进行缩放
-    this._scaleToFit()
+    const { width: originWidth, height: originHeight } = this.originSize
+    const scale = Math.min(width / originWidth, height / originHeight)
+    this.stage.scale({ x: scale, y: scale })
+    const originPosition = { x: 0, y: 0 }
+    this.stage.position(originPosition)
     this.draw()
+    this.stage.fire(INTERNAL_EVENT_ENUM.ZOOM_CHANGE, { scale })
+    this.stage.fire(INTERNAL_EVENT_ENUM.POSITION_CHANGE, { originPosition })
   }
 
   async draw() {
@@ -113,34 +115,11 @@ class ViewContainer {
     // 构建图像数据
     this.view.generateImageData(this.imageData)
     this.dicomImage.image(await createImageBitmap(this.imageData))
-    this.stage.draw()
-    // image container 进行数据呈现
-    // this.imageContainer.setImageData(this.imageData)
-
-    // this.aaa.image(await createImageBitmap(this.imageData))
+    this.stage.batchDraw()
   }
 
   setURLs(urls) {
     this.view.urls = urls
-  }
-
-  _scaleToFit() {
-    const stageWidth = this.stage.width()
-    const stageHeight = this.stage.height()
-
-    const { width, height } = this.originSize
-
-    const scale = Math.min(stageWidth / width, stageHeight / height)
-
-    const newWidth = scale > 1 ? width * scale : height * scale
-    const newHeight = scale > 1 ? height * scale : width * scale
-    this.staticLayer.size({ width: stageWidth, height: stageHeight })
-    this.dynamicLayer.size({ width: newWidth, height: newHeight })
-    // this.dynamicLayer.position({ x: stageWidth - newWidth >> 1, y: stageHeight - newHeight >> 1 })
-    this.dynamicLayer.position({ x: 0, y: 0 })
-    this.dicomImage.size({ width: newWidth, height: newHeight })
-
-    // TODO: 填充工具 toolsContainer
   }
 }
 
