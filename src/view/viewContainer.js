@@ -8,7 +8,7 @@ import View from './view'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-14, 07:28:44 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 13:43:29 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -36,15 +36,21 @@ class ViewContainer {
     })
 
     this.stage.on(INTERNAL_EVENT_ENUM.RESET, () => this.resize())
-    this.stage.on(INTERNAL_EVENT_ENUM.POSITION_CHANGE, e => {
-      console.log(e)
+    this.stage.on(INTERNAL_EVENT_ENUM.POSITION_CHANGE, e => {})
+    this.stage.on(INTERNAL_EVENT_ENUM.WWWC_CHANGE, e => {
+      const { width: deltaWidth, center: deltaCenter } = e.deltaWWWC
+      const { width, center } = this.view.currentWWWC
+
+      this.view.setWWWC(width + deltaWidth, center + deltaCenter)
     })
 
     // 逻辑视图
     this.view = new View()
     this.view.on(SLICE_EVENT_ENUM.COLOUR_MAP_CHANGED, e => {})
     this.view.on(SLICE_EVENT_ENUM.SLICE_CHANGED, e => {})
-    this.view.on(SLICE_EVENT_ENUM.WINDOW_WWWC_CHANGED, e => {})
+    this.view.on(SLICE_EVENT_ENUM.WINDOW_WWWC_CHANGED, e => {
+      this.draw()
+    })
     this.view.on(INTERNAL_EVENT_ENUM.FIRST_SLICE_LOAD_COMPLETED, async () => {
       log.info('first image load completed. prepare for display.')
       // 2个层， 一个静态层、一个动态层

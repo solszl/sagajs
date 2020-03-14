@@ -4,11 +4,12 @@ import ResetCommand from '../src/tools/command/resetCommand'
 import ZoomCommand from '../src/tools/command/zoomCommand'
 import ViewContainer from '../src/view/viewContainer'
 import MoveCommand from '../src/tools/command/moveCommand'
+import WWWCCommand from '../src/tools/command/wwwcCommand'
 
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-03-14, 07:10:12 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 13:36:31 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -70,7 +71,7 @@ document.querySelector('#tool-zoom').addEventListener('click', () => {
   new ZoomCommand(stage).execute()
 })
 document.querySelector('#tool-wwwc').addEventListener('click', () => {
-  alert(123)
+  new WWWCCommand(stage).execute()
 })
 document.querySelector('#tool-move').addEventListener('click', () => {
   new MoveCommand(stage).execute()
