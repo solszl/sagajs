@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 14:51:55 (zhenliang.sun)
- * Last Modified: 2020-03-14, 20:17:10 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 21:47:53 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -20,7 +20,7 @@ import { getRelativePointerPosition } from './utils/index'
  * @author zhenliang.sun
  */
 class ProbeCommand extends BaseCommand {
-  constructor(container, config = { tooltip: 'CT:{ct}' }) {
+  constructor(container, config = { tooltip: 'CT: {ct}' }) {
     super(container)
 
     this.config = config
@@ -35,7 +35,7 @@ class ProbeCommand extends BaseCommand {
     this._isDown = false
     this._type = 'ProbeCommand'
 
-    this.probeItem = new Probe(config.tooltip)
+    this.probeItem = new Probe({}, config.tooltip)
   }
 
   execute() {
@@ -50,9 +50,16 @@ class ProbeCommand extends BaseCommand {
   _mouseDown(e) {
     this._isDown = true
 
+    // 获取group
+    const group = this.stage.findOne('#dynamicGroup')
+
     const { x, y } = getRelativePointerPosition(this.stage, true)
     const ct = this.view.getRescaleValue(x, y)
     this.probeItem.value(ct)
+    this.probeItem.position({ x, y })
+
+    group.add(this.probeItem)
+    group.draw()
   }
 
   _mouseMove(e) {
@@ -65,11 +72,14 @@ class ProbeCommand extends BaseCommand {
 
     // 计算CT值
     this.probeItem.value(ct)
-    this.probeItem.position({ x: 100, y: 200 })
+    this.probeItem.position({ x, y })
+    this.stage.findOne('#dynamicGroup').draw()
   }
 
   _mouseUp(e) {
     this._isDown = false
+    this.probeItem.remove()
+    this.stage.findOne('#dynamicGroup').draw()
   }
 }
 

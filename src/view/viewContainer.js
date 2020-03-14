@@ -8,7 +8,7 @@ import View from './view'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-14, 13:43:29 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 21:31:03 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -57,18 +57,18 @@ class ViewContainer {
       // 静态层包含信息：1，四角信息
       // 动态层包含信息：1, 图像文件、2，contour、3，长度测量工具、4，角度测量工具、5，区域CT工具、6，长短径工具、7，方位信息
       this.staticLayer = new Konva.Layer({
-        name: 'staticLayer'
+        id: 'staticLayer'
       })
 
       this.dynamicLayer = new Konva.Layer({
-        name: 'dynamicLayer'
+        id: 'dynamicLayer'
       })
 
       const { column, row } = this.view.image.geometry.size
       this.originSize = { width: column, height: row }
 
-      this.dicomImage = new Konva.Image({ name: 'dicomImage' })
-      this.dynamicGroup = new Konva.Group({ name: 'group' })
+      this.dicomImage = new Konva.Image({ id: 'dicomImage' })
+      this.dynamicGroup = new Konva.Group({ id: 'dynamicGroup' })
       this.dynamicGroup.add(this.dicomImage)
       this.dynamicLayer.add(this.dynamicGroup)
       const { width, height } = this.originSize

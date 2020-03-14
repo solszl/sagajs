@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 15:43:52 (zhenliang.sun)
- * Last Modified: 2020-03-14, 20:15:49 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 20:54:01 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -10,6 +10,7 @@
 
 /**
  * 计算图像内的绝对位置
+ * 参考： https://konvajs.org/docs/sandbox/Relative_Pointer_Position.html
  *
  * @export
  * @param {*} node
