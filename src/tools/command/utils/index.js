@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 15:43:52 (zhenliang.sun)
- * Last Modified: 2020-03-14, 16:37:00 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 20:15:49 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -15,7 +15,7 @@
  * @param {*} node
  * @returns
  */
-export function getRelativePointerPosition(node) {
+export function getRelativePointerPosition(node, round = false) {
   // the function will return pointer position relative to the passed node
   var transform = node.getAbsoluteTransform().copy()
   // to detect relative position we need to invert transform
@@ -25,5 +25,10 @@ export function getRelativePointerPosition(node) {
   var pos = node.getStage().getPointerPosition()
 
   // now we find relative point
-  return transform.point(pos)
+  if (round === false) {
+    transform.point(pos)
+  }
+
+  const { x, y } = transform.point(pos)
+  return { x: ~~x, y: ~~y }
 }

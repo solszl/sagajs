@@ -9,7 +9,7 @@ import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
 /**
  *
  * Created Date: 2020-02-02, 16:04:54 (zhenliang.sun)
- * Last Modified: 2020-03-08, 22:54:36 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 20:49:59 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -113,6 +113,18 @@ export default class View extends TXComponent {
     windowLut.setWWWC(wwwc)
     this.currentWWWC = wwwc
     this.windowLut = windowLut
+  }
+
+  getRescaleValue(x, y) {
+    const pos = this.sliceIndex
+
+    const originPixelData = this.image.pixelBuffer.get(pos.k)
+
+    const rsi = this.image.rsis[pos.k]
+    const { row } = this.image.geometry.size
+    const offset = x + y * row // 是 x+y*row, 并不是 x* column+y, 头疼。。。
+
+    return rsi.apply(originPixelData[offset])
   }
 
   set urls(urls) {

@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 14:51:55 (zhenliang.sun)
- * Last Modified: 2020-03-14, 16:37:32 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 20:17:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -50,7 +50,9 @@ class ProbeCommand extends BaseCommand {
   _mouseDown(e) {
     this._isDown = true
 
-    const mouse = getRelativePointerPosition(this.stage)
+    const { x, y } = getRelativePointerPosition(this.stage, true)
+    const ct = this.view.getRescaleValue(x, y)
+    this.probeItem.value(ct)
   }
 
   _mouseMove(e) {
@@ -58,10 +60,11 @@ class ProbeCommand extends BaseCommand {
       return
     }
 
-    const mouse = getRelativePointerPosition(this.stage)
+    const { x, y } = getRelativePointerPosition(this.stage, true)
+    const ct = this.view.getRescaleValue(x, y)
 
     // 计算CT值
-    this.probeItem.value((Math.random() * 300) >> 1)
+    this.probeItem.value(ct)
     this.probeItem.position({ x: 100, y: 200 })
   }
 
