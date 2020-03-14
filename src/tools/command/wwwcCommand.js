@@ -2,7 +2,7 @@
 
  *
  * Created Date: 2020-03-14, 13:21:31 (zhenliang.sun)
- * Last Modified: 2020-03-14, 14:35:59 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 15:16:28 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -19,8 +19,8 @@ import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
  * @author zhenliang.sun
  */
 class WWWCCommand extends BaseCommand {
-  constructor(stage) {
-    super(stage)
+  constructor(container) {
+    super(container)
 
     this.ee = {
       mousedown: this._mouseDown.bind(this),
@@ -31,6 +31,8 @@ class WWWCCommand extends BaseCommand {
 
     this._isDown = false
     this.mouse = { x: 0, y: 0 }
+
+    this._type = 'WWWCCommand'
   }
 
   execute() {

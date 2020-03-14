@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-12, 00:00:55 (zhenliang.sun)
- * Last Modified: 2020-03-14, 06:35:23 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 15:16:28 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -21,8 +21,8 @@ const ZOOM_STEP = 0.02
  * @author zhenliang.sun
  */
 class ZoomCommand extends BaseCommand {
-  constructor(stage) {
-    super(stage)
+  constructor(container) {
+    super(container)
     this._type = 'ZoomCommand'
     this.ee = {
       mousedown: this._mouseDown.bind(this),

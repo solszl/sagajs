@@ -5,11 +5,12 @@ import ZoomCommand from '../src/tools/command/zoomCommand'
 import ViewContainer from '../src/view/viewContainer'
 import MoveCommand from '../src/tools/command/moveCommand'
 import WWWCCommand from '../src/tools/command/wwwcCommand'
+import ProbeCommand from '../src/tools/command/probeCommand'
 
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-03-14, 13:36:31 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 15:22:15 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -63,24 +64,23 @@ const manager = new ViewManager()
 manager.addView(viewContainer)
 manager.activeView('container')
 
-const stage = viewContainer.stage
 document.querySelector('#tool-scroll').addEventListener('click', () => {
   alert(123)
 })
 document.querySelector('#tool-zoom').addEventListener('click', () => {
-  new ZoomCommand(stage).execute()
+  new ZoomCommand(viewContainer).execute()
 })
 document.querySelector('#tool-wwwc').addEventListener('click', () => {
-  new WWWCCommand(stage).execute()
+  new WWWCCommand(viewContainer).execute()
 })
 document.querySelector('#tool-move').addEventListener('click', () => {
-  new MoveCommand(stage).execute()
+  new MoveCommand(viewContainer).execute()
 })
 document.querySelector('#tool-length').addEventListener('click', () => {
   alert(123)
 })
 document.querySelector('#tool-probe').addEventListener('click', () => {
-  alert(123)
+  new ProbeCommand(viewContainer).execute()
 })
 document.querySelector('#tool-areaCT').addEventListener('click', () => {
   alert(123)
@@ -104,6 +104,6 @@ document.querySelector('#tool-play').addEventListener('click', () => {
   alert(123)
 })
 document.querySelector('#tool-reset').addEventListener('click', () => {
-  new ResetCommand(stage).execute()
+  new ResetCommand(viewContainer).execute()
 })
 document.querySelector('#tool-flip').addEventListener('click', () => {})

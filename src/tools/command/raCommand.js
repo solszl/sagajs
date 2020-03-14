@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-11, 23:36:45 (zhenliang.sun)
- * Last Modified: 2020-03-11, 23:54:39 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 15:16:29 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -18,8 +18,8 @@ import RotateCommand from './rotateCommand'
  * @author zhenliang.sun
  */
 class RACommand extends RotateCommand {
-  constructor(stage) {
-    super(stage)
+  constructor(container) {
+    super(container)
     this._type = 'RACommand'
   }
 

@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-12, 02:15:08 (zhenliang.sun)
- * Last Modified: 2020-03-12, 02:18:52 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 15:16:29 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -19,8 +19,8 @@ import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
  * @author zhenliang.sun
  */
 class InverseCommand extends BaseCommand {
-  constructor(stage) {
-    super(stage)
+  constructor(container) {
+    super(container)
     this._type = 'InverseCommand'
   }
 
