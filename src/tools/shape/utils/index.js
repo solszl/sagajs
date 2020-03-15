@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 21:13:03 (zhenliang.sun)
- * Last Modified: 2020-03-14, 21:42:00 (zhenliang.sun)
+ * Last Modified: 2020-03-16, 01:47:39 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -25,3 +25,5 @@ export function createTextComponent(text) {
 
   return t
 }
+
+export const PI = 3.1415926

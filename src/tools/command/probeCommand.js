@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 14:51:55 (zhenliang.sun)
- * Last Modified: 2020-03-14, 21:47:53 (zhenliang.sun)
+ * Last Modified: 2020-03-16, 00:23:29 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -55,10 +55,11 @@ class ProbeCommand extends BaseCommand {
 
     const { x, y } = getRelativePointerPosition(this.stage, true)
     const ct = this.view.getRescaleValue(x, y)
+    group.add(this.probeItem)
+
     this.probeItem.value(ct)
     this.probeItem.position({ x, y })
 
-    group.add(this.probeItem)
     group.draw()
   }
 
