@@ -12,7 +12,7 @@ import LengthCommand from '../src/tools/command/lengthCommand'
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-03-16, 17:19:24 (zhenliang.sun)
+ * Last Modified: 2020-03-16, 22:26:19 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -54,7 +54,7 @@ log.setDefaultLevel(1)
 // })
 
 const urls = []
-for (let i = 1; i < 10; i += 1) {
+for (let i = 1; i < 3; i += 1) {
   urls.push(`http://127.0.0.1:8887/${i}`)
 }
 

@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 21:13:03 (zhenliang.sun)
- * Last Modified: 2020-03-16, 20:44:26 (zhenliang.sun)
+ * Last Modified: 2020-03-17, 01:25:55 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -24,34 +24,32 @@ const SHADOW = {
 }
 
 /** 创建一个文本组件 */
-export function createTextComponent(text) {
-  const t = new Konva.Text(Object.assign({
-    text,
-    fontSize: 12,
-    fill: '#FF000'
-  }, SHADOW))
-
-  return t
+export function createTextComponent(text = '') {
+  return new Konva.Text(
+    Object.assign(
+      {
+        text,
+        fontSize: 12,
+        fill: Color.TEXT_NORMAL
+      },
+      SHADOW
+    )
+  )
 }
 
 export function createAnchor(radius = 6) {
-  const anchor = new Konva.Circle(Object.assign({
-    fill: 'rgba(0,0,0,0.01)',
-    stroke: Color.ANCHOR_NORMAL,
-    strokeWidth: 2,
-    radius: radius,
-    draggable: true
-  }, SHADOW))
-
-  // anchor.on('mouseover', e => {
-  //   anchor.radius(radius + 2)
-  //   anchor.draw()
-  // })
-
-  // anchor.on('mouseout', e => {
-  //   anchor.radius(radius)
-  //   anchor.draw()
-  // })
+  const anchor = new Konva.Circle(
+    Object.assign(
+      {
+        fill: 'rgba(0,0,0,0.01)',
+        stroke: Color.ANCHOR_NORMAL,
+        strokeWidth: 2,
+        radius: radius,
+        draggable: true
+      },
+      SHADOW
+    )
+  )
 
   return anchor
 }

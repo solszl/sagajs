@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:02:20 (zhenliang.sun)
- * Last Modified: 2020-03-16, 20:13:55 (zhenliang.sun)
+ * Last Modified: 2020-03-17, 01:12:49 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -11,6 +11,7 @@
 import BaseCommand from './baseCommand'
 import Length from '../shape/length'
 import log from 'loglevel'
+import Konva from 'konva'
 
 /**
  * 长度测量工具
@@ -31,19 +32,19 @@ class LengthCommand extends BaseCommand {
 
   execute() {
     super.execute()
-
-    // 给stage绑定事件
-    for (const event in this.ee) {
-      this.stage.on(event, this.ee[event])
-    }
+    this.removeEvents()
+    this.addEvents()
   }
 
   _mouseDown(e) {
     // 应该判断一下 e.target 是什么，有没有必要添加一个新的长度工具
     log.error(e.target)
-    const lengthItem = new Length()
-    this.stage.findOne('#dynamicGroup').add(lengthItem)
-    lengthItem.start()
+    if (e.target instanceof Konva.Image) {
+      const { spacing } = this.view.image.geometry
+      const lengthItem = new Length(spacing)
+      this.stage.findOne('#dynamicGroup').add(lengthItem)
+      lengthItem.start()
+    }
   }
 }
 
