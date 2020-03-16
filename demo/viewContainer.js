@@ -7,11 +7,12 @@ import MoveCommand from '../src/tools/command/moveCommand'
 import WWWCCommand from '../src/tools/command/wwwcCommand'
 import ProbeCommand from '../src/tools/command/probeCommand'
 import RACommand from '../src/tools/command/raCommand'
+import LengthCommand from '../src/tools/command/lengthCommand'
 
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-03-14, 22:52:00 (zhenliang.sun)
+ * Last Modified: 2020-03-16, 17:19:24 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -78,7 +79,7 @@ document.querySelector('#tool-move').addEventListener('click', () => {
   new MoveCommand(viewContainer).execute()
 })
 document.querySelector('#tool-length').addEventListener('click', () => {
-  alert(123)
+  new LengthCommand(viewContainer).execute()
 })
 document.querySelector('#tool-probe').addEventListener('click', () => {
   new ProbeCommand(viewContainer).execute()
