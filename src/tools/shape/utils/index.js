@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 21:13:03 (zhenliang.sun)
- * Last Modified: 2020-03-16, 01:47:39 (zhenliang.sun)
+ * Last Modified: 2020-03-16, 10:55:06 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -16,10 +16,10 @@ export function createTextComponent(text) {
     fontSize: 12,
     fill: '#FF000',
     shadowColor: 'black',
-    shadowBlur: 10,
-    shadowOffsetX: 10,
-    shadowOffsetY: 10,
-    shadowOpacity: 0.2,
+    shadowBlur: 2,
+    shadowOffsetX: 1,
+    shadowOffsetY: 1,
+    shadowOpacity: 0.5,
     cornerRadius: 10
   })
 
