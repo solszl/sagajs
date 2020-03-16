@@ -8,7 +8,7 @@ import View from './view'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-14, 21:31:03 (zhenliang.sun)
+ * Last Modified: 2020-03-17, 02:00:28 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -109,11 +109,17 @@ class ViewContainer {
     const { width: originWidth, height: originHeight } = this.originSize
     const scale = Math.min(width / originWidth, height / originHeight)
     this.stage.scale({ x: scale, y: scale })
-    const position = { x: 0, y: 0 }
-    this.stage.position(position)
-    this.draw()
     this.stage.fire(INTERNAL_EVENT_ENUM.ZOOM_CHANGE, { scale })
+
+    const position = { x: width / 2, y: width / 2 }
+    this.stage.position(position)
     this.stage.fire(INTERNAL_EVENT_ENUM.POSITION_CHANGE, { position })
+
+    const offsetX = width / scale / 2
+    const offsetY = height / scale / 2
+    this.stage.offset({ x: offsetX, y: offsetY })
+
+    this.draw()
   }
 
   async draw() {
