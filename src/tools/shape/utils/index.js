@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 21:13:03 (zhenliang.sun)
- * Last Modified: 2020-03-17, 01:25:55 (zhenliang.sun)
+ * Last Modified: 2020-03-18, 02:36:45 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -62,4 +62,34 @@ export function createAnchor(radius = 6) {
  * @param {*} fixedNode 通常来讲是固定的组件容器
  * @param {*} node 文案容器
  */
-export function connectedObject(fixedNode, node) {}
+export function connectedObject(fixedNode, node, line) {
+  const group = fixedNode.getParent()
+
+  console.log('group', group.x(), group.y(), group.width(), group.height())
+  console.log(
+    'fixedNode',
+    fixedNode.x(),
+    fixedNode.y(),
+    fixedNode.width(),
+    fixedNode.height()
+  )
+  console.log('node:', node.x(), node.y(), node.width(), node.height())
+
+  line = line || group.findOne('.dashLine')
+  if (!line) {
+    line = new Konva.Line({
+      stroke: Color.ITEM_NORMAL,
+      strokeWidth: 2,
+      lineJoin: 'round',
+      dash: [10, 5],
+      name: 'dashLine'
+    })
+
+    group.add(line)
+  }
+
+  const points = [fixedNode.x(), fixedNode.y(), node.x(), node.y()]
+  line.points(points)
+  line.draw()
+  // const dashLine = new
+}

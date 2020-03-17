@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:51:48 (zhenliang.sun)
- * Last Modified: 2020-03-17, 01:27:56 (zhenliang.sun)
+ * Last Modified: 2020-03-18, 02:40:52 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -12,7 +12,7 @@ import Konva from 'konva'
 import log from 'loglevel'
 import { getRelativePointerPosition } from './../command/utils'
 import { Color } from './theme'
-import { createTextComponent } from './utils'
+import { createTextComponent, connectedObject } from './utils'
 
 /**
  * 长度测量工具
@@ -38,8 +38,6 @@ class Length extends Konva.Group {
     this.line = null
 
     this.text = null
-
-    this.dashLine = null
   }
 
   start() {
@@ -58,7 +56,8 @@ class Length extends Konva.Group {
     })
 
     this.add(this.anchor1)
-    this.anchor1.position(mouse)
+    this.position(mouse)
+    this.anchor1.position({ x: 0, y: 0 })
 
     this.anchor2 = new Konva.Circle({
       fill: 'rgba(0,0,0,0.1)',
@@ -68,7 +67,7 @@ class Length extends Konva.Group {
       draggable: true
     })
     this.add(this.anchor2)
-    this.anchor2.position(mouse)
+    this.anchor2.position({ x: 0, y: 0 })
 
     this.line = new Konva.Line({
       stroke: Color.ITEM_NORMAL,
@@ -88,6 +87,8 @@ class Length extends Konva.Group {
       anchor.on('dragmove', this._dragMove.bind(this))
     })
 
+    this.text.on('dragmove', this._dragText.bind(this))
+
     this.on('mouseover', () => {
       this.getStage().container().style.cursor = 'pointer'
     })
@@ -98,7 +99,8 @@ class Length extends Konva.Group {
 
   _mouseMove(e) {
     const mouse = getRelativePointerPosition(this.getStage())
-    this.anchor2.position(mouse)
+    const position = { x: mouse.x - this.x(), y: mouse.y - this.y() }
+    this.anchor2.position(position)
 
     this._dragMove()
   }
@@ -109,7 +111,8 @@ class Length extends Konva.Group {
     }
 
     const mouse = getRelativePointerPosition(this.getStage())
-    this.anchor2.position(mouse)
+    const position = { x: mouse.x - this.x(), y: mouse.y - this.y() }
+    this.anchor2.position(position)
     this.getLayer().batchDraw()
   }
 
@@ -127,6 +130,11 @@ class Length extends Konva.Group {
     this.text.text(len)
 
     this.getLayer().batchDraw()
+  }
+
+  _dragText() {
+    connectedObject(this.line, this.text)
+    this.getStage().batchDraw()
   }
 }
 
