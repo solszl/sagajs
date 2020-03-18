@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 21:13:03 (zhenliang.sun)
- * Last Modified: 2020-03-18, 10:38:32 (zhenliang.sun)
+ * Last Modified: 2020-03-19, 02:26:09 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -73,7 +73,7 @@ export function connectedObject(fixedNode, node, line) {
     fixedNode.width(),
     fixedNode.height()
   )
-  console.log('node:', node.x(), node.y(), node.width(), node.height())
+  // console.log('node:', node.x(), node.y(), node.width(), node.height())
 
   line = line || group.findOne('.dashLine')
   if (!line) {
@@ -81,7 +81,7 @@ export function connectedObject(fixedNode, node, line) {
       stroke: Color.ITEM_NORMAL,
       strokeWidth: 2,
       lineJoin: 'round',
-      dash: [10, 5],
+      dash: [6, 3],
       name: 'dashLine'
     })
 
