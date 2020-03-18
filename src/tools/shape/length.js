@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:51:48 (zhenliang.sun)
- * Last Modified: 2020-03-18, 10:39:46 (zhenliang.sun)
+ * Last Modified: 2020-03-18, 18:26:44 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -86,16 +86,22 @@ class Length extends Konva.Group {
 
     this.draw()
     ;[this.anchor1, this.anchor2].forEach(anchor => {
-      anchor.on('dragmove', this._dragMove.bind(this))
+      anchor.on('dragmove', this._dragAnchorMove.bind(this))
     })
 
     this.text.on('dragmove', this._dragText.bind(this))
+
+    this.on('dragmove', this._dragMove.bind(this))
 
     this.on('mouseover', () => {
       this.getStage().container().style.cursor = 'pointer'
     })
     this.on('mouseout', () => {
       this.getStage().container().style.cursor = 'auto'
+    })
+
+    ;[this, this.anchor1, this.anchor2, this.line, this.text].forEach(item => {
+      item.on('dragend', this.outputInfo.bind(this))
     })
   }
 
@@ -104,7 +110,7 @@ class Length extends Konva.Group {
     const position = { x: mouse.x - this.x(), y: mouse.y - this.y() }
     this.anchor2.position(position)
 
-    this._dragMove()
+    this._dragAnchorMove()
   }
 
   _mouseUp(e) {
@@ -116,9 +122,11 @@ class Length extends Konva.Group {
     const position = { x: mouse.x - this.x(), y: mouse.y - this.y() }
     this.anchor2.position(position)
     this.getLayer().batchDraw()
+
+    this.outputInfo()
   }
 
-  _dragMove() {
+  _dragAnchorMove() {
     const x1 = this.anchor1.x()
     const y1 = this.anchor1.y()
     const x2 = this.anchor2.x()
@@ -137,6 +145,21 @@ class Length extends Konva.Group {
   _dragText() {
     connectedObject(this.line, this.text)
     this.getStage().batchDraw()
+  }
+
+  _dragMove() {
+    // const mouse = getRelativePointerPosition(this.getStage())
+    // console.log(mouse)
+  }
+
+  outputInfo() {
+    const group = { name: 'group', x: this.x(), y: this.y(), width: this.width(), height: this.height() }
+    const anchor1 = { name: 'anchor1', x: this.anchor1.x(), y: this.anchor1.y(), width: this.anchor1.width(), height: this.anchor1.height() }
+    const anchor2 = { name: 'anchor2', x: this.anchor2.x(), y: this.anchor2.y(), width: this.anchor2.width(), height: this.anchor2.height() }
+    const line = { name: 'line', x: this.line.x(), y: this.line.y(), width: this.line.width(), height: this.line.height() }
+    const text = { name: 'text', x: this.text.x(), y: this.text.y(), width: this.text.width(), height: this.text.height() }
+
+    console.table([group, anchor1, anchor2, line, text])
   }
 }
 
