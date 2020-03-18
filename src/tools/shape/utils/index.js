@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 21:13:03 (zhenliang.sun)
- * Last Modified: 2020-03-18, 02:36:45 (zhenliang.sun)
+ * Last Modified: 2020-03-18, 10:38:32 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -86,6 +86,7 @@ export function connectedObject(fixedNode, node, line) {
     })
 
     group.add(line)
+    line.moveToBottom()
   }
 
   const points = [fixedNode.x(), fixedNode.y(), node.x(), node.y()]

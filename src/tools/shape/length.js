@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:51:48 (zhenliang.sun)
- * Last Modified: 2020-03-18, 02:40:52 (zhenliang.sun)
+ * Last Modified: 2020-03-18, 10:39:46 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -52,6 +52,7 @@ class Length extends Konva.Group {
       stroke: Color.ANCHOR_NORMAL,
       strokeWidth: 2,
       radius: 4,
+      hitStrokeWidth: 16,
       draggable: true
     })
 
@@ -64,6 +65,7 @@ class Length extends Konva.Group {
       stroke: Color.ANCHOR_NORMAL,
       strokeWidth: 2,
       radius: 4,
+      hitStrokeWidth: 16,
       draggable: true
     })
     this.add(this.anchor2)
