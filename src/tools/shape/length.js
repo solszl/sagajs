@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:51:48 (zhenliang.sun)
- * Last Modified: 2020-03-19, 03:29:11 (zhenliang.sun)
+ * Last Modified: 2020-03-19, 23:42:50 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -9,11 +9,10 @@
  */
 
 import Konva from 'konva'
-import log from 'loglevel'
+import Point2D from '../../geometry/Point2D'
 import { getRelativePointerPosition } from './../command/utils'
 import { Color } from './theme'
-import { createTextComponent, connectedObject } from './utils'
-import Point2D from '../../geometry/Point2D'
+import { createTextComponent } from './utils'
 
 /**
  * 长度测量工具

@@ -3,6 +3,7 @@
     "WWWC",
     "arraybuffer",
     "dicom",
+    "dragmove",
     "happypack",
     "konva",
     "layui",
