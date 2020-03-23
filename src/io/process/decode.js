@@ -1,4 +1,5 @@
 import * as dicomParser from 'dicom-parser'
+import { endianness, swap16 } from './endianness'
 
 const decodeLittleEndian = async (
   byteArray,
@@ -79,6 +80,34 @@ const decodeJPEGBaseline = (byteArray, { bitsStored, samplesPerPixel }) =>
       )
     }
   })
+
+const decodeBigEndian = async (
+  byteArray,
+  { bitsAllocated, bitsStored, pixelRepresentation }
+) => {
+  // endianness(byteArray, 2)
+  // const data = await decodeLittleEndian(byteArray, {
+  //   bitsAllocated,
+  //   bitsStored,
+  //   pixelRepresentation
+  // })
+
+  const data = await decodeLittleEndian(byteArray, {
+    bitsAllocated,
+    bitsStored,
+    pixelRepresentation
+  })
+  // endianness(data, data.BYTES_PER_ELEMENT)
+  // TODO: swap
+  for (let index = 0; index < data.length; index += 1) {
+    if (index === 90000) {
+      debugger
+    }
+    data[index] = swap16(data[index])
+  }
+
+  return data
+}
 
 const parseImageFrame = dataSet => {
   const pixelDataElement = dataSet.elements.x7fe00010
@@ -176,6 +205,10 @@ const decodeImageData = async dataSet => {
     return makeTexture(
       await decodeJPEGBaseline(pixelDataByteArray, pixelConfig)
     )
+  } else if (transferSyntax === '1.2.840.10008.1.2.2') {
+    // explicit big endian
+    // return makeTexture(await decodeBigEndian(pixelDataByteArray, pixelConfig))
+    return makeTexture(await decodeBigEndian(pixelDataByteArray, pixelConfig))
   } else {
     throw new Error(`No decoder for transfer syntax ${transferSyntax}`)
   }

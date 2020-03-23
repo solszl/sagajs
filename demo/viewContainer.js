@@ -8,11 +8,12 @@ import WWWCCommand from '../src/tools/command/wwwcCommand'
 import ProbeCommand from '../src/tools/command/probeCommand'
 import RACommand from '../src/tools/command/raCommand'
 import LengthCommand from '../src/tools/command/lengthCommand'
+import MPRCommand from '../src/tools/command/mprCommand'
 
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-03-16, 22:26:19 (zhenliang.sun)
+ * Last Modified: 2020-03-23, 23:40:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -55,7 +56,10 @@ log.setDefaultLevel(1)
 
 const urls = []
 for (let i = 1; i < 3; i += 1) {
-  urls.push(`http://127.0.0.1:8887/${i}`)
+  urls.push(
+    `http://127.0.0.1:8887/1.2.840.113619.2.278.3.2831172146.890.1539296548.557.${i}`
+    // `http://127.0.0.1:8887/${i}`
+  )
 }
 
 const viewContainer = new ViewContainer('container')
@@ -111,4 +115,7 @@ document.querySelector('#tool-reset').addEventListener('click', () => {
 document.querySelector('#tool-flip').addEventListener('click', () => {})
 document.querySelector('#tool-rotate').addEventListener('click', () => {
   new RACommand(viewContainer).execute()
+})
+document.querySelector('#tool-mpr').addEventListener('click', () => {
+  new MPRCommand(viewContainer).execute()
 })
