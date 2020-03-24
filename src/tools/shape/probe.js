@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 15:03:22 (zhenliang.sun)
- * Last Modified: 2020-03-16, 01:47:52 (zhenliang.sun)
+ * Last Modified: 2020-03-25, 00:14:34 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -30,7 +30,6 @@ class Probe extends Konva.Group {
 
     const r = this.getStage().getRotation()
     if (isNaN(r) || r === 0) {
-      console.error('0°， 无需换算')
       return
     }
 

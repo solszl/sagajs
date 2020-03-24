@@ -56,7 +56,7 @@ const baseConfig = {
   plugins: [
     new HtmlWebpackPlugin({
       template: resolve('demo/index.html'),
-      filename: resolve('demo/index.html'),
+      filename: 'demo/index.html',
       inject: 'body',
       minify: true,
       chunks: ['demo/test']
