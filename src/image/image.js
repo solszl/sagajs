@@ -14,7 +14,7 @@ import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-03-01, 01:48:19 (zhenliang.sun)
+ * Last Modified: 2020-03-24, 11:19:11 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -57,7 +57,10 @@ export default class Image extends IEvent {
     // 添加校准系数
     const { slope, intercept } = parsedObject
     const rsi = new RescaleSlopeIntercept(slope, intercept)
-    this.rsis.splice(slicePosition, 0, rsi)
+    if(this.rsis.length < slicePosition) {
+      this.rsis.length = slicePosition - 1
+    }
+    this.rsis.splice(slicePosition - 1, 0, rsi)
   }
 
   appendBuffer(pixelBuffer, index) {
