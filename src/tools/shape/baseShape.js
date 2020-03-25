@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-19, 02:00:27 (zhenliang.sun)
- * Last Modified: 2020-03-19, 02:10:08 (zhenliang.sun)
+ * Last Modified: 2020-03-25, 22:39:34 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -9,6 +9,7 @@
  */
 
 import Konva from 'konva'
+import { Color } from './theme'
 
 /**
  * 形状基类
@@ -22,6 +23,29 @@ class BaseShape extends Konva.Group {
     super(cfg)
 
     this._shapeType = 'base'
+    this.on('mouseover', this._onMouseOver.bind(this))
+    this.on('mouseout mouseleave', this._onMouseOut.bind(this))
+  }
+
+  _onMouseOver(e) {
+    // 鼠标滑过的时候 变成小手
+    this.getStage().container().style.cursor = 'pointer'
+  }
+
+  _onMouseOut(e) {
+    // 鼠标离开的时候，恢复成自动
+    this.getStage().container().style.cursor = 'auto'
+  }
+
+  createAnchor() {
+    return new Konva.Circle({
+      fill: 'rgba(0,0,0,0.1)',
+      stroke: Color.ANCHOR_NORMAL,
+      strokeWidth: 2,
+      radius: 4,
+      hitStrokeWidth: 16,
+      draggable: true
+    })
   }
 
   get shapeType() {

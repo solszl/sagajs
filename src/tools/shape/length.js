@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:51:48 (zhenliang.sun)
- * Last Modified: 2020-03-19, 23:42:50 (zhenliang.sun)
+ * Last Modified: 2020-03-25, 21:29:58 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -11,6 +11,7 @@
 import Konva from 'konva'
 import Point2D from '../../geometry/Point2D'
 import { getRelativePointerPosition } from './../command/utils'
+import BaseShape from './baseShape'
 import { Color } from './theme'
 import { createTextComponent } from './utils'
 
@@ -19,9 +20,9 @@ import { createTextComponent } from './utils'
  * 2个圆，1个线，一个文案，一个虚线连接
  *
  * @class Length
- * @extends {Konva.Group}
+ * @extends {BaseShape}
  */
-class Length extends Konva.Group {
+class Length extends BaseShape {
   constructor(spacing, cfg = {}) {
     super(cfg)
 
@@ -97,13 +98,6 @@ class Length extends Konva.Group {
     this.text.on('dragmove', this._dragText.bind(this))
 
     this.on('dragmove', this._dragMove.bind(this))
-
-    this.on('mouseover', () => {
-      this.getStage().container().style.cursor = 'pointer'
-    })
-    this.on('mouseout', () => {
-      this.getStage().container().style.cursor = 'auto'
-    })
   }
 
   _mouseMove(e) {

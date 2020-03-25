@@ -9,11 +9,12 @@ import ProbeCommand from '../src/tools/command/probeCommand'
 import RACommand from '../src/tools/command/raCommand'
 import LengthCommand from '../src/tools/command/lengthCommand'
 import MPRCommand from '../src/tools/command/mprCommand'
+import EllipseCommand from '../src/tools/command/ellipseCommand'
 
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-03-24, 16:11:56 (zhenliang.sun)
+ * Last Modified: 2020-03-25, 16:49:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -89,7 +90,7 @@ document.querySelector('#tool-probe').addEventListener('click', () => {
   new ProbeCommand(viewContainer).execute()
 })
 document.querySelector('#tool-areaCT').addEventListener('click', () => {
-  alert(123)
+  new EllipseCommand(viewContainer).execute()
 })
 document.querySelector('#tool-angle').addEventListener('click', () => {
   alert(123)
