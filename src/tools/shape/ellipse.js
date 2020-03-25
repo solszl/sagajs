@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-25, 16:29:52 (zhenliang.sun)
- * Last Modified: 2020-03-26, 00:45:21 (zhenliang.sun)
+ * Last Modified: 2020-03-26, 01:11:32 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -41,6 +41,9 @@ class Ellipse extends BaseShape {
       mousemove: this._mouseMove.bind(this),
       mouseup: this._mouseUp.bind(this)
     }
+
+    // 计算最大、最小、平均、方差、面积 可能较为耗时。节流一下
+    this.calcFunction = this._calcTextData.throttle(300)
   }
 
   start() {
@@ -108,7 +111,14 @@ class Ellipse extends BaseShape {
       x: x1 + ((x2 - x1) >> 1),
       y: y1 + ((y2 - y1) >> 1)
     })
+
+    // calc text group value
+    this.calcFunction()
     this.getLayer().batchDraw()
+  }
+
+  _calcTextData() {
+    log.error('计算数值了')
   }
 }
 

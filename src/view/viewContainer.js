@@ -5,10 +5,11 @@ import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
 import { SLICE_EVENT_ENUM } from '../constants/slice-event'
 import Index3D from '../geometry/index3d'
 import View from './view'
+import './../utils/limit'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-17, 02:00:28 (zhenliang.sun)
+ * Last Modified: 2020-03-26, 00:59:28 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
