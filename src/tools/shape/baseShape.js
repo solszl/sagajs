@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-19, 02:00:27 (zhenliang.sun)
- * Last Modified: 2020-03-25, 22:39:34 (zhenliang.sun)
+ * Last Modified: 2020-03-26, 11:12:16 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -27,11 +27,25 @@ class BaseShape extends Konva.Group {
     this.on('mouseout mouseleave', this._onMouseOut.bind(this))
   }
 
+  /**
+   * protected
+   * 鼠标滑过的事件处理
+   *
+   * @param {*} e
+   * @memberof BaseShape
+   */
   _onMouseOver(e) {
     // 鼠标滑过的时候 变成小手
     this.getStage().container().style.cursor = 'pointer'
   }
 
+  /**
+   * protected
+   * 鼠标移出的事件处理
+   *
+   * @param {*} e
+   * @memberof BaseShape
+   */
   _onMouseOut(e) {
     // 鼠标离开的时候，恢复成自动
     this.getStage().container().style.cursor = 'auto'
