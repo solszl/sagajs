@@ -10,11 +10,12 @@ import RACommand from '../src/tools/command/raCommand'
 import LengthCommand from '../src/tools/command/lengthCommand'
 import MPRCommand from '../src/tools/command/mprCommand'
 import EllipseCommand from '../src/tools/command/ellipseCommand'
+import AngleCommand from '../src/tools/command/angleCommand'
 
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-03-25, 16:49:10 (zhenliang.sun)
+ * Last Modified: 2020-03-26, 12:06:45 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -93,7 +94,7 @@ document.querySelector('#tool-areaCT').addEventListener('click', () => {
   new EllipseCommand(viewContainer).execute()
 })
 document.querySelector('#tool-angle').addEventListener('click', () => {
-  alert(123)
+  new AngleCommand(viewContainer).execute()
 })
 document.querySelector('#tool-missed').addEventListener('click', () => {
   alert(123)
