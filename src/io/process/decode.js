@@ -1,5 +1,4 @@
 import * as dicomParser from 'dicom-parser'
-import { endianness, swap16 } from './endianness'
 import log from 'loglevel'
 
 const decodeLittleEndian = async (

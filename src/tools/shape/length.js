@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:51:48 (zhenliang.sun)
- * Last Modified: 2020-03-25, 21:29:58 (zhenliang.sun)
+ * Last Modified: 2020-03-27, 00:39:37 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -9,7 +9,7 @@
  */
 
 import Konva from 'konva'
-import Point2D from '../../geometry/Point2D'
+import Point2D from '../../geometry/point2D'
 import { getRelativePointerPosition } from './../command/utils'
 import BaseShape from './baseShape'
 import { Color } from './theme'
