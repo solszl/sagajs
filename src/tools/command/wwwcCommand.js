@@ -2,7 +2,7 @@
 
  *
  * Created Date: 2020-03-14, 13:21:31 (zhenliang.sun)
- * Last Modified: 2020-03-14, 15:16:28 (zhenliang.sun)
+ * Last Modified: 2020-03-26, 23:56:35 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -52,6 +52,7 @@ class WWWCCommand extends BaseCommand {
   }
 
   _mouseMove(e) {
+    // TODO: performance, throttle
     if (this._isDown === false) {
       return
     }
