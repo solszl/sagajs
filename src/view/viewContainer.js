@@ -9,7 +9,7 @@ import './../utils/limit'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-03-26, 00:59:28 (zhenliang.sun)
+ * Last Modified: 2020-03-30, 18:09:23 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -47,8 +47,12 @@ class ViewContainer {
 
     // 逻辑视图
     this.view = new View()
-    this.view.on(SLICE_EVENT_ENUM.COLOUR_MAP_CHANGED, e => {})
-    this.view.on(SLICE_EVENT_ENUM.SLICE_CHANGED, e => {})
+    this.view.on(SLICE_EVENT_ENUM.COLOUR_MAP_CHANGED, e => {
+      this.draw()
+    })
+    this.view.on(SLICE_EVENT_ENUM.SLICE_CHANGED, e => {
+      this.draw()
+    })
     this.view.on(SLICE_EVENT_ENUM.WINDOW_WWWC_CHANGED, e => {
       this.draw()
     })

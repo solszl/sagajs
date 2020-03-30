@@ -11,11 +11,12 @@ import ResetCommand from '../src/tools/command/resetCommand'
 import WWWCCommand from '../src/tools/command/wwwcCommand'
 import ZoomCommand from '../src/tools/command/zoomCommand'
 import ViewContainer from '../src/view/viewContainer'
+import ScrollCommand from '../src/tools/command/scrollCommand'
 
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-03-30, 12:14:55 (zhenliang.sun)
+ * Last Modified: 2020-03-30, 18:01:16 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -25,7 +26,7 @@ import ViewContainer from '../src/view/viewContainer'
 log.setDefaultLevel(1)
 
 const urls = []
-for (let i = 1; i < 3; i += 1) {
+for (let i = 1; i < 30; i += 1) {
   urls.push(
     // `http://127.0.0.1:8887/1.2.840.113619.2.278.3.2831172146.890.1539296548.557.${i}`
     `http://127.0.0.1:8887/${i}`
@@ -41,7 +42,7 @@ manager.addView(viewContainer)
 manager.activeView('container')
 
 document.querySelector('#tool-scroll').addEventListener('click', () => {
-  alert(123)
+  new ScrollCommand(viewContainer).execute()
 })
 document.querySelector('#tool-zoom').addEventListener('click', () => {
   new ZoomCommand(viewContainer).execute()
