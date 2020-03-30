@@ -1,21 +1,21 @@
 import log from 'loglevel'
 import ViewManager from '../src/manager/viewManager'
-import ResetCommand from '../src/tools/command/resetCommand'
-import ZoomCommand from '../src/tools/command/zoomCommand'
-import ViewContainer from '../src/view/viewContainer'
+import AngleCommand from '../src/tools/command/angleCommand'
+import EllipseCommand from '../src/tools/command/ellipseCommand'
+import LengthCommand from '../src/tools/command/lengthCommand'
 import MoveCommand from '../src/tools/command/moveCommand'
-import WWWCCommand from '../src/tools/command/wwwcCommand'
+import MPRCommand from '../src/tools/command/mprCommand'
 import ProbeCommand from '../src/tools/command/probeCommand'
 import RACommand from '../src/tools/command/raCommand'
-import LengthCommand from '../src/tools/command/lengthCommand'
-import MPRCommand from '../src/tools/command/mprCommand'
-import EllipseCommand from '../src/tools/command/ellipseCommand'
-import AngleCommand from '../src/tools/command/angleCommand'
+import ResetCommand from '../src/tools/command/resetCommand'
+import WWWCCommand from '../src/tools/command/wwwcCommand'
+import ZoomCommand from '../src/tools/command/zoomCommand'
+import ViewContainer from '../src/view/viewContainer'
 
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-03-26, 12:06:45 (zhenliang.sun)
+ * Last Modified: 2020-03-30, 12:14:55 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -23,38 +23,6 @@ import AngleCommand from '../src/tools/command/angleCommand'
  */
 
 log.setDefaultLevel(1)
-
-// const stage = new Konva.Stage({
-//   container: 'container',
-//   width: 800,
-//   height: 300
-// })
-
-// const layer = new ToolsLayer('tools')
-// layer.on('click', e => {
-//   console.log('click')
-// })
-
-// const circle = new Konva.Circle({
-//   x: 100,
-//   y: 100,
-//   radius: 30,
-//   fill: 'red',
-//   listening: true
-// })
-
-// circle.on('click', e => {
-//   console.log('circle')
-// })
-// layer.add(circle)
-// stage.add(layer)
-// // layer.drawScene()
-
-// console.log(layer)
-
-// stage.on(INTERNAL_EVENT_ENUM.POSITION_CHANGE, e => {
-//   console.log(e)
-// })
 
 const urls = []
 for (let i = 1; i < 3; i += 1) {
