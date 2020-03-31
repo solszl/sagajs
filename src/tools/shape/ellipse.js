@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-25, 16:29:52 (zhenliang.sun)
- * Last Modified: 2020-03-26, 11:14:27 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 00:07:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -68,30 +68,14 @@ class Ellipse extends BaseShape {
     this.ellipse = new Konva.Ellipse({
       stroke: Color.ITEM_NORMAL,
       strokeWidth: 2,
-      hitStrokeWidth: 20
+      hitStrokeWidth: 20,
+      name: 'node-item'
     })
     this.ellipse.moveToBottom()
     this.add(this.ellipse)
 
     this.draggable(true)
     this.draw()
-  }
-
-  _onMouseOver(e) {
-    super._onMouseOver(e)
-    // 变色
-    this.anchor1.stroke(Color.ANCHOR_HOVER)
-    this.anchor2.stroke(Color.ANCHOR_HOVER)
-    this.ellipse.stroke(Color.ITEM_HOVER)
-    this.getLayer().batchDraw()
-  }
-
-  _onMouseOut(e) {
-    super._onMouseOut(e)
-    this.anchor1.stroke(Color.ANCHOR_NORMAL)
-    this.anchor2.stroke(Color.ANCHOR_NORMAL)
-    this.ellipse.stroke(Color.ITEM_NORMAL)
-    this.getLayer().batchDraw()
   }
 
   _mouseMove(e) {

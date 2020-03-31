@@ -1,20 +1,18 @@
 /**
  *
  * Created Date: 2020-03-26, 12:29:42 (zhenliang.sun)
- * Last Modified: 2020-03-31, 18:17:00 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 00:01:30 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import log from 'loglevel'
+import Konva from 'konva'
 import { getRelativePointerPosition } from '../command/utils'
 import BaseShape from './baseShape'
 import { Color } from './theme'
-import Konva from 'konva'
-import Point2D from '../../geometry/point2D'
-import { createTextComponent, connectedObject, getPoint2D } from './utils'
+import { connectedObject, createTextComponent, getPoint2D } from './utils'
 
 /**
  * 角度
@@ -87,8 +85,8 @@ class Angle extends BaseShape {
   }
 
   _mouseMove(e) {
-    const mouse = getRelativePointerPosition(this.getStage())
     if (this.currentAnchor) {
+      const mouse = getRelativePointerPosition(this.getStage())
       this.currentAnchor.position({
         x: mouse.x - this.x(),
         y: mouse.y - this.y()
@@ -100,9 +98,8 @@ class Angle extends BaseShape {
   }
 
   _mouseUp(e) {
-    const mouse = getRelativePointerPosition(this.getStage())
-
     if (this.currentAnchor) {
+      const mouse = getRelativePointerPosition(this.getStage())
       this.currentAnchor.position({
         x: mouse.x - this.x(),
         y: mouse.y - this.y()
@@ -131,50 +128,6 @@ class Angle extends BaseShape {
     this.remainAnchorCount -= 1
   }
 
-  _onMouseOver(e) {
-    super._onMouseOver(e)
-    this.anchors.forEach(anchor => {
-      anchor.stroke(Color.ANCHOR_HOVER)
-    })
-    ;[this.line1, this.line2].forEach(line => {
-      if (line) {
-        line.stroke(Color.ITEM_HOVER)
-      }
-    })
-
-    if (this.textField) {
-      this.textField.fill(Color.TEXT_HOVER)
-    }
-
-    if (this.dashLine) {
-      this.dashLine.stroke(Color.ITEM_HOVER)
-    }
-
-    this.getLayer().batchDraw()
-  }
-
-  _onMouseOut(e) {
-    super._onMouseOut(e)
-    this.anchors.forEach(anchor => {
-      anchor.stroke(Color.ANCHOR_NORMAL)
-    })
-    ;[this.line1, this.line2].forEach(line => {
-      if (line) {
-        line.stroke(Color.ITEM_NORMAL)
-      }
-    })
-
-    if (this.textField) {
-      this.textField.fill(Color.TEXT_NORMAL)
-    }
-
-    if (this.dashLine) {
-      this.dashLine.stroke(Color.ITEM_NORMAL)
-    }
-
-    this.getLayer().batchDraw()
-  }
-
   _dragMove() {}
 
   _dragAnchorMove() {
@@ -194,7 +147,8 @@ class Angle extends BaseShape {
     if (!this.line1) {
       this.line1 = new Konva.Line({
         stroke: Color.ITEM_NORMAL,
-        hitStrokeWidth: 20
+        hitStrokeWidth: 20,
+        name: 'node-item'
       })
       this.add(this.line1)
     }
@@ -211,7 +165,8 @@ class Angle extends BaseShape {
     if (!this.line2) {
       this.line2 = new Konva.Line({
         stroke: Color.ITEM_NORMAL,
-        hitStrokeWidth: 20
+        hitStrokeWidth: 20,
+        name: 'node-item'
       })
       this.add(this.line2)
     }
@@ -226,6 +181,9 @@ class Angle extends BaseShape {
       const from = [p1, p2, p3]
 
       connectedObject(this.textField, from, this.dashLine)
+    } else {
+      const p2 = getPoint2D(this.anchors[1])
+      this.textField.position({ x: p2.x + 10, y: p2.y })
     }
 
     this.getLayer().batchDraw()
@@ -235,14 +193,15 @@ class Angle extends BaseShape {
     this.textDragged = true
 
     // 判断是否存在虚线
-    this.dashLine = this.dashLine || this.findOne('.dashLine')
+    this.dashLine = this.dashLine || this.findOne('#dashLine')
     if (!this.dashLine) {
       this.dashLine = new Konva.Line({
         stroke: Color.ITEM_HOVER,
         strokeWidth: 2,
         lineJoin: 'round',
         dash: [6, 3],
-        name: 'dashLine'
+        id: 'dashLine',
+        name: 'node-dashline'
       })
 
       this.add(this.dashLine)

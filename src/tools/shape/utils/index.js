@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 21:13:03 (zhenliang.sun)
- * Last Modified: 2020-03-31, 18:24:05 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 00:00:41 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -32,28 +32,12 @@ export function createTextComponent(text = '') {
         text,
         fontSize: 15,
         align: 'center',
-        fill: Color.TEXT_NORMAL
+        fill: Color.TEXT_NORMAL,
+        name: 'node-label'
       },
       SHADOW
     )
   )
-}
-
-export function createAnchor(radius = 6) {
-  const anchor = new Konva.Circle(
-    Object.assign(
-      {
-        fill: 'rgba(0,0,0,0.01)',
-        stroke: Color.ANCHOR_NORMAL,
-        strokeWidth: 2,
-        radius: radius,
-        draggable: true
-      },
-      SHADOW
-    )
-  )
-
-  return anchor
 }
 
 /**

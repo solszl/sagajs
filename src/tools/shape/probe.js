@@ -1,15 +1,15 @@
 /**
  *
  * Created Date: 2020-03-14, 15:03:22 (zhenliang.sun)
- * Last Modified: 2020-03-25, 00:14:34 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 00:07:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import { createTextComponent, isRotated, adjustRotate } from './utils'
 import Konva from 'konva'
+import { createTextComponent } from './utils'
 
 class Probe extends Konva.Group {
   constructor(cfg, tooltipTpl) {

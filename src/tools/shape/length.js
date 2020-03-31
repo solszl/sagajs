@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:51:48 (zhenliang.sun)
- * Last Modified: 2020-03-31, 18:35:09 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 00:07:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -13,7 +13,7 @@ import Point2D from '../../geometry/point2D'
 import { getRelativePointerPosition } from './../command/utils'
 import BaseShape from './baseShape'
 import { Color } from './theme'
-import { createTextComponent, getPoint2D, connectedObject } from './utils'
+import { connectedObject, createTextComponent, getPoint2D } from './utils'
 
 /**
  * 长度测量工具
@@ -52,33 +52,20 @@ class Length extends BaseShape {
     }
 
     const mouse = getRelativePointerPosition(this.getStage())
-    this.anchor1 = new Konva.Circle({
-      fill: 'rgba(0,0,0,0.1)',
-      stroke: Color.ANCHOR_NORMAL,
-      strokeWidth: 2,
-      radius: 4,
-      hitStrokeWidth: 16,
-      draggable: true
-    })
 
+    this.anchor1 = this.createAnchor()
     this.add(this.anchor1)
     this.position(mouse)
     this.anchor1.position({ x: 0, y: 0 })
 
-    this.anchor2 = new Konva.Circle({
-      fill: 'rgba(0,0,0,0.1)',
-      stroke: Color.ANCHOR_NORMAL,
-      strokeWidth: 2,
-      radius: 4,
-      hitStrokeWidth: 16,
-      draggable: true
-    })
+    this.anchor2 = this.createAnchor()
     this.add(this.anchor2)
     this.anchor2.position({ x: 0, y: 0 })
 
     this.line = new Konva.Line({
       stroke: Color.ITEM_NORMAL,
-      hitStrokeWidth: 20
+      hitStrokeWidth: 20,
+      name: 'node-item'
     })
     this.line.moveToBottom()
     this.add(this.line)
@@ -151,14 +138,15 @@ class Length extends BaseShape {
   _dragText() {
     this.textDragged = true
     // 判断是否存在虚线
-    this.dashLine = this.dashLine || this.findOne('.dashLine')
+    this.dashLine = this.dashLine || this.findOne('#dashLine')
     if (!this.dashLine) {
       this.dashLine = new Konva.Line({
         stroke: Color.ITEM_NORMAL,
         strokeWidth: 2,
         lineJoin: 'round',
         dash: [6, 3],
-        name: 'dashLine'
+        id: 'dashLine',
+        name: 'node-dashline'
       })
 
       this.add(this.dashLine)

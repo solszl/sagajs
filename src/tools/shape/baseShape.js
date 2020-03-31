@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-19, 02:00:27 (zhenliang.sun)
- * Last Modified: 2020-03-26, 11:12:16 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 00:07:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -37,6 +37,23 @@ class BaseShape extends Konva.Group {
   _onMouseOver(e) {
     // 鼠标滑过的时候 变成小手
     this.getStage().container().style.cursor = 'pointer'
+    this.find('.node-anchor').forEach(item => {
+      item.stroke(Color.ANCHOR_HOVER)
+    })
+
+    this.find('.node-item').forEach(item => {
+      item.stroke(Color.ITEM_HOVER)
+    })
+
+    this.find('.node-dashline').forEach(item => {
+      item.stroke(Color.ITEM_HOVER)
+    })
+
+    this.find('.node-label').forEach(item => {
+      item.fill(Color.TEXT_HOVER)
+    })
+
+    this.getLayer().batchDraw()
   }
 
   /**
@@ -49,6 +66,23 @@ class BaseShape extends Konva.Group {
   _onMouseOut(e) {
     // 鼠标离开的时候，恢复成自动
     this.getStage().container().style.cursor = 'auto'
+    this.find('.node-anchor').forEach(item => {
+      item.stroke(Color.ANCHOR_NORMAL)
+    })
+
+    this.find('.node-item').forEach(item => {
+      item.stroke(Color.ITEM_NORMAL)
+    })
+
+    this.find('.node-dashline').forEach(item => {
+      item.stroke(Color.ITEM_NORMAL)
+    })
+
+    this.find('.node-label').forEach(item => {
+      item.fill(Color.TEXT_NORMAL)
+    })
+
+    this.getLayer().batchDraw()
   }
 
   createAnchor() {
@@ -56,9 +90,10 @@ class BaseShape extends Konva.Group {
       fill: 'rgba(0,0,0,0.1)',
       stroke: Color.ANCHOR_NORMAL,
       strokeWidth: 2,
-      radius: 4,
+      radius: 7,
       hitStrokeWidth: 16,
-      draggable: true
+      draggable: true,
+      name: 'node-anchor'
     })
   }
 
