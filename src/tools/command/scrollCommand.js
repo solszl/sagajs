@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-30, 14:33:06 (zhenliang.sun)
- * Last Modified: 2020-03-30, 19:07:07 (zhenliang.sun)
+ * Last Modified: 2020-03-31, 15:57:29 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -25,10 +25,10 @@ class ScrollCommand extends BaseCommand {
     this._type = 'ScrollCommand'
     this.ee = {
       mousedown: this._mouseDown.bind(this),
-      mousemove: this._mouseMove.bind(this).throttle(50),
+      mousemove: this._mouseMove.bind(this).throttle(30),
       mouseup: this._mouseUp.bind(this),
       mouseleave: this._mouseUp.bind(this),
-      wheel: this._mouseWheel.bind(this).throttle(50)
+      wheel: this._mouseWheel.bind(this).throttle(30)
     }
 
     this._isMouseDown = false

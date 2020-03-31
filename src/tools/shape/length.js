@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:51:48 (zhenliang.sun)
- * Last Modified: 2020-03-27, 00:39:37 (zhenliang.sun)
+ * Last Modified: 2020-03-31, 18:35:09 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -13,7 +13,7 @@ import Point2D from '../../geometry/point2D'
 import { getRelativePointerPosition } from './../command/utils'
 import BaseShape from './baseShape'
 import { Color } from './theme'
-import { createTextComponent } from './utils'
+import { createTextComponent, getPoint2D, connectedObject } from './utils'
 
 /**
  * 长度测量工具
@@ -38,7 +38,7 @@ class Length extends BaseShape {
 
     this.line = null
 
-    this.text = null
+    this.textField = null
 
     this.dashLine = null
     // 如果抓取过文本，那么再拖动锚点的时候，文本就不再跟随锚点动了
@@ -83,19 +83,18 @@ class Length extends BaseShape {
     this.line.moveToBottom()
     this.add(this.line)
 
-    this.text = createTextComponent()
-    this.text.draggable(true)
-    this.add(this.text)
+    this.textField = createTextComponent()
+    this.textField.draggable(true)
+    this.add(this.textField)
 
     this.draggable(true)
 
     this.draw()
     ;[this.anchor1, this.anchor2].forEach(anchor => {
-      anchor.on('dragmove', this._dragAnchorMove.bind(this))
+      anchor.on('dragmove', this._dragAnchorMove.bind(this).throttle(50))
     })
 
-    this.text.on('dragstart', this._dragTextStart.bind(this))
-    this.text.on('dragmove', this._dragText.bind(this))
+    this.textField.on('dragmove', this._dragText.bind(this))
 
     this.on('dragmove', this._dragMove.bind(this))
   }
@@ -134,64 +133,23 @@ class Length extends BaseShape {
     // 如果拖过的话，那么就固定在那个位置。
     if (!this.textDragged) {
       const useAnchor = x2 - x1 > 0 ? this.anchor2 : this.anchor1
-      this.text.position({ x: useAnchor.x() + 10, y: useAnchor.y() })
+      this.textField.position({ x: useAnchor.x() + 10, y: useAnchor.y() })
     } else {
-      this._connectObject(this.text, this.anchor1, this.anchor2)
+      const p1 = getPoint2D(this.anchor1)
+      const p2 = getPoint2D(this.anchor2)
+      const p3 = new Point2D((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
+      const from = [p1, p2, p3]
+
+      connectedObject(this.textField, from, this.dashLine)
     }
 
-    this.text.text(len)
+    this.textField.text(len)
 
     this.getLayer().batchDraw()
   }
 
   _dragText() {
-    this._connectObject(this.text, this.anchor1, this.anchor2)
-    this.getStage().batchDraw()
-  }
-
-  _dragTextStart() {
     this.textDragged = true
-  }
-
-  _dragMove() {
-    // const mouse = getRelativePointerPosition(this.getStage())
-    // console.log(mouse)
-  }
-
-  _connectObject(text, anchor1, anchor2) {
-    // 分别求A,B,AB/2 点与text的距离
-    // 求出text的 左中、上中、右中、下中 的4个位置
-    const a = new Point2D(text.x(), text.y() + text.height() / 2)
-    const b = new Point2D(text.x() + text.width() / 2, text.y())
-    const c = new Point2D(text.x() + text.width(), text.y() + text.height() / 2)
-    const d = new Point2D(text.x() + text.width() / 2, text.y() + text.height())
-
-    // 求出2个锚点以及中间点的位置
-    const originA = new Point2D(anchor1.x(), anchor1.y())
-    const originB = new Point2D(anchor2.x(), anchor2.y())
-    const originAB2 = new Point2D(
-      (anchor1.x() + anchor2.x()) / 2,
-      (anchor1.y() + anchor2.y()) / 2
-    )
-
-    const from = [originA, originB, originAB2]
-    const to = [a, b, c, d]
-    let min = Number.MAX_SAFE_INTEGER
-    let formPoint = null
-    let toPoint = null
-
-    // 锚点也text的四边进行距离比对，求出最短路径对应的点
-    for (let i = 0; i < from.length; i += 1) {
-      for (let j = 0; j < to.length; j += 1) {
-        const distance = from[i].distance(to[j])
-        if (distance < min) {
-          formPoint = from[i]
-          toPoint = to[j]
-          min = distance
-        }
-      }
-    }
-
     // 判断是否存在虚线
     this.dashLine = this.dashLine || this.findOne('.dashLine')
     if (!this.dashLine) {
@@ -207,10 +165,17 @@ class Length extends BaseShape {
       this.dashLine.moveToBottom()
     }
 
-    // 定义虚线的点
-    const points = [formPoint.x, formPoint.y, toPoint.x, toPoint.y]
-    this.dashLine.points(points)
-    this.dashLine.draw()
+    const p1 = getPoint2D(this.anchor1)
+    const p2 = getPoint2D(this.anchor2)
+    const p3 = new Point2D((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
+    const from = [p1, p2, p3]
+    connectedObject(this.textField, from, this.dashLine)
+    this.getLayer().batchDraw()
+  }
+
+  _dragMove() {
+    // const mouse = getRelativePointerPosition(this.getStage())
+    // console.log(mouse)
   }
 }
 

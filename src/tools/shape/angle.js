@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-26, 12:29:42 (zhenliang.sun)
- * Last Modified: 2020-03-26, 22:42:54 (zhenliang.sun)
+ * Last Modified: 2020-03-31, 18:17:00 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -13,6 +13,8 @@ import { getRelativePointerPosition } from '../command/utils'
 import BaseShape from './baseShape'
 import { Color } from './theme'
 import Konva from 'konva'
+import Point2D from '../../geometry/point2D'
+import { createTextComponent, connectedObject, getPoint2D } from './utils'
 
 /**
  * 角度
@@ -51,6 +53,8 @@ class Angle extends BaseShape {
 
     this.draggable(true)
     this.on('dragmove', this._dragMove.bind(this))
+
+    this._calcAngleThrottle = this._calcAngle.throttle(50)
   }
 
   start() {
@@ -85,7 +89,10 @@ class Angle extends BaseShape {
   _mouseMove(e) {
     const mouse = getRelativePointerPosition(this.getStage())
     if (this.currentAnchor) {
-      this.currentAnchor.position({ x: mouse.x - this.x(), y: mouse.y - this.y() })
+      this.currentAnchor.position({
+        x: mouse.x - this.x(),
+        y: mouse.y - this.y()
+      })
     }
 
     this._dragAnchorMove()
@@ -96,7 +103,10 @@ class Angle extends BaseShape {
     const mouse = getRelativePointerPosition(this.getStage())
 
     if (this.currentAnchor) {
-      this.currentAnchor.position({ x: mouse.x - this.x(), y: mouse.y - this.y() })
+      this.currentAnchor.position({
+        x: mouse.x - this.x(),
+        y: mouse.y - this.y()
+      })
     }
 
     this.getLayer().batchDraw()
@@ -132,6 +142,14 @@ class Angle extends BaseShape {
       }
     })
 
+    if (this.textField) {
+      this.textField.fill(Color.TEXT_HOVER)
+    }
+
+    if (this.dashLine) {
+      this.dashLine.stroke(Color.ITEM_HOVER)
+    }
+
     this.getLayer().batchDraw()
   }
 
@@ -146,11 +164,18 @@ class Angle extends BaseShape {
       }
     })
 
+    if (this.textField) {
+      this.textField.fill(Color.TEXT_NORMAL)
+    }
+
+    if (this.dashLine) {
+      this.dashLine.stroke(Color.ITEM_NORMAL)
+    }
+
     this.getLayer().batchDraw()
   }
 
-  _dragMove() {
-  }
+  _dragMove() {}
 
   _dragAnchorMove() {
     const anchor1 = this.anchors[0]
@@ -192,11 +217,75 @@ class Angle extends BaseShape {
     }
 
     this.line2.points(points)
+    this._calcAngleThrottle()
+
+    if (this.textDragged) {
+      const p1 = getPoint2D(this.anchors[0])
+      const p2 = getPoint2D(this.anchors[1])
+      const p3 = getPoint2D(this.anchors[2])
+      const from = [p1, p2, p3]
+
+      connectedObject(this.textField, from, this.dashLine)
+    }
 
     this.getLayer().batchDraw()
   }
 
-  _dragTextFieldMove() {}
+  _dragTextFieldMove() {
+    this.textDragged = true
+
+    // 判断是否存在虚线
+    this.dashLine = this.dashLine || this.findOne('.dashLine')
+    if (!this.dashLine) {
+      this.dashLine = new Konva.Line({
+        stroke: Color.ITEM_HOVER,
+        strokeWidth: 2,
+        lineJoin: 'round',
+        dash: [6, 3],
+        name: 'dashLine'
+      })
+
+      this.add(this.dashLine)
+      this.dashLine.moveToBottom()
+    }
+
+    const p1 = getPoint2D(this.anchors[0])
+    const p2 = getPoint2D(this.anchors[1])
+    const p3 = getPoint2D(this.anchors[2])
+    const from = [p1, p2, p3]
+    connectedObject(this.textField, from, this.dashLine)
+  }
+
+  /**
+   * 计算角度, 余弦定理 cosA = (AB*AB + AC*AC - BC*BC) / (2 * AB * AC)
+   * via: https://blog.csdn.net/zhang1244j/article/details/55053184
+   *
+   * @memberof Angle
+   */
+  _calcAngle() {
+    const p1 = getPoint2D(this.anchors[0])
+    const p2 = getPoint2D(this.anchors[1])
+    const p3 = getPoint2D(this.anchors[2])
+
+    const cosP2 =
+      (p2.distance(p1) ** 2 + p2.distance(p3) ** 2 - p1.distance(p3) ** 2) /
+      (2 * p2.distance(p3) * p2.distance(p1))
+
+    const angleP2 = ((Math.acos(cosP2) * 180) / Math.PI).toFixed(1)
+
+    if (!this.textField) {
+      this.textField = createTextComponent()
+      this.textField.position({ x: p2.x + 10, y: p2.y })
+      this.textField.draggable(true)
+      this.textField.on(
+        'dragmove',
+        this._dragTextFieldMove.bind(this).throttle(30)
+      )
+      this.add(this.textField)
+    }
+
+    this.textField.text(`${angleP2}°`)
+  }
 }
 
 export default Angle

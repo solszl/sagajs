@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 21:13:03 (zhenliang.sun)
- * Last Modified: 2020-03-19, 02:26:09 (zhenliang.sun)
+ * Last Modified: 2020-03-31, 18:24:05 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -10,16 +10,17 @@
 
 import Konva from 'konva'
 import { Color } from '../theme'
+import Point2D from '../../../geometry/point2D'
 
 /** 常量PI */
 export const PI = 3.1415926
 
 const SHADOW = {
   shadowColor: Color.SHADOW,
-  shadowBlur: 2,
+  shadowBlur: 1,
   shadowOffsetX: 1,
   shadowOffsetY: 1,
-  shadowOpacity: 0.5,
+  shadowOpacity: 0.8,
   cornerRadius: 10
 }
 
@@ -29,7 +30,8 @@ export function createTextComponent(text = '') {
     Object.assign(
       {
         text,
-        fontSize: 12,
+        fontSize: 15,
+        align: 'center',
         fill: Color.TEXT_NORMAL
       },
       SHADOW
@@ -55,42 +57,52 @@ export function createAnchor(radius = 6) {
 }
 
 /**
- * 连接2个容器， 根据2个容器的位置自动补全2个容器之间的连线。
- * fixedNode 的上下左右，node 的上下左右
+ * 链接指定文本与指定选点之间的连线
  *
  * @export
- * @param {*} fixedNode 通常来讲是固定的组件容器
- * @param {*} node 文案容器
+ * @param {*} textNode 文本
+ * @param {*} from 选点数组
+ * @param {*} dashLine 虚线， 不可为空
  */
-export function connectedObject(fixedNode, node, line) {
-  const group = fixedNode.getParent()
+export function connectedObject(textNode, from, dashLine) {
+  const text = textNode
+  // 求出textNode的 左中、上中、右中、下中 的4个位置
+  const a = new Point2D(text.x(), text.y() + text.height() / 2)
+  const b = new Point2D(text.x() + text.width() / 2, text.y())
+  const c = new Point2D(text.x() + text.width(), text.y() + text.height() / 2)
+  const d = new Point2D(text.x() + text.width() / 2, text.y() + text.height())
 
-  console.log('group', group.x(), group.y(), group.width(), group.height())
-  console.log(
-    'fixedNode',
-    fixedNode.x(),
-    fixedNode.y(),
-    fixedNode.width(),
-    fixedNode.height()
-  )
-  // console.log('node:', node.x(), node.y(), node.width(), node.height())
+  const to = [a, b, c, d]
 
-  line = line || group.findOne('.dashLine')
-  if (!line) {
-    line = new Konva.Line({
-      stroke: Color.ITEM_NORMAL,
-      strokeWidth: 2,
-      lineJoin: 'round',
-      dash: [6, 3],
-      name: 'dashLine'
-    })
+  let min = Number.MAX_SAFE_INTEGER
+  let formPoint = null
+  let toPoint = null
 
-    group.add(line)
-    line.moveToBottom()
+  // 锚点也text的四边进行距离比对，求出最短路径对应的点
+  for (let i = 0; i < from.length; i += 1) {
+    for (let j = 0; j < to.length; j += 1) {
+      const distance = from[i].distance(to[j])
+      if (distance < min) {
+        formPoint = from[i]
+        toPoint = to[j]
+        min = distance
+      }
+    }
   }
 
-  const points = [fixedNode.x(), fixedNode.y(), node.x(), node.y()]
-  line.points(points)
-  line.draw()
-  // const dashLine = new
+  // 定义虚线的点
+  const points = [formPoint.x, formPoint.y, toPoint.x, toPoint.y]
+  dashLine.points(points)
+  dashLine.draw()
+}
+
+/**
+ * 根据Konva 的 node 节点生成一个Point2D类型点
+ *
+ * @export
+ * @param {*} node
+ * @returns
+ */
+export function getPoint2D(node) {
+  return new Point2D(node.x(), node.y())
 }
