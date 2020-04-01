@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-25, 16:29:52 (zhenliang.sun)
- * Last Modified: 2020-04-01, 00:07:10 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 11:20:37 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -58,12 +58,12 @@ class Ellipse extends BaseShape {
     this.anchor1 = this.createAnchor()
     this.add(this.anchor1)
     this.anchor1.position({ x: 0, y: 0 })
-    this.anchor1.on('dragmove', this._dragAnchorMove.bind(this))
+    this.anchor1.on('dragmove', this._dragAnchorMove.bind(this).throttle(30))
 
     this.anchor2 = this.createAnchor()
     this.add(this.anchor2)
     this.anchor2.position({ x: 0, y: 0 })
-    this.anchor2.on('dragmove', this._dragAnchorMove.bind(this))
+    this.anchor2.on('dragmove', this._dragAnchorMove.bind(this).throttle(30))
 
     this.ellipse = new Konva.Ellipse({
       stroke: Color.ITEM_NORMAL,
