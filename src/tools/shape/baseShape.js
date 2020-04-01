@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-19, 02:00:27 (zhenliang.sun)
- * Last Modified: 2020-04-01, 00:07:10 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 20:49:25 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -39,6 +39,7 @@ class BaseShape extends Konva.Group {
     this.getStage().container().style.cursor = 'pointer'
     this.find('.node-anchor').forEach(item => {
       item.stroke(Color.ANCHOR_HOVER)
+      item.show()
     })
 
     this.find('.node-item').forEach(item => {
@@ -68,6 +69,7 @@ class BaseShape extends Konva.Group {
     this.getStage().container().style.cursor = 'auto'
     this.find('.node-anchor').forEach(item => {
       item.stroke(Color.ANCHOR_NORMAL)
+      item.hide()
     })
 
     this.find('.node-item').forEach(item => {
