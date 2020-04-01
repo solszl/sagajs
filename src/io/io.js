@@ -10,7 +10,7 @@ import IEvent from '../component/event'
 /**
  *
  * Created Date: 2020-01-19, 01:52:21 (zhenliang.sun)
- * Last Modified: 2020-02-01, 01:52:46 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 11:35:59 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -79,8 +79,8 @@ export default class IO extends IEvent {
     console.log('all complete')
   }
 
-  _next() {
-    const task = this.context.pick()
+  async _next() {
+    const task = await this.context.pick()
     this.loader.load(task.imageId)
   }
 }

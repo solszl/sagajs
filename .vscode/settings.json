@@ -9,6 +9,7 @@
     "konva",
     "layui",
     "loglevel",
+    "nanodelay",
     "nanoevents",
     "rsis",
     "sagajs",

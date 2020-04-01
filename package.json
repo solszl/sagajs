@@ -41,6 +41,7 @@
     "konva": "^4.2.2",
     "loglevel": "^1.6.7",
     "mousetrap": "^1.6.5",
+    "nanodelay": "^1.0.1",
     "nanoevents": "^5.1.5",
     "nanoid": "^3.0.2",
     "ora": "^4.0.3",
