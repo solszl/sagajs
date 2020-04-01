@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:02:20 (zhenliang.sun)
- * Last Modified: 2020-03-17, 01:12:49 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 11:04:40 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -38,7 +38,6 @@ class LengthCommand extends BaseCommand {
 
   _mouseDown(e) {
     // 应该判断一下 e.target 是什么，有没有必要添加一个新的长度工具
-    log.error(e.target)
     if (e.target instanceof Konva.Image) {
       const { spacing } = this.view.image.geometry
       const lengthItem = new Length(spacing)

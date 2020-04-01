@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:51:48 (zhenliang.sun)
- * Last Modified: 2020-04-01, 00:07:10 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 11:04:03 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -78,7 +78,7 @@ class Length extends BaseShape {
 
     this.draw()
     ;[this.anchor1, this.anchor2].forEach(anchor => {
-      anchor.on('dragmove', this._dragAnchorMove.bind(this).throttle(50))
+      anchor.on('dragmove', this._dragAnchorMove.bind(this).throttle(30))
     })
 
     this.textField.on('dragmove', this._dragText.bind(this))
