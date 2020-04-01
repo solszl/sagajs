@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-12, 00:00:55 (zhenliang.sun)
- * Last Modified: 2020-03-14, 15:16:28 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 20:57:54 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -11,6 +11,8 @@
 import BaseCommand from './baseCommand'
 import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
 const ZOOM_STEP = 0.02
+const ZOOM_MIN = 0.1
+const ZOOM_MAX = 10
 
 /**
  * 缩放功能、基于当前舞台的位置进行缩放
@@ -91,6 +93,11 @@ class ZoomCommand extends BaseCommand {
   __calcNewScale(signDelta) {
     const oldScale = this.stage.scaleX()
     const newScale = oldScale + signDelta * ZOOM_STEP
+
+    if (newScale > ZOOM_MAX || newScale < ZOOM_MIN) {
+      return oldScale
+    }
+
     return newScale
   }
 
