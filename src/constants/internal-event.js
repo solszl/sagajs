@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-02-25, 23:56:38 (zhenliang.sun)
- * Last Modified: 2020-03-14, 13:30:38 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 16:02:35 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -21,6 +21,6 @@ export const INTERNAL_EVENT_ENUM = {
   WWWC_CHANGE: 'internal_wwwc_change',
   /** 反色命令 */
   INVERSE_COLOR: 'internal_inverse_color',
-  /** 重置位置、缩放、窗宽窗位 */
+  /** 重置位置、缩放、窗宽窗位、水平翻转、角度旋转、反色 */
   RESET: 'internal_reset'
 }

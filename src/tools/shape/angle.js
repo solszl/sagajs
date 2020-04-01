@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-26, 12:29:42 (zhenliang.sun)
- * Last Modified: 2020-04-01, 00:01:30 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 17:19:26 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -98,12 +98,10 @@ class Angle extends BaseShape {
   }
 
   _mouseUp(e) {
+    const mouse = getRelativePointerPosition(this.getStage())
+    const targetPosition = { x: mouse.x - this.x(), y: mouse.y - this.y() }
     if (this.currentAnchor) {
-      const mouse = getRelativePointerPosition(this.getStage())
-      this.currentAnchor.position({
-        x: mouse.x - this.x(),
-        y: mouse.y - this.y()
-      })
+      this.currentAnchor.position(targetPosition)
     }
 
     this.getLayer().batchDraw()
@@ -119,7 +117,7 @@ class Angle extends BaseShape {
 
     const nextAnchor = this.createAnchor()
     nextAnchor.moveToTop()
-    nextAnchor.position({ x: 0, y: 0 })
+    nextAnchor.position(targetPosition)
     nextAnchor.on('dragmove', this._dragAnchorMove.bind(this))
     this.add(nextAnchor)
     this.currentAnchor = nextAnchor
