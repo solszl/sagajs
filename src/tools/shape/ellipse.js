@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-25, 16:29:52 (zhenliang.sun)
- * Last Modified: 2020-04-01, 11:20:37 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 22:00:38 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -69,9 +69,9 @@ class Ellipse extends BaseShape {
       stroke: Color.ITEM_NORMAL,
       strokeWidth: 2,
       hitStrokeWidth: 20,
-      name: 'node-item'
+      name: 'node-item',
+      zIndex: 0
     })
-    this.ellipse.moveToBottom()
     this.add(this.ellipse)
 
     this.draggable(true)

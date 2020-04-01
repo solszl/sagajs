@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-26, 12:29:42 (zhenliang.sun)
- * Last Modified: 2020-04-01, 17:19:26 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 21:59:47 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -71,7 +71,6 @@ class Angle extends BaseShape {
       const anchor = this.createAnchor()
       anchor.position({ x: 0, y: 0 })
       anchor.on('dragmove', this._dragAnchorMove.bind(this))
-      anchor.moveToTop()
       this.add(anchor)
       this.currentAnchor = anchor
 
@@ -116,7 +115,6 @@ class Angle extends BaseShape {
     }
 
     const nextAnchor = this.createAnchor()
-    nextAnchor.moveToTop()
     nextAnchor.position(targetPosition)
     nextAnchor.on('dragmove', this._dragAnchorMove.bind(this))
     this.add(nextAnchor)
@@ -199,11 +197,11 @@ class Angle extends BaseShape {
         lineJoin: 'round',
         dash: [6, 3],
         id: 'dashLine',
-        name: 'node-dashline'
+        name: 'node-dashline',
+        zIndex: 0
       })
 
       this.add(this.dashLine)
-      this.dashLine.moveToBottom()
     }
 
     const p1 = getPoint2D(this.anchors[0])

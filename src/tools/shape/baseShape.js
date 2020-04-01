@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-19, 02:00:27 (zhenliang.sun)
- * Last Modified: 2020-04-01, 20:49:25 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 21:58:28 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -40,6 +40,8 @@ class BaseShape extends Konva.Group {
     this.find('.node-anchor').forEach(item => {
       item.stroke(Color.ANCHOR_HOVER)
       item.show()
+      const count = item.getParent().getChildren().length - 1
+      item.zIndex(count)
     })
 
     this.find('.node-item').forEach(item => {

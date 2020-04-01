@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:51:48 (zhenliang.sun)
- * Last Modified: 2020-04-01, 11:04:03 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 22:00:49 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -67,7 +67,6 @@ class Length extends BaseShape {
       hitStrokeWidth: 20,
       name: 'node-item'
     })
-    this.line.moveToBottom()
     this.add(this.line)
 
     this.textField = createTextComponent()
@@ -150,7 +149,6 @@ class Length extends BaseShape {
       })
 
       this.add(this.dashLine)
-      this.dashLine.moveToBottom()
     }
 
     const p1 = getPoint2D(this.anchor1)
