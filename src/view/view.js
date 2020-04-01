@@ -6,10 +6,11 @@ import Rescale from '../image/lut/rescale'
 import W from '../image/lut/window'
 import WWWC from '../image/lut/wwwc'
 import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
+import log from 'loglevel'
 /**
  *
  * Created Date: 2020-02-02, 16:04:54 (zhenliang.sun)
- * Last Modified: 2020-03-25, 00:44:09 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 17:49:39 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -125,6 +126,18 @@ export default class View extends TXComponent {
     const offset = x + y * row // 是 x+y*row, 并不是 x* column+y, 头疼。。。
 
     return rsi.apply(originPixelData[offset])
+  }
+
+  destroy() {
+    super.destroy()
+    log.info('[view] destroy.')
+    this.image.destroy()
+    this.windowLut.destroy()
+    this._colourMap = null
+    this.currentSliceIndex = null
+    this.currentWWWC = null
+    this.windowLut = null
+    this.image = null
   }
 
   set urls(urls) {

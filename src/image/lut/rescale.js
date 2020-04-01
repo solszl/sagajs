@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-02-04, 23:24:17 (zhenliang.sun)
- * Last Modified: 2020-02-16, 03:23:05 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 17:48:39 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -31,5 +31,11 @@ export default class Rescale {
 
   getValue(offset) {
     return this.lut[offset]
+  }
+
+  destroy() {
+    this.rsi = null
+    this.lut = null
+    this.length = 0
   }
 }

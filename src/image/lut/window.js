@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-02-16, 01:27:11 (zhenliang.sun)
- * Last Modified: 2020-02-16, 03:19:12 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 17:48:39 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -45,6 +45,13 @@ class W {
 
   getValue(offset) {
     return this.lut[offset + this.signedShift]
+  }
+
+  destroy() {
+    this.rescaleLut.destroy()
+    this.rescaleLut = null
+    this.lut = null
+    this.wwwc = null
   }
 }
 

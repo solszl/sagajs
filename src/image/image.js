@@ -10,11 +10,12 @@ import Vector3D from '../geometry/vector3D'
 import IO from '../io/io'
 import { parse } from '../io/process/dataProcess'
 import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
+import log from 'loglevel'
 
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-03-24, 11:19:11 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 17:48:39 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -57,7 +58,7 @@ export default class Image extends IEvent {
     // 添加校准系数
     const { slope, intercept } = parsedObject
     const rsi = new RescaleSlopeIntercept(slope, intercept)
-    if(this.rsis.length < slicePosition) {
+    if (this.rsis.length < slicePosition) {
       this.rsis.length = slicePosition - 1
     }
     this.rsis.splice(slicePosition - 1, 0, rsi)
@@ -138,5 +139,17 @@ export default class Image extends IEvent {
     const { pixelData, slicePosition } = parsedObject
     this.appendSlice(parsedObject)
     this.appendBuffer(pixelData, slicePosition)
+  }
+
+  destroy() {
+    log.info('[image] destroy')
+
+    this.io.destroy()
+    this.io = null
+
+    this.pixelBuffer.clear()
+    this.pixelBuffer = null
+    this.rsis = []
+    this.geometry = null
   }
 }
