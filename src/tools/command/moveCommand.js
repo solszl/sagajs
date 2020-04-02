@@ -4,7 +4,7 @@ import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
 /**
  *
  * Created Date: 2020-03-10, 00:40:58 (zhenliang.sun)
- * Last Modified: 2020-03-14, 15:16:29 (zhenliang.sun)
+ * Last Modified: 2020-04-02, 15:41:49 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -22,9 +22,9 @@ class MoveCommand extends BaseCommand {
   constructor(container) {
     super(container)
     this._type = 'MoveCommand'
-    this.ee = {
+    Object.assign(this.ee, {
       mouseup: this._mouseUp.bind(this)
-    }
+    })
 
     this._isDown = false
   }

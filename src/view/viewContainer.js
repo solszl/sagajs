@@ -9,7 +9,7 @@ import './../utils/limit'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-04-01, 18:00:49 (zhenliang.sun)
+ * Last Modified: 2020-04-02, 11:13:56 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -148,6 +148,12 @@ class ViewContainer {
 
     this.stage.destroy()
     this.stage = null
+
+    this.imageData = null
+    this.staticLayer.destroy()
+    this.dynamicLayer.destroy()
+    this.dicomImage.destroy()
+    this.dynamicGroup.destroy()
   }
 }
 

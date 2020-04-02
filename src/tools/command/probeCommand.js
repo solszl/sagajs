@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 14:51:55 (zhenliang.sun)
- * Last Modified: 2020-03-16, 00:23:29 (zhenliang.sun)
+ * Last Modified: 2020-04-02, 15:42:16 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -25,12 +25,12 @@ class ProbeCommand extends BaseCommand {
 
     this.config = config
 
-    this.ee = {
+    Object.assign(this.ee, {
       mousedown: this._mouseDown.bind(this),
       mousemove: this._mouseMove.bind(this),
       mouseup: this._mouseUp.bind(this),
       mouseleave: this._mouseUp.bind(this)
-    }
+    })
 
     this._isDown = false
     this._type = 'ProbeCommand'

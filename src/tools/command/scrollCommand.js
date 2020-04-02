@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-30, 14:33:06 (zhenliang.sun)
- * Last Modified: 2020-03-31, 15:57:29 (zhenliang.sun)
+ * Last Modified: 2020-04-02, 15:40:30 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -23,13 +23,12 @@ class ScrollCommand extends BaseCommand {
     super(container)
 
     this._type = 'ScrollCommand'
-    this.ee = {
+    Object.assign(this.ee, {
       mousedown: this._mouseDown.bind(this),
       mousemove: this._mouseMove.bind(this).throttle(30),
       mouseup: this._mouseUp.bind(this),
-      mouseleave: this._mouseUp.bind(this),
-      wheel: this._mouseWheel.bind(this).throttle(30)
-    }
+      mouseleave: this._mouseUp.bind(this)
+    })
 
     this._isMouseDown = false
     this.mouseY = 0
@@ -65,13 +64,6 @@ class ScrollCommand extends BaseCommand {
 
   _mouseUp(e) {
     this._isMouseDown = false
-  }
-
-  _mouseWheel(e) {
-    e.evt.preventDefault()
-    const sliceIndex = this.view.sliceIndex.clone()
-    sliceIndex.k += Math.sign(e.evt.deltaY)
-    this.view.sliceIndex = sliceIndex
   }
 }
 

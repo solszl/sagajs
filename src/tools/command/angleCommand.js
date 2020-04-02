@@ -1,17 +1,17 @@
 /**
  *
  * Created Date: 2020-03-26, 12:04:54 (zhenliang.sun)
- * Last Modified: 2020-03-26, 21:25:14 (zhenliang.sun)
+ * Last Modified: 2020-04-02, 15:40:53 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import BaseCommand from './baseCommand'
-import log from 'loglevel'
 import Konva from 'konva'
+import log from 'loglevel'
 import Angle from '../shape/angle'
+import BaseCommand from './baseCommand'
 
 /**
  * 角度测量命令
@@ -23,9 +23,9 @@ class AngleCommand extends BaseCommand {
   constructor(container) {
     super(container)
 
-    this.ee = {
+    Object.assign(this.ee, {
       mousedown: this._mouseDown.bind(this)
-    }
+    })
 
     this._createItemCompleted = true
   }
@@ -38,7 +38,7 @@ class AngleCommand extends BaseCommand {
 
   _mouseDown(e) {
     if (e.target instanceof Konva.Image) {
-      if(this._createItemCompleted === false) {
+      if (this._createItemCompleted === false) {
         return
       }
 

@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-25, 11:26:54 (zhenliang.sun)
- * Last Modified: 2020-03-25, 16:48:43 (zhenliang.sun)
+ * Last Modified: 2020-04-02, 15:41:07 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -24,9 +24,9 @@ class EllipseCommand extends BaseCommand {
     super(container)
     this._type = 'EllipseCommand'
 
-    this.ee = {
+    Object.assign(this.ee, {
       mousedown: this._mouseDown.bind(this)
-    }
+    })
   }
 
   execute() {

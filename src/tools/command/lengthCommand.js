@@ -1,17 +1,16 @@
 /**
  *
  * Created Date: 2020-03-16, 16:02:20 (zhenliang.sun)
- * Last Modified: 2020-04-01, 11:04:40 (zhenliang.sun)
+ * Last Modified: 2020-04-02, 15:41:28 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import BaseCommand from './baseCommand'
-import Length from '../shape/length'
-import log from 'loglevel'
 import Konva from 'konva'
+import Length from '../shape/length'
+import BaseCommand from './baseCommand'
 
 /**
  * 长度测量工具
@@ -25,9 +24,9 @@ class LengthCommand extends BaseCommand {
     super(container)
     this._type = 'LengthCommand'
 
-    this.ee = {
+    Object.assign(this.ee, {
       mousedown: this._mouseDown.bind(this)
-    }
+    })
   }
 
   execute() {

@@ -2,7 +2,7 @@
 
  *
  * Created Date: 2020-03-14, 13:21:31 (zhenliang.sun)
- * Last Modified: 2020-03-26, 23:56:35 (zhenliang.sun)
+ * Last Modified: 2020-04-02, 15:42:36 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -22,12 +22,12 @@ class WWWCCommand extends BaseCommand {
   constructor(container) {
     super(container)
 
-    this.ee = {
+    Object.assign(this.ee, {
       mousedown: this._mouseDown.bind(this),
       mousemove: this._mouseMove.bind(this),
       mouseup: this._mouseUp.bind(this),
       mouseleave: this._mouseUp.bind(this)
-    }
+    })
 
     this._isDown = false
     this.mouse = { x: 0, y: 0 }

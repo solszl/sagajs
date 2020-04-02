@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-12, 00:00:55 (zhenliang.sun)
- * Last Modified: 2020-04-01, 20:57:54 (zhenliang.sun)
+ * Last Modified: 2020-04-02, 16:18:41 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -26,13 +26,13 @@ class ZoomCommand extends BaseCommand {
   constructor(container) {
     super(container)
     this._type = 'ZoomCommand'
-    this.ee = {
+    Object.assign(this.ee, {
       mousedown: this._mouseDown.bind(this),
       mousemove: this._mouseMove.bind(this),
       mouseup: this._mouseUp.bind(this),
-      mouseleave: this._mouseUp.bind(this),
-      wheel: this._onWheel.bind(this)
-    }
+      mouseleave: this._mouseUp.bind(this)
+      // wheel: this._onWheel.bind(this)
+    })
 
     this._isDown = false
     this.mouse = { x: 0, y: 0 }
@@ -76,19 +76,19 @@ class ZoomCommand extends BaseCommand {
     this._isDown = false
   }
 
-  _onWheel(e) {
-    // 阻止浏览器滚轮默认事件
-    e.evt.preventDefault()
-    const scale = this.__calcNewScale(Math.sign(e.evt.deltaY))
-    const position = this.__calcNewPosition(scale)
+  // _onWheel(e) {
+  //   // 阻止浏览器滚轮默认事件
+  //   e.evt.preventDefault()
+  //   const scale = this.__calcNewScale(Math.sign(e.evt.deltaY))
+  //   const position = this.__calcNewPosition(scale)
 
-    this.stage.scale({ x: scale, y: scale })
-    this.stage.position(position)
-    this.stage.batchDraw()
+  //   this.stage.scale({ x: scale, y: scale })
+  //   this.stage.position(position)
+  //   this.stage.batchDraw()
 
-    this.stage.fire(INTERNAL_EVENT_ENUM.ZOOM_CHANGE, { scale })
-    this.stage.fire(INTERNAL_EVENT_ENUM.POSITION_CHANGE, { position })
-  }
+  //   this.stage.fire(INTERNAL_EVENT_ENUM.ZOOM_CHANGE, { scale })
+  //   this.stage.fire(INTERNAL_EVENT_ENUM.POSITION_CHANGE, { position })
+  // }
 
   __calcNewScale(signDelta) {
     const oldScale = this.stage.scaleX()

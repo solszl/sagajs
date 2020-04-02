@@ -17,7 +17,7 @@ import PlaybackCommand from '../src/tools/command/playbackCommand'
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-04-01, 21:49:36 (zhenliang.sun)
+ * Last Modified: 2020-04-02, 15:32:17 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -27,7 +27,7 @@ import PlaybackCommand from '../src/tools/command/playbackCommand'
 log.setDefaultLevel(1)
 
 const urls = []
-for (let i = 1; i < 4; i += 1) {
+for (let i = 1; i < 40; i += 1) {
   urls.push(
     // `http://127.0.0.1:8887/1.2.840.113619.2.278.3.2831172146.890.1539296548.557.${i}`
     `http://127.0.0.1:8887/${i}`
