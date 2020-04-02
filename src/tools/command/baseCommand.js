@@ -2,7 +2,7 @@ import log from 'loglevel'
 /**
  *
  * Created Date: 2020-03-10, 00:32:15 (zhenliang.sun)
- * Last Modified: 2020-04-02, 15:40:26 (zhenliang.sun)
+ * Last Modified: 2020-04-02, 22:57:32 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -42,7 +42,7 @@ class BaseCommand {
 
   removeEvents() {
     for (const event in this.ee) {
-      this.stage.removeEventListener(event, this.ee[event])
+      this.stage.off(event, this.ee[event])
     }
   }
 
