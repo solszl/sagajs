@@ -1,34 +1,44 @@
-import IO from '../io/io'
+import IEvent from '../component/event'
 import { LOAD_EVENT_ENUM } from '../constants/loader-event'
-import { parse } from '../io/process/dataProcess'
-import Size from '../geometry/size'
 import Geometry from '../geometry/geometry'
-import Point3D from '../geometry/point3D'
-import Vector3D from '../geometry/vector3D'
 import Matrix33 from '../geometry/matrix33'
-import Spacing from '../geometry/spacing'
+import Point3D from '../geometry/point3D'
 import RescaleSlopeIntercept from '../geometry/rescaleSlopeIntercept'
+import Size from '../geometry/size'
+import Spacing from '../geometry/spacing'
+import Vector3D from '../geometry/vector3D'
+import IO from '../io/io'
+import { parse } from '../io/process/dataProcess'
+import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
+import log from 'loglevel'
 
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-02-15, 02:45:39 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 17:48:39 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-export default class Image {
+export default class Image extends IEvent {
   constructor() {
+    super()
     this.io = new IO()
     this.io.on(
       LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE,
       this._itemLoadComplete.bind(this)
     )
+
+    // 是否是首次加载完成、首次的话构建一些必要数据
     this.firstParse = true
+    // 加载进来所有图片的数据缓存
     this.pixelBuffer = new Map()
     this.rsis = []
+
+    // 元数据
+    this.metaData = {}
   }
 
   setURLS(urls) {
@@ -39,13 +49,19 @@ export default class Image {
     // 给空间追加各种信息
     const { origin, slicePosition } = parsedObject
     // this.geometry.size.increaseSlice()
+    // 序列不一定是顺序递增的，可能跳跃增加也有可能不全。所以总数量需要按照元数据解析出来的数量匹配
+    // 使用这种方式后，可能造成的问题是，如果不是完整数据某些页数据可能不存在
+    // 如，原始数据[1,2,3,4,5,6]  给定的数据为 [2,3,5], 这样最大层数为5 获取数据的时候，1，4可能为空
     this.geometry.size.increaseSliceTo(slicePosition)
     this.geometry.appendOrigin(origin, slicePosition)
 
     // 添加校准系数
     const { slope, intercept } = parsedObject
     const rsi = new RescaleSlopeIntercept(slope, intercept)
-    this.rsis.splice(slicePosition, 0, rsi)
+    if (this.rsis.length < slicePosition) {
+      this.rsis.length = slicePosition - 1
+    }
+    this.rsis.splice(slicePosition - 1, 0, rsi)
   }
 
   appendBuffer(pixelBuffer, index) {
@@ -88,17 +104,52 @@ export default class Image {
     this.geometry = new Geometry(_origin, _spacing, _size, _orientationMatrix)
   }
 
+  /**
+   * 填充元数据
+   *
+   * @param {*} parsedObject
+   * @memberof Image
+   */
+  createMetaData(parsedObject) {
+    const { bitsStored, pixelRepresentation } = parsedObject
+    this.metaData = {
+      bitsStored,
+      pixelRepresentation
+    }
+  }
+
   async _itemLoadComplete(e) {
     console.log('dicom加载完成', e)
     const { buffer } = e
     const parsedObject = await parse(buffer)
     if (this.firstParse) {
       this.createGeometry(parsedObject)
+      this.createMetaData(parsedObject)
+
+      const { pixelData, slicePosition } = parsedObject
+      this.appendSlice(parsedObject)
+      this.appendBuffer(pixelData, slicePosition)
+
+      // 向上层派发第一张dicom文件加载完成事件
+      this.emit(INTERNAL_EVENT_ENUM.FIRST_SLICE_LOAD_COMPLETED)
       this.firstParse = false
+      return
     }
 
     const { pixelData, slicePosition } = parsedObject
     this.appendSlice(parsedObject)
     this.appendBuffer(pixelData, slicePosition)
+  }
+
+  destroy() {
+    log.info('[image] destroy')
+
+    this.io.destroy()
+    this.io = null
+
+    this.pixelBuffer.clear()
+    this.pixelBuffer = null
+    this.rsis = []
+    this.geometry = null
   }
 }

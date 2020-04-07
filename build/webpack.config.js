@@ -13,7 +13,7 @@ const HappyPack = require('happypack')
 const os = require('os')
 const chalk = require('chalk')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const config = require('./config')
 const version = require('../package.json').version
 function resolve(dir) {
@@ -28,7 +28,8 @@ const baseConfig = {
   devtool: isProd ? '' : 'source-map',
   entry: {
     sdk: resolve('src/index.js'),
-    'demo/test': resolve('demo/index.js')
+    'demo/test': resolve('demo/viewContainer.js'),
+    'demo/sync/sync': resolve('demo/sync/demo-sync.js')
   },
   output: {
     filename: '[name].js',
@@ -59,6 +60,13 @@ const baseConfig = {
       inject: 'body',
       minify: true,
       chunks: ['demo/test']
+    }),
+    new HtmlWebpackPlugin({
+      template: resolve('demo/sync/index.html'),
+      filename: resolve('demo/sync/index.html'),
+      inject: 'body',
+      minify: true,
+      chunks: ['demo/sync/sync']
     }),
     new HappyPack({
       id: 'happy-babel',
@@ -98,10 +106,7 @@ module.exports = () => {
         minimize: false
       },
       plugins: [
-        new CleanWebpackPlugin([`dist/${version}/${process.env.BUILD_ENV}`], {
-          root: resolve('.'),
-          verbose: true
-        }),
+        new CleanWebpackPlugin(),
         new ProgressBarPlugin({
           format:
             '  build [:bar] ' +

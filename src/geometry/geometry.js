@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 15:57:44 (zhenliang.sun)
- * Last Modified: 2020-02-01, 00:06:47 (zhenliang.sun)
+ * Last Modified: 2020-03-14, 19:42:23 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -34,8 +34,4 @@ export default class Geometry {
   appendOrigin(origin, index) {
     this.origins.splice(index, 0, origin)
   }
-
-  localToGlobal(index3d) {}
-
-  globalToLocal(point3d) {}
 }

@@ -1,9 +1,9 @@
-import NanoEvents from 'nanoevents'
+import { createNanoEvents } from 'nanoevents'
 
 /**
  *
  * Created Date: 2020-01-19, 17:23:55 (zhenliang.sun)
- * Last Modified: 2020-01-31, 03:09:40 (zhenliang.sun)
+ * Last Modified: 2020-03-25, 00:59:07 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -19,7 +19,7 @@ import NanoEvents from 'nanoevents'
  */
 export default class IEvent {
   constructor() {
-    this.emitter = new NanoEvents()
+    this.emitter = createNanoEvents()
   }
 
   on() {

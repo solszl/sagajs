@@ -3,7 +3,7 @@ import IEvent from './event'
 /**
  *
  * Created Date: 2020-01-21, 16:03:26 (zhenliang.sun)
- * Last Modified: 2020-01-31, 03:09:16 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 17:50:39 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -22,5 +22,10 @@ export default class TXComponent extends IEvent {
     super()
   }
 
-  destroy() {}
+  destroy() {
+    const events = this.emitter.events
+    for (const key in events) {
+      delete events[key]
+    }
+  }
 }

@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-02-03, 00:00:55 (zhenliang.sun)
- * Last Modified: 2020-02-03, 00:03:21 (zhenliang.sun)
+ * Last Modified: 2020-03-30, 17:53:41 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -10,24 +10,16 @@
 
 export default class Index3D {
   constructor(i, j, k) {
-    this._i = i
-    this._j = j
-    this._k = k
+    this.i = i
+    this.j = j
+    this.k = k
   }
 
   equals(item) {
     return !!item && item.i === this.i && item.j === this.j && item.k === this.k
   }
 
-  get i() {
-    return this._i
-  }
-
-  get j() {
-    return this._j
-  }
-
-  get k() {
-    return this._k
+  clone() {
+    return new Index3D(this.i, this.j, this.k)
   }
 }

@@ -1,13 +1,16 @@
 import TXComponent from '../component/component'
-import Image from '../image/image'
-import Index3D from '../geometry/index3d'
 import { SLICE_EVENT_ENUM } from '../constants/slice-event'
-import WWWC from '../image/lut/wwwc'
+import Image from '../image/image'
 import ColourMap from '../image/lut/colourmap'
+import Rescale from '../image/lut/rescale'
+import W from '../image/lut/window'
+import WWWC from '../image/lut/wwwc'
+import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
+import log from 'loglevel'
 /**
  *
  * Created Date: 2020-02-02, 16:04:54 (zhenliang.sun)
- * Last Modified: 2020-02-15, 02:50:55 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 17:49:39 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -28,29 +31,41 @@ export default class View extends TXComponent {
 
     // 图像
     this.image = new Image()
+    this.image.on(INTERNAL_EVENT_ENUM.FIRST_SLICE_LOAD_COMPLETED, () => {
+      this.emit(INTERNAL_EVENT_ENUM.FIRST_SLICE_LOAD_COMPLETED)
+    })
     // 配色表
     this._colourMap = new ColourMap()
-    // 创宽窗位集合
-    this.wwwcs = {}
 
     // 当前序列
     this.currentSliceIndex = null
     this.currentWWWC = null
+    this.windowLut = null
   }
 
+  /**
+   * 修改imageData
+   * 测试平均耗时 2~2.5ms
+   * 渲染平均耗时 0.3ms
+   *
+   * @param {*} buffer
+   * @memberof View
+   */
   generateImageData(buffer /** imageData */) {
     // 获取lut映射表
-    const wwwc = this.currentWWWC
+    if (!this.windowLut) {
+      this.generateDefaultWindowLut()
+    }
+
     // 获取颜色表
     const colourMap = this.colourMap.colour
-    // 根据广度解释进行颜色变换
-    const imageSize = this.image.geometry.size.sliceSize // 获取图片尺寸， 即 512 * 512
-    const originPixelData = this.image.pixelBuffer.get(this.sliceIndex.k) // 根据原始图像数据进行加工
-    // for (let i = 0; i < imageSize; i += 4) {
+    // 获取原始图像数据进行加工、加工的是一个imageData，将其直接绘制到canvas
+    const originPixelData = this.image.pixelBuffer.get(this.sliceIndex.k)
+
     let pixelIndex = 0
     let bufferIndex = 0
     while (pixelIndex < originPixelData.length) {
-      const pixelData = wwwc.apply(originPixelData[pixelIndex])
+      const pixelData = this.windowLut.getValue(originPixelData[pixelIndex])
       buffer.data[bufferIndex] = colourMap.red[pixelData] // red
       buffer.data[bufferIndex + 1] = colourMap.green[pixelData] // green
       buffer.data[bufferIndex + 2] = colourMap.blue[pixelData] // blue
@@ -60,6 +75,14 @@ export default class View extends TXComponent {
     }
   }
 
+  /**
+   * 设置窗宽窗位
+   * 平均耗时 2ms
+   *
+   * @param {*} width
+   * @param {*} center
+   * @memberof View
+   */
   setWWWC(width, center) {
     // 设置窗宽窗位后，重建lut映射表
     const newWWWC = new WWWC(width, center)
@@ -69,10 +92,52 @@ export default class View extends TXComponent {
     }
 
     this.currentWWWC = newWWWC
+    this.windowLut.setWWWC(newWWWC)
+
     this.emit(SLICE_EVENT_ENUM.WINDOW_WWWC_CHANGED, {
       wc: newWWWC.center,
       ww: newWWWC.width
     })
+  }
+
+  /**
+   * 创建默认映射表
+   *
+   * @memberof View
+   */
+  generateDefaultWindowLut() {
+    const rsi = this.image.rsis[0]
+    const { bitsStored, pixelRepresentation } = this.image.metaData
+    const rescaleLut = new Rescale(rsi, bitsStored)
+    const windowLut = new W(rescaleLut, pixelRepresentation)
+    const wwwc = new WWWC(1500, -600) // 默认(1500,-600) 即肺产品线
+    windowLut.setWWWC(wwwc)
+    this.currentWWWC = wwwc
+    this.windowLut = windowLut
+  }
+
+  getRescaleValue(x, y) {
+    const pos = this.sliceIndex
+
+    const originPixelData = this.image.pixelBuffer.get(pos.k)
+
+    const rsi = this.image.rsis[pos.k - 1]
+    const { row } = this.image.geometry.size
+    const offset = x + y * row // 是 x+y*row, 并不是 x* column+y, 头疼。。。
+
+    return rsi.apply(originPixelData[offset])
+  }
+
+  destroy() {
+    super.destroy()
+    log.info('[view] destroy.')
+    this.image.destroy()
+    this.windowLut.destroy()
+    this._colourMap = null
+    this.currentSliceIndex = null
+    this.currentWWWC = null
+    this.windowLut = null
+    this.image = null
   }
 
   set urls(urls) {

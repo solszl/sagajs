@@ -1,4 +1,5 @@
 import * as dicomParser from 'dicom-parser'
+import log from 'loglevel'
 
 const decodeLittleEndian = async (
   byteArray,
@@ -79,6 +80,20 @@ const decodeJPEGBaseline = (byteArray, { bitsStored, samplesPerPixel }) =>
       )
     }
   })
+
+const decodeBigEndian = async (
+  byteArray,
+  { bitsAllocated, bitsStored, pixelRepresentation }
+) => {
+  const data = await decodeLittleEndian(byteArray, {
+    bitsAllocated,
+    bitsStored,
+    pixelRepresentation
+  })
+  // TODO: decode for big endian
+  log.error('do not fully support big endian encode.')
+  return data
+}
 
 const parseImageFrame = dataSet => {
   const pixelDataElement = dataSet.elements.x7fe00010
@@ -176,6 +191,9 @@ const decodeImageData = async dataSet => {
     return makeTexture(
       await decodeJPEGBaseline(pixelDataByteArray, pixelConfig)
     )
+  } else if (transferSyntax === '1.2.840.10008.1.2.2') {
+    // explicit big endian
+    return makeTexture(await decodeBigEndian(pixelDataByteArray, pixelConfig))
   } else {
     throw new Error(`No decoder for transfer syntax ${transferSyntax}`)
   }

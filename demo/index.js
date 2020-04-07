@@ -5,7 +5,7 @@ import Index3D from '../src/geometry/index3d'
 /**
  *
  * Created Date: 2020-01-19, 17:04:33 (zhenliang.sun)
- * Last Modified: 2020-02-15, 03:03:59 (zhenliang.sun)
+ * Last Modified: 2020-02-17, 10:28:49 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -44,20 +44,29 @@ const canvas = document.querySelector('#cvs')
 // const slices = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 // canvas.width = 512
 // canvas.height = 512
-// view.setWWWC(1500, 700)
+// view.setWWWC(1000, -500)
 
-const urls = [
-  'http://192.168.199.136:8887/1.dcm',
-  'http://192.168.199.136:8887/2.dcm',
-  'http://192.168.199.136:8887/3.dcm',
-  'http://192.168.199.136:8887/4.dcm',
-  'http://192.168.199.136:8887/5.dcm',
-  'http://192.168.199.136:8887/6.dcm'
-]
-const slices = [108, 99, 90, 81, 72]
-canvas.width = 256
-canvas.height = 256
-view.setWWWC(844, 424)
+// const urls = [
+//   'http://192.168.199.136:8887/1.dcm',
+//   'http://192.168.199.136:8887/2.dcm',
+//   'http://192.168.199.136:8887/3.dcm',
+//   'http://192.168.199.136:8887/4.dcm',
+//   'http://192.168.:8887/5.dcm',
+//   'http://192.168.199.136:8887/6.dcm'
+// ]
+// const slices = [108, 99, 90, 81, 72]
+// canvas.width = 256
+// canvas.height = 256
+// view.setWWWC(844, 424)
+
+const urls = []
+const slices = []
+for(let i = 1; i < 30; i += 1) {
+  urls.push(`http://127.0.0.1:8887/${i}`)
+  slices.push(i)
+}
+canvas.width = 512
+canvas.height = 512
 
 const buffer = new ImageData(canvas.width, canvas.height)
 let ready = false
@@ -104,7 +113,6 @@ canvas.addEventListener('mousemove', e => {
   var deltaX = e.pageX - lastX
   var deltaY = e.pageY - lastY
 
-  console.log(deltaX, deltaY)
   const currentWWWC = view.currentWWWC
   view.setWWWC(currentWWWC.width + deltaX, currentWWWC.center + deltaY)
 
@@ -114,9 +122,10 @@ canvas.addEventListener('mousemove', e => {
 
 let currentSliceIndex = 0
 canvas.addEventListener('mousewheel', e => {
+  currentSliceIndex += Math.sign(e.wheelDelta)
   currentSliceIndex = Math.max(
     0,
-    Math.min(currentSliceIndex + Math.sign(e.wheelDelta), slices.length - 1)
+    Math.min(currentSliceIndex, slices.length - 1)
   )
   view.sliceIndex = new Index3D(0, 0, slices[currentSliceIndex])
 })

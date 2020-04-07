@@ -5,7 +5,7 @@ import { LOAD_EVENT_ENUM } from '../constants/loader-event'
 /**
  *
  * Created Date: 2020-01-19, 00:56:45 (zhenliang.sun)
- * Last Modified: 2020-02-03, 00:26:28 (zhenliang.sun)
+ * Last Modified: 2020-04-01, 17:47:47 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -70,5 +70,7 @@ export default class Loader extends IEvent {
     }
 
     // remove eventListener
+    this.xhr.destroy()
+    this.xhr = null
   }
 }

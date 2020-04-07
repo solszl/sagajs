@@ -2,14 +2,22 @@
   "cSpell.words": [
     "WWWC",
     "arraybuffer",
+    "colourmap",
+    "dashline",
     "dicom",
+    "dragmove",
     "happypack",
+    "konva",
+    "layui",
+    "loglevel",
+    "nanodelay",
     "nanoevents",
     "rsis",
     "sagajs",
-    "ymin",
-    "ymax",
+    "textfield",
+    "xmax",
     "xmin",
-    "xmax"
+    "ymax",
+    "ymin"
   ]
 }
