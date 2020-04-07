@@ -27,7 +27,7 @@ const baseConfig = {
   mode: isProd ? 'production' : 'development',
   devtool: isProd ? '' : 'source-map',
   entry: {
-    sdk: resolve('src/index.js'),
+    Saga: resolve('src/index.js'),
     'demo/test': resolve('demo/viewContainer.js'),
     'demo/sync/sync': resolve('demo/sync/demo-sync.js')
   },
@@ -103,7 +103,7 @@ module.exports = () => {
         publicPath: `/${version}/${process.env.BUILD_ENV}/`
       },
       optimization: {
-        minimize: false
+        minimize: true
       },
       plugins: [
         new CleanWebpackPlugin(),

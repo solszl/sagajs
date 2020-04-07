@@ -1,9 +1,11 @@
 import log from 'loglevel'
+import IEvent from '../component/event'
+import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
 
 /**
  *
  * Created Date: 2020-02-16, 23:34:17 (zhenliang.sun)
- * Last Modified: 2020-03-01, 01:27:56 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 16:39:44 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -18,40 +20,41 @@ import log from 'loglevel'
  * @class ViewManager
  * @author zhenliang.sun
  */
-class ViewManager {
+class ViewManager extends IEvent {
   constructor() {
+    super()
     this.views = new Map()
+    this.currentView = null
   }
 
   addView(view) {
     log.info(`add new viewContainer, rootId: ${view.rootId}.`)
     this.views.set(view.rootId, view)
+
+    if (this.currentView === null) {
+      this.currentView = view
+    }
+
+    const el = document.querySelector(`#${view.rootId}`)
+    el.addEventListener('mouseenter', e => {
+      const view = this.getView(e.target.id)
+      if (view && this.currentView !== view) {
+        this.emit(INTERNAL_EVENT_ENUM.VIEW_CHANGE, { view })
+      }
+    })
   }
 
   removeView(view) {
-    log.info(`remove a viewContainer, named: ${view.rootId}.`)
+    log.info(`remove a viewContainer & destroy, named: ${view.rootId}.`)
     this.views.delete(view.rootId)
+    view.destroy()
+    const el = document.querySelector(`#${view.rootId}`)
+    el.onmouseenter = null
   }
 
   getView(root) {
     log.info(`get a viewContainer, named: ${root}.`)
     return this.views.get(root)
-  }
-
-  activeView(root) {
-    log.info(`active a viewContainer, named: ${root}`)
-    const view = this.getView(root)
-    if (view) {
-      view.active = true
-    }
-  }
-
-  deactivateView(root) {
-    log.info(`deactivate a viewContainer, named: ${root}`)
-    const view = this.getView(root)
-    if (view) {
-      view.active = false
-    }
   }
 }
 

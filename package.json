@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=local BUILD_ENV=local webpack-dev-server --config build/webpack.config.js"
+    "start": "cross-env NODE_ENV=local BUILD_ENV=local webpack-dev-server --config build/webpack.config.js",
+    "build:dev": "cross-env NODE_ENV=development BUILD_ENV=dev node build/build.js",
+    "build:test": "cross-env NODE_ENV=development BUILD_ENV=test node build/build.js",
+    "build:prod": "cross-env NODE_ENV=production BUILD_ENV=prod node build/build.js"
   },
   "repository": {
     "type": "git",

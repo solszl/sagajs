@@ -13,11 +13,12 @@ import ZoomCommand from '../src/tools/command/zoomCommand'
 import ViewContainer from '../src/view/viewContainer'
 import ScrollCommand from '../src/tools/command/scrollCommand'
 import PlaybackCommand from '../src/tools/command/playbackCommand'
+import SDK from '../src/sdk'
 
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-04-02, 15:32:17 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 18:01:07 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -34,13 +35,14 @@ for (let i = 1; i < 40; i += 1) {
   )
 }
 
+const sdk = new SDK()
+
 const viewContainer = new ViewContainer('container')
 viewContainer.setURLs(urls)
 window.aa = viewContainer
 
-const manager = new ViewManager()
-manager.addView(viewContainer)
-manager.activeView('container')
+const { viewManager, toolManager } = sdk
+viewManager.addView(viewContainer)
 
 document.querySelector('#tool-scroll').addEventListener('click', () => {
   new ScrollCommand(viewContainer).execute()
