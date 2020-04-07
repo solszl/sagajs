@@ -5,7 +5,7 @@ import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
 /**
  *
  * Created Date: 2020-02-16, 23:34:17 (zhenliang.sun)
- * Last Modified: 2020-04-07, 16:39:44 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 22:16:27 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -38,7 +38,7 @@ class ViewManager extends IEvent {
     const el = document.querySelector(`#${view.rootId}`)
     el.addEventListener('mouseenter', e => {
       const view = this.getView(e.target.id)
-      if (view && this.currentView !== view) {
+      if (view) {
         this.emit(INTERNAL_EVENT_ENUM.VIEW_CHANGE, { view })
       }
     })

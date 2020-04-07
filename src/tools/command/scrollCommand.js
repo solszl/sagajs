@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-30, 14:33:06 (zhenliang.sun)
- * Last Modified: 2020-04-07, 21:49:13 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 22:08:09 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -19,8 +19,8 @@ import BaseCommand from './baseCommand'
  * @author zhenliang.sun
  */
 class ScrollCommand extends BaseCommand {
-  constructor(container) {
-    super(container)
+  constructor() {
+    super()
 
     this._type = 'ScrollCommand'
     Object.assign(this.ee, {

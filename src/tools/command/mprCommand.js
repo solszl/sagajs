@@ -3,7 +3,7 @@ import log from 'loglevel'
 /**
  *
  * Created Date: 2020-03-21, 23:20:21 (zhenliang.sun)
- * Last Modified: 2020-03-22, 01:02:04 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 22:08:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -23,8 +23,8 @@ import log from 'loglevel'
  * @author zhenliang.sun
  */
 class MPRCommand extends BaseCommand {
-  constructor(container, config = {}) {
-    super(container)
+  constructor(config = {}) {
+    super()
     this._type = 'MPRCommand'
   }
 

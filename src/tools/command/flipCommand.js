@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-11, 23:38:11 (zhenliang.sun)
- * Last Modified: 2020-03-14, 15:16:29 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 22:08:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -19,8 +19,8 @@ import RotateCommand from './rotateCommand'
  * @author zhenliang.sun
  */
 class FlipCommand extends RotateCommand {
-  constructor(container) {
-    super(container)
+  constructor() {
+    super()
     this._type = 'FlipCommand'
   }
 

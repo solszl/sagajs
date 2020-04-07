@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-26, 12:04:54 (zhenliang.sun)
- * Last Modified: 2020-04-07, 21:49:13 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 22:08:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -20,8 +20,8 @@ import BaseCommand from './baseCommand'
  * @extends {BaseCommand}
  */
 class AngleCommand extends BaseCommand {
-  constructor(container) {
-    super(container)
+  constructor() {
+    super()
 
     Object.assign(this.ee, {
       mousedown: this._mouseDown.bind(this)

@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-09, 23:08:40 (zhenliang.sun)
- * Last Modified: 2020-04-07, 21:24:51 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 22:08:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -33,12 +33,30 @@ class ToolsManager extends IEvent {
     this._currentView = view
 
     if (this._currentCommand) {
+      this._currentCommand.viewContainer = view
       this._currentCommand.execute()
     }
   }
 
   get currentView() {
     return this._currentView
+  }
+
+  set command(cmd) {
+    if (this._currentCommand) {
+      this._currentCommand.removeEvents()
+    }
+
+    this._currentCommand = cmd
+
+    if (this.currentView) {
+      this._currentCommand.viewContainer = this.currentView
+      this._currentCommand.execute()
+    }
+  }
+
+  get command() {
+    return this._currentCommand
   }
 }
 

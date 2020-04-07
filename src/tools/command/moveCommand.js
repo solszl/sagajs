@@ -4,7 +4,7 @@ import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
 /**
  *
  * Created Date: 2020-03-10, 00:40:58 (zhenliang.sun)
- * Last Modified: 2020-04-07, 21:49:13 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 22:19:05 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -19,8 +19,8 @@ import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
  * @author zhenliang.sun
  */
 class MoveCommand extends BaseCommand {
-  constructor(container) {
-    super(container)
+  constructor() {
+    super()
     this._type = 'MoveCommand'
     Object.assign(this.ee, {
       mouseup: this._mouseUp.bind(this)
@@ -35,6 +35,11 @@ class MoveCommand extends BaseCommand {
     this.rebindEvents()
 
     this.stage.draggable(true)
+  }
+
+  removeEvents() {
+    super.removeEvents()
+    this.stage.draggable(false)
   }
 
   _mouseUp(e) {

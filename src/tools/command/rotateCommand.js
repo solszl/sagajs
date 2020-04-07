@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-11, 23:25:45 (zhenliang.sun)
- * Last Modified: 2020-03-14, 15:16:29 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 22:08:09 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -19,8 +19,8 @@ import BaseCommand from './baseCommand'
  * @author zhenliang.sun
  */
 class RotateCommand extends BaseCommand {
-  constructor(container) {
-    super(container)
+  constructor() {
+    super()
     this._type = 'RotateCommand'
     this._angle = 0
   }

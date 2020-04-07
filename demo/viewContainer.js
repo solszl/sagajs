@@ -18,7 +18,7 @@ import SDK from '../src/sdk'
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-04-07, 18:01:07 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 22:16:19 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -39,34 +39,33 @@ const sdk = new SDK()
 
 const viewContainer = new ViewContainer('container')
 viewContainer.setURLs(urls)
-window.aa = viewContainer
 
 const { viewManager, toolManager } = sdk
 viewManager.addView(viewContainer)
 
 document.querySelector('#tool-scroll').addEventListener('click', () => {
-  new ScrollCommand(viewContainer).execute()
+  toolManager.command = new ScrollCommand()
 })
 document.querySelector('#tool-zoom').addEventListener('click', () => {
-  new ZoomCommand(viewContainer).execute()
+  toolManager.command = new ZoomCommand()
 })
 document.querySelector('#tool-wwwc').addEventListener('click', () => {
-  new WWWCCommand(viewContainer).execute()
+  toolManager.command = new WWWCCommand()
 })
 document.querySelector('#tool-move').addEventListener('click', () => {
-  new MoveCommand(viewContainer).execute()
+  toolManager.command = new MoveCommand()
 })
 document.querySelector('#tool-length').addEventListener('click', () => {
-  new LengthCommand(viewContainer).execute()
+  toolManager.command = new LengthCommand()
 })
 document.querySelector('#tool-probe').addEventListener('click', () => {
-  new ProbeCommand(viewContainer).execute()
+  toolManager.command = new ProbeCommand()
 })
 document.querySelector('#tool-areaCT').addEventListener('click', () => {
-  new EllipseCommand(viewContainer).execute()
+  toolManager.command = new EllipseCommand()
 })
 document.querySelector('#tool-angle').addEventListener('click', () => {
-  new AngleCommand(viewContainer).execute()
+  toolManager.command = new AngleCommand()
 })
 document.querySelector('#tool-missed').addEventListener('click', () => {
   alert(123)
@@ -81,15 +80,15 @@ document.querySelector('#tool-link').addEventListener('click', () => {
   alert(123)
 })
 document.querySelector('#tool-play').addEventListener('click', () => {
-  new PlaybackCommand(viewContainer, { framerate: 20 }).execute()
+  toolManager.command = new PlaybackCommand({ framerate: 20 })
 })
 document.querySelector('#tool-reset').addEventListener('click', () => {
-  new ResetCommand(viewContainer).execute()
+  toolManager.command = new ResetCommand()
 })
 document.querySelector('#tool-flip').addEventListener('click', () => {})
 document.querySelector('#tool-rotate').addEventListener('click', () => {
-  new RACommand(viewContainer).execute()
+  toolManager.command = new RACommand()
 })
 document.querySelector('#tool-mpr').addEventListener('click', () => {
-  new MPRCommand(viewContainer).execute()
+  toolManager.command = new MPRCommand()
 })
