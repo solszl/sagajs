@@ -2,7 +2,7 @@
 
  *
  * Created Date: 2020-03-14, 13:21:31 (zhenliang.sun)
- * Last Modified: 2020-04-02, 15:42:36 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 21:49:13 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -38,10 +38,7 @@ class WWWCCommand extends BaseCommand {
   execute() {
     super.execute()
 
-    // 给stage绑定事件
-    for (const event in this.ee) {
-      this.stage.on(event, this.ee[event])
-    }
+    this.rebindEvents()
 
     this.stage.draggable(false)
   }

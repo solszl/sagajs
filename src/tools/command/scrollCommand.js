@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-30, 14:33:06 (zhenliang.sun)
- * Last Modified: 2020-04-02, 15:40:30 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 21:49:13 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -36,8 +36,7 @@ class ScrollCommand extends BaseCommand {
 
   execute() {
     super.execute()
-    this.removeEvents()
-    this.addEvents()
+    this.rebindEvents()
   }
 
   _mouseDown(e) {

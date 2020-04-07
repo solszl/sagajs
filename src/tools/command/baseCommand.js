@@ -2,7 +2,7 @@ import log from 'loglevel'
 /**
  *
  * Created Date: 2020-03-10, 00:32:15 (zhenliang.sun)
- * Last Modified: 2020-04-02, 22:57:32 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 21:44:26 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -44,6 +44,11 @@ class BaseCommand {
     for (const event in this.ee) {
       this.stage.off(event, this.ee[event])
     }
+  }
+
+  rebindEvents() {
+    this.removeEvents()
+    this.addEvents()
   }
 
   _mouseWheel(e) {

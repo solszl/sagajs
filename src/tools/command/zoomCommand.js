@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-12, 00:00:55 (zhenliang.sun)
- * Last Modified: 2020-04-02, 16:18:41 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 21:49:13 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -40,11 +40,7 @@ class ZoomCommand extends BaseCommand {
 
   execute() {
     super.execute()
-    // 获取当前舞台位置进行缩放操作
-    // 给stage绑定事件
-    for (const event in this.ee) {
-      this.stage.on(event, this.ee[event])
-    }
+    this.rebindEvents()
   }
 
   _mouseDown(e) {

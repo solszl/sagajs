@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-09, 23:08:40 (zhenliang.sun)
- * Last Modified: 2020-04-07, 18:12:11 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 21:24:51 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -29,9 +29,12 @@ class ToolsManager extends IEvent {
     if (this._currentView === view) {
       return
     }
-    // TODO: view change, for current command.
-    // command.view = xxx
+
     this._currentView = view
+
+    if (this._currentCommand) {
+      this._currentCommand.execute()
+    }
   }
 
   get currentView() {
