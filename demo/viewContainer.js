@@ -1,24 +1,23 @@
 import log from 'loglevel'
-import ViewManager from '../src/manager/viewManager'
+import SDK from '../src/sdk'
 import AngleCommand from '../src/tools/command/angleCommand'
 import EllipseCommand from '../src/tools/command/ellipseCommand'
 import LengthCommand from '../src/tools/command/lengthCommand'
 import MoveCommand from '../src/tools/command/moveCommand'
 import MPRCommand from '../src/tools/command/mprCommand'
+import PlaybackCommand from '../src/tools/command/playbackCommand'
 import ProbeCommand from '../src/tools/command/probeCommand'
 import RACommand from '../src/tools/command/raCommand'
 import ResetCommand from '../src/tools/command/resetCommand'
+import ScrollCommand from '../src/tools/command/scrollCommand'
 import WWWCCommand from '../src/tools/command/wwwcCommand'
 import ZoomCommand from '../src/tools/command/zoomCommand'
 import ViewContainer from '../src/view/viewContainer'
-import ScrollCommand from '../src/tools/command/scrollCommand'
-import PlaybackCommand from '../src/tools/command/playbackCommand'
-import SDK from '../src/sdk'
 
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-04-07, 22:16:19 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 16:44:15 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
