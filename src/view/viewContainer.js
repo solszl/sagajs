@@ -1,4 +1,5 @@
-import Konva from 'konva'
+import { Stage, Layer, Group } from 'konva/lib'
+import { Image } from 'konva/lib/shapes/Image'
 import log from 'loglevel'
 import { COLOUR_ENUM } from '../constants/colour-enum'
 import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
@@ -9,7 +10,7 @@ import './../utils/limit'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-04-02, 11:13:56 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 14:32:25 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -32,7 +33,7 @@ class ViewContainer {
     this.readyToShow = false
 
     // 显示视图舞台
-    this.stage = new Konva.Stage({
+    this.stage = new Stage({
       container: root
     })
 
@@ -61,19 +62,19 @@ class ViewContainer {
       // 2个层， 一个静态层、一个动态层
       // 静态层包含信息：1，四角信息
       // 动态层包含信息：1, 图像文件、2，contour、3，长度测量工具、4，角度测量工具、5，区域CT工具、6，长短径工具、7，方位信息
-      this.staticLayer = new Konva.Layer({
+      this.staticLayer = new Layer({
         id: 'staticLayer'
       })
 
-      this.dynamicLayer = new Konva.Layer({
+      this.dynamicLayer = new Layer({
         id: 'dynamicLayer'
       })
 
       const { column, row } = this.view.image.geometry.size
       this.originSize = { width: column, height: row }
 
-      this.dicomImage = new Konva.Image({ id: 'dicomImage' })
-      this.dynamicGroup = new Konva.Group({ id: 'dynamicGroup' })
+      this.dicomImage = new Image({ id: 'dicomImage' })
+      this.dynamicGroup = new Group({ id: 'dynamicGroup' })
       this.dynamicGroup.add(this.dicomImage)
       this.dynamicLayer.add(this.dynamicGroup)
       const { width, height } = this.originSize

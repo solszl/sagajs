@@ -1,14 +1,14 @@
 /**
  *
  * Created Date: 2020-03-25, 16:29:52 (zhenliang.sun)
- * Last Modified: 2020-04-01, 22:00:38 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 14:30:04 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import Konva from 'konva'
+import { Ellipse as KEllipse } from 'konva/lib/shapes/Ellipse'
 import log from 'loglevel'
 import { getRelativePointerPosition } from '../command/utils'
 import BaseShape from './baseShape'
@@ -65,7 +65,7 @@ class Ellipse extends BaseShape {
     this.anchor2.position({ x: 0, y: 0 })
     this.anchor2.on('dragmove', this._dragAnchorMove.bind(this).throttle(30))
 
-    this.ellipse = new Konva.Ellipse({
+    this.ellipse = new KEllipse({
       stroke: Color.ITEM_NORMAL,
       strokeWidth: 2,
       hitStrokeWidth: 20,

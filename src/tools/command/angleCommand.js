@@ -1,14 +1,14 @@
 /**
  *
  * Created Date: 2020-03-26, 12:04:54 (zhenliang.sun)
- * Last Modified: 2020-04-07, 22:08:10 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 14:29:18 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import Konva from 'konva'
+import { Image } from 'konva/lib/shapes/Image'
 import log from 'loglevel'
 import Angle from '../shape/angle'
 import BaseCommand from './baseCommand'
@@ -36,7 +36,7 @@ class AngleCommand extends BaseCommand {
   }
 
   _mouseDown(e) {
-    if (e.target instanceof Konva.Image) {
+    if (e.target instanceof Image) {
       if (this._createItemCompleted === false) {
         return
       }

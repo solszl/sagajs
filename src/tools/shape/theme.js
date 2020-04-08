@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-16, 16:10:03 (zhenliang.sun)
- * Last Modified: 2020-03-16, 18:20:42 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 14:29:09 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -25,5 +25,4 @@ export const Color = {
   ANCHOR_NORMAL: '#2AC7F6',
   /** 操作锚点划过颜色 */
   ANCHOR_HOVER: '#5BD1AE'
-
 }

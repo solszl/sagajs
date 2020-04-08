@@ -1,14 +1,14 @@
 /**
  *
  * Created Date: 2020-03-26, 12:29:42 (zhenliang.sun)
- * Last Modified: 2020-04-01, 21:59:47 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 14:30:14 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import Konva from 'konva'
+import { Line } from 'konva/lib/shapes/Line'
 import { getRelativePointerPosition } from '../command/utils'
 import BaseShape from './baseShape'
 import { Color } from './theme'
@@ -141,7 +141,7 @@ class Angle extends BaseShape {
     const y2 = anchor2.y()
     let points = [x1, y1, x2, y2]
     if (!this.line1) {
-      this.line1 = new Konva.Line({
+      this.line1 = new Line({
         stroke: Color.ITEM_NORMAL,
         hitStrokeWidth: 20,
         name: 'node-item'
@@ -159,7 +159,7 @@ class Angle extends BaseShape {
     const y3 = anchor3.y()
     points = [x2, y2, x3, y3]
     if (!this.line2) {
-      this.line2 = new Konva.Line({
+      this.line2 = new Line({
         stroke: Color.ITEM_NORMAL,
         hitStrokeWidth: 20,
         name: 'node-item'
@@ -191,7 +191,7 @@ class Angle extends BaseShape {
     // 判断是否存在虚线
     this.dashLine = this.dashLine || this.findOne('#dashLine')
     if (!this.dashLine) {
-      this.dashLine = new Konva.Line({
+      this.dashLine = new Line({
         stroke: Color.ITEM_HOVER,
         strokeWidth: 2,
         lineJoin: 'round',

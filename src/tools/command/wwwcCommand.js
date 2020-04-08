@@ -2,14 +2,14 @@
 
  *
  * Created Date: 2020-03-14, 13:21:31 (zhenliang.sun)
- * Last Modified: 2020-04-07, 22:08:09 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 14:31:19 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
-import BaseCommand from './baseCommand'
 import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
+import BaseCommand from './baseCommand'
 /**
  * 窗宽窗位
  * 派发deltaWindowWidth、deltaWindowCenter
