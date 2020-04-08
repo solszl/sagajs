@@ -17,7 +17,7 @@ import ViewContainer from '../src/view/viewContainer'
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-04-08, 16:44:15 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 22:50:20 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -35,6 +35,7 @@ for (let i = 1; i < 40; i += 1) {
 }
 
 const sdk = new SDK()
+window.sdk = sdk
 
 const viewContainer = new ViewContainer('container')
 viewContainer.setURLs(urls)

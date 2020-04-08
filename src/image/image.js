@@ -15,7 +15,7 @@ import log from 'loglevel'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-04-01, 17:48:39 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 23:09:13 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -112,9 +112,49 @@ export default class Image extends IEvent {
    */
   createMetaData(parsedObject) {
     const { bitsStored, pixelRepresentation } = parsedObject
+    // 日期相关
+    const { studyDate, seriesDate, acquisitionDate, contentDate } = parsedObject
+    // 时间相关
+    const { studyTime, seriesTime, acquisitionTime, contentTime } = parsedObject
+    // 压缩相关
+    const { compression, compressRatio, compressMethod } = parsedObject
+    const { rows, columns, thickness } = parsedObject
+    // overlay
+    const {
+      accessionNumber,
+      patientId,
+      studyDescription,
+      seriesDescription,
+      seriesNumber,
+      sliceLocation
+    } = parsedObject
+
+    // 获取压缩方式
+    const getCompression = (compress, ratio, method) => {
+      if (compress === '01' && ratio) {
+        const compressMethod = method || 'Lossy: '
+        const compressRatio = parseFloat(ratio).toFixed(2)
+        return `${compressMethod} ${compressRatio} : 1`
+      }
+
+      return 'Lossless / Uncompressed'
+    }
+
     this.metaData = {
       bitsStored,
-      pixelRepresentation
+      pixelRepresentation,
+      date: seriesDate || contentDate || studyDate || acquisitionDate,
+      time: seriesTime || contentTime || studyTime || acquisitionTime,
+      compress: getCompression(compression, compressRatio, compressMethod),
+      rows,
+      columns,
+      accessionNumber,
+      patientId,
+      studyDescription,
+      seriesDescription,
+      thickness,
+      seriesNumber,
+      sliceLocation
     }
   }
 

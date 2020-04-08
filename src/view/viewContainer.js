@@ -10,7 +10,7 @@ import './../utils/limit'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-04-08, 14:32:25 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 23:10:27 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -155,6 +155,10 @@ class ViewContainer {
     this.dynamicLayer.destroy()
     this.dicomImage.destroy()
     this.dynamicGroup.destroy()
+  }
+
+  getViewInfo() {
+    return this.view.image.metaData
   }
 }
 
