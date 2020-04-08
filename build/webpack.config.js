@@ -16,6 +16,8 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const config = require('./config')
 const version = require('../package.json').version
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
 function resolve(dir) {
   return path.resolve(__dirname, '..', dir)
 }
@@ -29,29 +31,29 @@ const baseConfig = {
   entry: {
     Saga: resolve('src/index.js'),
     'demo/test': resolve('demo/viewContainer.js'),
-    'demo/sync/sync': resolve('demo/sync/demo-sync.js')
+    'demo/sync/sync': resolve('demo/sync/demo-sync.js'),
   },
   output: {
     filename: '[name].js',
     path: resolve(`dist/${version}/${process.env.BUILD_ENV}`),
     library: '[name]',
     libraryExport: 'default',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
   },
   resolve: {
     extensions: ['.js', '.json'],
     alias: {
-      '@': resolve('src')
-    }
+      '@': resolve('src'),
+    },
   },
   module: {
     rules: [
       {
         test: /\.js?$/,
         loader: 'happypack/loader?id=happy-babel',
-        include: [resolve('src'), resolve('demo')]
-      }
-    ]
+        include: [resolve('src'), resolve('demo')],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -59,14 +61,14 @@ const baseConfig = {
       filename: 'demo/index.html',
       inject: 'body',
       minify: true,
-      chunks: ['demo/test']
+      chunks: ['demo/test'],
     }),
     new HtmlWebpackPlugin({
       template: resolve('demo/sync/index.html'),
       filename: resolve('demo/sync/index.html'),
       inject: 'body',
       minify: true,
-      chunks: ['demo/sync/sync']
+      chunks: ['demo/sync/sync'],
     }),
     new HappyPack({
       id: 'happy-babel',
@@ -75,35 +77,34 @@ const baseConfig = {
           loader: 'babel-loader',
           options: {
             babelrc: true,
-            cacheDirectory: true // 启用缓存
-          }
-        }
+            cacheDirectory: true, // 启用缓存
+          },
+        },
       ],
-      threadPool: HappyPack.ThreadPool({ size: os.cpus().length })
+      threadPool: HappyPack.ThreadPool({ size: os.cpus().length }),
     }),
     new webpack.DefinePlugin({
       'process.env': {
         BUILD_ENV: JSON.stringify(process.env.BUILD_ENV),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        API_PATH: JSON.stringify(config[process.env.BUILD_ENV].API_PATH)
-      }
-    })
-  ]
+      },
+    }),
+  ],
 }
 
 module.exports = () => {
   let exConfig = {}
   if (process.env.NODE_ENV === 'local') {
     exConfig = {
-      devServer: config.devServer
+      devServer: config.devServer,
     }
   } else {
     exConfig = {
       output: {
-        publicPath: `/${version}/${process.env.BUILD_ENV}/`
+        publicPath: `/${version}/${process.env.BUILD_ENV}/`,
       },
       optimization: {
-        minimize: true
+        minimize: true,
       },
       plugins: [
         new CleanWebpackPlugin(),
@@ -111,9 +112,11 @@ module.exports = () => {
           format:
             '  build [:bar] ' +
             chalk.green.bold(':percent') +
-            ' (:elapsed seconds)'
-        })
-      ]
+            ' (:elapsed seconds)',
+        }),
+      ].concat(
+        process.env.BUILD_ENV === 'analyze' ? [new BundleAnalyzerPlugin()] : []
+      ),
     }
   }
   return merge(baseConfig, exConfig)
