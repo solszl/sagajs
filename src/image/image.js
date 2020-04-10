@@ -15,7 +15,7 @@ import log from 'loglevel'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-04-09, 12:03:47 (zhenliang.sun)
+ * Last Modified: 2020-04-09, 19:01:22 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -118,7 +118,14 @@ export default class Image extends IEvent {
     const { studyTime, seriesTime, acquisitionTime, contentTime } = parsedObject
     // 压缩相关
     const { compression, compressRatio, compressMethod } = parsedObject
-    const { rows, columns, thickness, pixelSpacing } = parsedObject
+    const {
+      rows,
+      columns,
+      thickness,
+      pixelSpacing,
+      orientation,
+      origin
+    } = parsedObject
     // overlay
     const {
       accessionNumber,
@@ -148,8 +155,10 @@ export default class Image extends IEvent {
       compress: getCompression(compression, compressRatio, compressMethod),
       rows,
       columns,
+      origin,
       thickness,
       pixelSpacing,
+      orientation,
       accessionNumber,
       patientId,
       studyDescription,

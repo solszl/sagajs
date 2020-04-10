@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-19, 15:05:39 (zhenliang.sun)
- * Last Modified: 2020-04-08, 22:04:37 (zhenliang.sun)
+ * Last Modified: 2020-04-09, 16:39:13 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -36,7 +36,7 @@ export const METADATA_TYPE = {
   SPACING: 'x00280030',
   SPACING2: 'x00181164',
   SPACING3: 'x00182010',
-  /** 层数， VR:IS  */
+  /** 层数 instanceNumber， VR:IS  */
   SLICE_POSITION: 'x00200013',
 
   /** 检查号：RIS的生成序号,用以标识做检查的次序. VR:SH */
@@ -66,7 +66,9 @@ export const METADATA_TYPE = {
   /** 压缩比例，VR:DS */
   COMPRESS_RATIO: 'x00282112',
   /** 压缩方式 VR: CS */
-  COMPRESS_METHOD: 'x00282114'
+  COMPRESS_METHOD: 'x00282114',
+  /** 实际的相对位置，单位为mm. 通常情况下，如果该值不存在， 就用两个相邻的dicom文件，读取sliceLocation做差 VR:DS */
+  SPACING_BETWEEN_SLICES: 'x00180088'
 }
 
 export const METADATA_UNIT = {
@@ -99,7 +101,8 @@ export const METADATA_UNIT = {
   x00201041: 'DS',
   x00282110: 'CS',
   x00282112: 'DS',
-  x00282114: 'CS'
+  x00282114: 'CS',
+  x00180088: 'DS'
 }
 
 export const METADATA_UNIT_CONVERTOR = {

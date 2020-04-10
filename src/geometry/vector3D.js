@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 03:11:34 (zhenliang.sun)
- * Last Modified: 2020-02-02, 03:14:52 (zhenliang.sun)
+ * Last Modified: 2020-04-09, 18:13:30 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -11,6 +11,7 @@
 /**
  * 向量的操作
  * http://www.waitingfy.com/archives/320
+ * https://mp.weixin.qq.com/s/f7RMTgMSFycFM62cWI0bjA
  * @export
  * @class Vector3D
  * @author zhenliang.sun
@@ -44,18 +45,19 @@ export default class Vector3D {
    *
    * @param {*} vector3d
    * @memberof Vector3D
-   * @returns 新的差积向量
+   * @returns 新的差积向量(法向量)
    */
   crossProduct(vector3d) {
-    const x = this.y * vector3d.z - vector3d.y * this.z
-    const y = this.z * vector3d.x - vector3d.z * this.x
-    const z = this.x * vector3d.y - vector3d.x * this.y
+    const x = this.y * vector3d.z - this.z * vector3d.y
+    const y = this.z * vector3d.x - this.x * vector3d.z
+    const z = this.x * vector3d.y - this.y * vector3d.x
     return new Vector3D(x, y, z)
   }
 
   /**
    * ∑(ai * bi ) 这里i=1,2..n
    * 点积结果影响两个向量的角度关系
+   * b向量在a向量方向上的投影
    * a * b > 0 锐角
    * a * b = 0 直角
    * a * b < 0 钝角
