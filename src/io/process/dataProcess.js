@@ -9,7 +9,7 @@ import { decodeImageData } from './decode'
 /**
  *
  * Created Date: 2020-01-19, 15:05:20 (zhenliang.sun)
- * Last Modified: 2020-04-08, 23:09:30 (zhenliang.sun)
+ * Last Modified: 2020-04-14, 23:51:01 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -63,6 +63,11 @@ const parse = async buffer => {
   const compressRatio = getData(dataSet, METADATA_TYPE.COMPRESS_RATIO)
   const compressMethod = getData(dataSet, METADATA_TYPE.COMPRESS_METHOD)
 
+  const spacingBetweenSlice = getData(
+    dataSet,
+    METADATA_TYPE.SPACING_BETWEEN_SLICES
+  )
+
   return {
     samplesPerPixel,
     photometricInterpretation,
@@ -92,6 +97,7 @@ const parse = async buffer => {
     compression,
     compressRatio,
     compressMethod,
+    spacingBetweenSlice,
     ...(await decodeImageData(dataSet))
   }
 }

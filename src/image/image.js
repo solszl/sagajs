@@ -15,7 +15,7 @@ import log from 'loglevel'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-04-09, 19:01:22 (zhenliang.sun)
+ * Last Modified: 2020-04-15, 00:07:38 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -133,7 +133,8 @@ export default class Image extends IEvent {
       studyDescription,
       seriesDescription,
       seriesNumber,
-      sliceLocation
+      sliceLocation,
+      spacingBetweenSlice
     } = parsedObject
 
     // 获取压缩方式
@@ -164,7 +165,8 @@ export default class Image extends IEvent {
       studyDescription,
       seriesDescription,
       seriesNumber,
-      sliceLocation
+      sliceLocation,
+      spacingBetweenSlice
     }
   }
 
@@ -189,6 +191,14 @@ export default class Image extends IEvent {
     const { pixelData, slicePosition } = parsedObject
     this.appendSlice(parsedObject)
     this.appendBuffer(pixelData, slicePosition)
+
+    if (!this.metaData.spacingBetweenSlice) {
+      const { sliceLocation } = parsedObject
+      const { sliceLocation: metaSliceLocation } = this.metaData
+      const spacingBetweenSlice = Math.abs(metaSliceLocation - sliceLocation)
+      this.metaData.spacingBetweenSlice = spacingBetweenSlice
+      this.geometry.spacing.sliceSpacing = spacingBetweenSlice
+    }
   }
 
   destroy() {
