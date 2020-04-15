@@ -1,12 +1,14 @@
 /**
  *
  * Created Date: 2020-01-31, 03:13:05 (zhenliang.sun)
- * Last Modified: 2020-02-02, 03:14:18 (zhenliang.sun)
+ * Last Modified: 2020-04-15, 22:50:28 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
+
+import Vector3D from './vector3D'
 
 export default class Point3D {
   constructor(x, y, z) {
@@ -27,6 +29,10 @@ export default class Point3D {
     const y = this.y - to.y
     const z = this.z - to.z
     return pow(pow(x, 2) + pow(y, 2) + pow(z, 2), 0.5)
+  }
+
+  subtract(to) {
+    return new Vector3D(this.x - to.x, this.y - to.y, this.z - to.z)
   }
 
   toArray() {

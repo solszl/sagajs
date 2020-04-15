@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-19, 15:05:39 (zhenliang.sun)
- * Last Modified: 2020-04-09, 16:39:13 (zhenliang.sun)
+ * Last Modified: 2020-04-15, 17:19:12 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -28,7 +28,7 @@ export const METADATA_TYPE = {
   SLOPE: 'x00281053',
   /** 图像位置, VR: DS */
   ORIGIN: 'x00200032',
-  /** 图像方位， VR: DS */
+  /** 图像方位， VR: DS 。 前三个数字代表分别代表行向量(行递增方向)和X,Y,X轴夹角分别的余弦值(Cosine)，后三个数字分别代表列向量(列递增方向)和X,Y,Z轴夹角分别的余弦值。这样就能精确计算出出该张影像中每一个像素点在坐标系中的位置 */
   ORIENTATION: 'x00200037',
   /** 层厚， VR: DS */
   THICKNESS: 'x00180050',

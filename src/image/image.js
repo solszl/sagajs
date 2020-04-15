@@ -15,7 +15,7 @@ import log from 'loglevel'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-04-15, 00:07:38 (zhenliang.sun)
+ * Last Modified: 2020-04-15, 22:22:01 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -84,24 +84,26 @@ export default class Image extends IEvent {
     }
     const _row = new Vector3D(fn(0), fn(1), fn(2))
     const _column = new Vector3D(fn(3), fn(4), fn(5))
-    const _normal = _row.crossProduct(_column)
-    const _orientationMatrix = new Matrix33(
-      _row.x,
-      _row.y,
-      _row.z,
-      _column.x,
-      _column.y,
-      _column.z,
-      _normal.x,
-      _normal.y,
-      _normal.z
-    )
+    // const _normal = _row.crossProduct(_column)
+    // const _orientationMatrix = new Matrix33(
+    //   _row.x,
+    //   _row.y,
+    //   _row.z,
+    //   _column.x,
+    //   _column.y,
+    //   _column.z,
+    //   _normal.x,
+    //   _normal.y,
+    //   _normal.z
+    // )
+
+    const _orientation = { rowVector: _row, columnVector: _column }
 
     const _spacing = new Spacing(pixelSpacing[0], pixelSpacing[1])
 
     const _size = new Size(columns, rows)
 
-    this.geometry = new Geometry(_origin, _spacing, _size, _orientationMatrix)
+    this.geometry = new Geometry(_origin, _spacing, _size, _orientation)
   }
 
   /**
