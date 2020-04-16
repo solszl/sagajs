@@ -15,7 +15,7 @@ import log from 'loglevel'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-04-15, 22:22:01 (zhenliang.sun)
+ * Last Modified: 2020-04-16, 20:47:07 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -25,7 +25,7 @@ import log from 'loglevel'
 export default class Image extends IEvent {
   constructor() {
     super()
-    this.io = new IO()
+    this.io = new IO({ workerCount: 4 })
     this.io.on(
       LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE,
       this._itemLoadComplete.bind(this)

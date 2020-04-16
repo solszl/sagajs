@@ -5,7 +5,7 @@ import { LOAD_EVENT_ENUM } from '../constants/loader-event'
 /**
  *
  * Created Date: 2020-01-19, 00:56:45 (zhenliang.sun)
- * Last Modified: 2020-04-01, 17:47:47 (zhenliang.sun)
+ * Last Modified: 2020-04-16, 20:53:51 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -34,6 +34,7 @@ export default class Loader extends IEvent {
     }
     this.xhr.onLoad = e => {
       this.costTime = Date.now() - this.costTime
+      this.isLoading = false
       const obj = {
         buffer: e,
         imageId: this.xhr.xhr.responseURL,
