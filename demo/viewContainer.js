@@ -4,7 +4,6 @@ import AngleCommand from '../src/tools/command/angleCommand'
 import EllipseCommand from '../src/tools/command/ellipseCommand'
 import LengthCommand from '../src/tools/command/lengthCommand'
 import MoveCommand from '../src/tools/command/moveCommand'
-import MPRCommand from '../src/tools/command/mprCommand'
 import PlaybackCommand from '../src/tools/command/playbackCommand'
 import ProbeCommand from '../src/tools/command/probeCommand'
 import RACommand from '../src/tools/command/raCommand'
@@ -13,11 +12,12 @@ import ScrollCommand from '../src/tools/command/scrollCommand'
 import WWWCCommand from '../src/tools/command/wwwcCommand'
 import ZoomCommand from '../src/tools/command/zoomCommand'
 import ViewContainer from '../src/view/viewContainer'
+import { MPR } from './mpr'
 
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-04-08, 22:50:20 (zhenliang.sun)
+ * Last Modified: 2020-04-18, 00:27:32 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -27,7 +27,7 @@ import ViewContainer from '../src/view/viewContainer'
 log.setDefaultLevel(1)
 
 const urls = []
-for (let i = 1; i < 40; i += 1) {
+for (let i = 1; i <= 3; i += 1) {
   urls.push(
     // `http://127.0.0.1:8887/1.2.840.113619.2.278.3.2831172146.890.1539296548.557.${i}`
     `http://127.0.0.1:8887/${i}`
@@ -90,5 +90,6 @@ document.querySelector('#tool-rotate').addEventListener('click', () => {
   toolManager.command = new RACommand()
 })
 document.querySelector('#tool-mpr').addEventListener('click', () => {
-  toolManager.command = new MPRCommand()
+  // toolManager.command = new MPRCommand()
+  MPR()
 })
