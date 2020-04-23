@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 03:13:05 (zhenliang.sun)
- * Last Modified: 2020-04-15, 22:50:28 (zhenliang.sun)
+ * Last Modified: 2020-04-20, 17:31:57 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -55,5 +55,9 @@ export default class Point3D {
 
   get z() {
     return this._z
+  }
+
+  toString() {
+    return `(x:${this.x}, y:${this.y}, z:${this.z})`
   }
 }

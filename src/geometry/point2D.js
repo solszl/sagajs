@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 03:12:56 (zhenliang.sun)
- * Last Modified: 2020-02-02, 03:14:33 (zhenliang.sun)
+ * Last Modified: 2020-04-20, 17:31:57 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -45,5 +45,9 @@ export default class Point2D {
 
   get y() {
     return this._y
+  }
+
+  toString() {
+    return `(x:${this.x}, y:${this.y})`
   }
 }

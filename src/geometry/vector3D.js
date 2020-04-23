@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 03:11:34 (zhenliang.sun)
- * Last Modified: 2020-04-15, 22:23:55 (zhenliang.sun)
+ * Last Modified: 2020-04-22, 11:38:06 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -40,7 +40,7 @@ export default class Vector3D {
   }
 
   /**
-   * 判断叉积是否与2个向量垂直
+   * 判断叉积是否与2个向量垂直、与该向量缩成平面的法向量
    * [x1,y1,z1] * [x2,y2,z2] = [y1*z2 - z1*y2, z1*x2 - x1*z2, x1*y2 - x2*y1]
    *
    * @param {*} vector3d
@@ -105,5 +105,9 @@ export default class Vector3D {
 
   get z() {
     return this._z
+  }
+
+  toString() {
+    return `(x:${this.x}, y:${this.y}, z:${this.z})`
   }
 }

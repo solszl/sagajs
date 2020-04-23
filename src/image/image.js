@@ -15,7 +15,7 @@ import log from 'loglevel'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-04-16, 20:47:07 (zhenliang.sun)
+ * Last Modified: 2020-04-23, 20:26:00 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -150,6 +150,8 @@ export default class Image extends IEvent {
       return 'Lossless / Uncompressed'
     }
 
+    const { slicePosition } = parsedObject
+
     this.metaData = {
       bitsStored,
       pixelRepresentation,
@@ -168,7 +170,8 @@ export default class Image extends IEvent {
       seriesDescription,
       seriesNumber,
       sliceLocation,
-      spacingBetweenSlice
+      spacingBetweenSlice,
+      slicePosition
     }
   }
 
@@ -194,12 +197,23 @@ export default class Image extends IEvent {
     this.appendSlice(parsedObject)
     this.appendBuffer(pixelData, slicePosition)
 
+    // 如果读不出来层间距。那么就自己计算一下
     if (!this.metaData.spacingBetweenSlice) {
-      const { sliceLocation } = parsedObject
-      const { sliceLocation: metaSliceLocation } = this.metaData
-      const spacingBetweenSlice = Math.abs(metaSliceLocation - sliceLocation)
+      const { sliceLocation, slicePosition } = parsedObject
+      const {
+        sliceLocation: metaSliceLocation,
+        slicePosition: metaSlicePosition
+      } = this.metaData
+
+      const spacingBetweenSlice = Math.abs(
+        (metaSliceLocation - sliceLocation) /
+          (metaSlicePosition - slicePosition)
+      )
       this.metaData.spacingBetweenSlice = spacingBetweenSlice
       this.geometry.spacing.sliceSpacing = spacingBetweenSlice
+
+      // 删除掉临时的数据
+      delete this.metaData.slicePosition
     }
   }
 
