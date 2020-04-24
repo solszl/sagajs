@@ -17,7 +17,7 @@ import { MPR } from './mpr'
 /**
  *
  * Created Date: 2020-02-25, 17:32:51 (zhenliang.sun)
- * Last Modified: 2020-04-22, 17:43:16 (zhenliang.sun)
+ * Last Modified: 2020-04-24, 16:35:37 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -27,7 +27,7 @@ import { MPR } from './mpr'
 log.setDefaultLevel(1)
 
 const urls = []
-for (let i = 1; i <= 241; i += 1) {
+for (let i = 1; i <= 3; i += 1) {
   urls.push(
     // `http://127.0.0.1:8887/1.2.840.113619.2.278.3.2831172146.890.1539296548.557.${i}`
     `http://127.0.0.1:8887/${i}`
@@ -94,7 +94,7 @@ document.querySelector('#tool-mpr').addEventListener('click', () => {
   MPR(0)
 })
 
-document.querySelector('#range1').addEventListener('input', e => {
-  const angle = e.target.value
-  MPR(angle)
-})
+// document.querySelector('#range1').addEventListener('input', e => {
+//   const angle = e.target.value
+//   MPR(angle)
+// })

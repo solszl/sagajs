@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-04-16, 20:29:07 (zhenliang.sun)
- * Last Modified: 2020-04-23, 17:40:04 (zhenliang.sun)
+ * Last Modified: 2020-04-23, 21:42:39 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -34,16 +34,20 @@ export const MPR = async angle => {
   const angleCosValue = Math.cos((delta / 180) * Math.PI)
   const angleTanValue = Math.tan((delta / 180) * Math.PI)
   const angleSinValue = Math.sin(((90 - delta) / 180) * Math.PI)
-  const newRow =
+
+  const factor = (sliceSpacing * angleCosValue) / rowSpacing
+
+  let newRow =
     delta > 45 ? (column * angleSinValue) >> 0 : (slice / angleCosValue) >> 0
   const newColumn = column
 
+  newRow = (newRow * factor) >> 0
   console.error(`angle:${delta}, column:${newColumn}, row:${newRow}`)
   for (let j = 0; j < newRow; j += 1) {
     for (let i = 0; i < newColumn; i += 1) {
       let sliceIndex = -1
 
-      const value = angleCosValue * j
+      const value = (angleCosValue * j) / factor
       sliceIndex = value >> 0
 
       const decimal = value - (value >> 0)

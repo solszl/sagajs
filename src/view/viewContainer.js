@@ -7,10 +7,11 @@ import { SLICE_EVENT_ENUM } from '../constants/slice-event'
 import Index3D from '../geometry/index3d'
 import View from './view'
 import './../utils/limit'
+import CrossChair from '../tools/shape/crosschair'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-04-08, 23:10:27 (zhenliang.sun)
+ * Last Modified: 2020-04-24, 20:37:14 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -59,13 +60,6 @@ class ViewContainer {
     })
     this.view.on(INTERNAL_EVENT_ENUM.FIRST_SLICE_LOAD_COMPLETED, async () => {
       log.info('first image load completed. prepare for display.')
-      // 2个层， 一个静态层、一个动态层
-      // 静态层包含信息：1，四角信息
-      // 动态层包含信息：1, 图像文件、2，contour、3，长度测量工具、4，角度测量工具、5，区域CT工具、6，长短径工具、7，方位信息
-      this.staticLayer = new Layer({
-        id: 'staticLayer'
-      })
-
       this.dynamicLayer = new Layer({
         id: 'dynamicLayer'
       })
@@ -85,8 +79,10 @@ class ViewContainer {
       this.view.colourMap = COLOUR_ENUM.NORMAL
       this.view.sliceIndex = new Index3D(0, 0, 1)
 
-      this.stage.add(this.staticLayer)
       this.stage.add(this.dynamicLayer)
+
+      this.chair = new CrossChair()
+      this.dynamicGroup.add(this.chair)
 
       this.readyToShow = true
       // 重置一下舞台大小
@@ -125,6 +121,8 @@ class ViewContainer {
     const offsetY = height / scale / 2
     this.stage.offset({ x: offsetX, y: offsetY })
 
+    this.chair.drawReferenceLine()
+
     this.draw()
   }
 
@@ -151,7 +149,6 @@ class ViewContainer {
     this.stage = null
 
     this.imageData = null
-    this.staticLayer.destroy()
     this.dynamicLayer.destroy()
     this.dicomImage.destroy()
     this.dynamicGroup.destroy()
