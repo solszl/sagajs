@@ -2,7 +2,7 @@
 
  *
  * Created Date: 2020-04-24, 14:39:53 (zhenliang.sun)
- * Last Modified: 2020-04-24, 22:12:04 (zhenliang.sun)
+ * Last Modified: 2020-04-26, 20:32:52 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -12,7 +12,6 @@
 import { Group } from 'konva/lib/Group'
 import { Circle } from 'konva/lib/shapes/Circle'
 import { Line } from 'konva/lib/shapes/Line'
-import { getRelativePointerPosition } from '../command/utils/index'
 
 /**
  * MPR的参考线
@@ -21,7 +20,7 @@ import { getRelativePointerPosition } from '../command/utils/index'
  * @extends {Group}
  * @author zhenliang.sun
  */
-class CrossChair extends Group {
+class Crosshair extends Group {
   constructor(cfg) {
     super(cfg)
 
@@ -45,9 +44,13 @@ class CrossChair extends Group {
     this.add(this.handle)
 
     this.line1 = this._createReferenceLine(colors[0], true, this)
+    this.line1.points([0, 0, 235, 0])
     this.line2 = this._createReferenceLine(colors[0], true, this)
+    this.line2.points([0, 0, 235, 0])
     this.line3 = this._createReferenceLine(colors[1], false, this)
+    this.line3.points([0, 0, 0, 235])
     this.line4 = this._createReferenceLine(colors[1], false, this)
+    this.line4.points([0, 0, 0, 235])
 
     this.anchor1 = this._createAnchor(colors[0], this)
     this.anchor2 = this._createAnchor(colors[0], this)
@@ -55,6 +58,10 @@ class CrossChair extends Group {
     this.anchor4 = this._createAnchor(colors[1], this)
 
     this.angle = 0
+
+    this.offset({ x: 256, y: 256 })
+    this.position({ x: 256, y: 256 })
+    this.rotation(30)
   }
 
   /** 鼠标划过的时候进行鼠标样式设定 */
@@ -78,16 +85,13 @@ class CrossChair extends Group {
       return
     }
 
-    const point = getRelativePointerPosition(this.getStage(), true)
     if (line.vertical) {
-      this.handle.y(point.y)
+      this.handle.y(line.y())
     } else {
-      this.handle.x(point.x)
+      this.handle.x(line.x())
     }
 
     this.drawReferenceLine()
-
-    this.getStage().batchDraw()
   }
 
   _getColor(type) {
@@ -131,6 +135,7 @@ class CrossChair extends Group {
       x: 0,
       y: 0,
       dragBoundFunc: pos => {
+        this.draw()
         return {
           x: vertical ? this.absolutePosition().x : pos.x,
           y: vertical ? pos.y : this.absolutePosition().y
@@ -139,7 +144,7 @@ class CrossChair extends Group {
     })
 
     line.vertical = vertical
-    line.on('dragmove', this.onDragReferenceLine.bind(this).throttle(30))
+    line.on('dragmove', this.onDragReferenceLine.bind(this))
 
     if (parent) {
       parent.add(line)
@@ -153,16 +158,24 @@ class CrossChair extends Group {
     x = x >> 0
     y = y >> 0
 
-    this.line1.points([0, y, x - 15, y])
-    this.line2.points([x + 15, y, 512, y])
-    this.line3.points([x, 0, x, y - 15])
-    this.line4.points([x, y + 15, x, 512])
+    this.line1.points([0, 0, x - 21, 0])
+    this.line1.position({ x: 0, y })
+    this.line2.points([0, 0, 512 - x - 21, 0])
+    this.line2.position({ x: x + 21, y })
+    this.line3.points([0, 0, 0, y - 21])
+    this.line3.position({ x, y: 0 })
+    this.line4.points([0, 0, 0, 512 - 21 - y])
+    this.line4.position({ x, y: y + 21 })
 
     this.anchor1.position({ x: 4, y })
     this.anchor2.position({ x: 508, y })
     this.anchor3.position({ x, y: 4 })
     this.anchor4.position({ x, y: 508 })
     this.getLayer().batchDraw()
+
+    console.log(
+      `handle, (x:${x},y:${y}), line1, (x:${this.line2.x()}, y:${this.line2.y()})`
+    )
   }
 }
 
@@ -175,4 +188,4 @@ export const CrossChairColor = {
   Axis: '#FF00FF'
 }
 
-export default CrossChair
+export default Crosshair

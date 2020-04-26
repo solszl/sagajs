@@ -7,11 +7,11 @@ import { SLICE_EVENT_ENUM } from '../constants/slice-event'
 import Index3D from '../geometry/index3d'
 import View from './view'
 import './../utils/limit'
-import CrossChair from '../tools/shape/crosschair'
+import Crosshair from '../tools/shape/crosshair'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-04-24, 20:37:14 (zhenliang.sun)
+ * Last Modified: 2020-04-26, 20:32:55 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -81,7 +81,7 @@ class ViewContainer {
 
       this.stage.add(this.dynamicLayer)
 
-      this.chair = new CrossChair()
+      this.chair = new Crosshair()
       this.dynamicGroup.add(this.chair)
 
       this.readyToShow = true
