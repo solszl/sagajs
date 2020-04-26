@@ -1,17 +1,16 @@
-import { Stage, Layer, Group } from 'konva/lib'
+import { Group, Layer, Stage } from 'konva/lib'
 import { Image } from 'konva/lib/shapes/Image'
 import log from 'loglevel'
 import { COLOUR_ENUM } from '../constants/colour-enum'
 import { INTERNAL_EVENT_ENUM } from '../constants/internal-event'
 import { SLICE_EVENT_ENUM } from '../constants/slice-event'
 import Index3D from '../geometry/index3d'
-import View from './view'
 import './../utils/limit'
-import Crosshair from '../tools/shape/crosshair'
+import View from './view'
 /**
  *
  * Created Date: 2020-02-25, 17:21:02 (zhenliang.sun)
- * Last Modified: 2020-04-26, 20:37:18 (zhenliang.sun)
+ * Last Modified: 2020-04-26, 20:43:46 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -81,9 +80,6 @@ class ViewContainer {
 
       this.stage.add(this.dynamicLayer)
 
-      this.chair = new Crosshair()
-      this.dynamicGroup.add(this.chair)
-
       this.readyToShow = true
       // 重置一下舞台大小
       this.resize()
@@ -120,8 +116,6 @@ class ViewContainer {
     const offsetX = width / scale / 2
     const offsetY = height / scale / 2
     this.stage.offset({ x: offsetX, y: offsetY })
-
-    this.chair.drawReferenceLine()
 
     this.draw()
   }
