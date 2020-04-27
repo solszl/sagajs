@@ -1,0 +1,44 @@
+/*
+ * Filename: /Users/zhenliang.sun/work/my/sagajs/demo/mpr.css
+ * Path: /Users/zhenliang.sun/work/my/sagajs
+ * Created Date: Monday, April 27th 2020, 2:45:28 pm
+ * Author: zhenliang.sun
+ *
+ * Copyright (c) 2020 infervision
+ */
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: antiquewhite;
+}
+
+div {
+  box-sizing: content-box;
+}
+
+input {
+  width: 160px;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.main {
+  display: flex;
+}
+
+.content-wrapper {
+  margin-right: 20px;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  width: 512px;
+  height: 512px;
+}
