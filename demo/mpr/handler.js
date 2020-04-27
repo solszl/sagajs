@@ -3,7 +3,7 @@ import MPR3D from './mpr3d'
 /**
  *
  * Created Date: 2020-04-27, 15:05:29 (zhenliang.sun)
- * Last Modified: 2020-04-27, 17:46:38 (zhenliang.sun)
+ * Last Modified: 2020-04-28, 01:38:51 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -141,9 +141,12 @@ const openMPR = e => {
   mprIsOpen = true
 
   const config = {}
-  config.column = 512
-  config.row = 512
-  config.slice = 241
+
+  const size = {}
+  size.column = 512
+  size.row = 512
+  size.slice = 241
+  config.size = size
 
   // 图像原始数据
   config.images = sdk.currentView.view.image.pixelBuffer
