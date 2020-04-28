@@ -2,10 +2,11 @@ import log from 'loglevel'
 import ViewContainer from '../src/view/viewContainer'
 import SDK from '../src/sdk'
 import { addEvent, initImageContainer } from './mpr/handler'
+import SimpleView from '../src/view/simpleView'
 /**
  *
  * Created Date: 2020-04-27, 14:42:09 (zhenliang.sun)
- * Last Modified: 2020-05-06, 04:15:10 (zhenliang.sun)
+ * Last Modified: 2020-04-28, 21:35:41 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -25,11 +26,21 @@ for (let i = 1; i <= 249; i += 1) {
 const sdk = new SDK()
 window.sdk = sdk
 
-const viewContainer = new ViewContainer('content')
-viewContainer.setURLs(urls)
+const leftContainer = new ViewContainer('content')
+leftContainer.setURLs(urls)
 
 const { viewManager } = sdk
-viewManager.addView(viewContainer)
+viewManager.addView(leftContainer)
+
+const middleView = new SimpleView('content-middle')
+middleView.stage.rotation(90)
+viewManager.addView(middleView)
+
+const rightView = new SimpleView('content-right')
+rightView.stage.rotation(90)
+viewManager.addView(rightView)
+
+viewManager.currentView = leftContainer
 
 addEvent()
 

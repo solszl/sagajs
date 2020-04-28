@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-04-27, 15:53:26 (zhenliang.sun)
- * Last Modified: 2020-05-06, 04:42:55 (zhenliang.sun)
+ * Last Modified: 2020-04-28, 21:35:04 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -25,12 +25,12 @@ class MPR3D extends IEvent {
   }
 
   make(x, y, z, a, b, c) {
-    this.x = x
-    this.y = y
-    this.z = z
-    this.a = a
-    this.b = b
-    this.c = c
+    this.x = ~~x
+    this.y = ~~y
+    this.z = ~~z
+    this.a = ~~a
+    this.b = ~~b
+    this.c = ~~c
     // x,矢状位（黄色）， y,冠状位（蓝色），z,轴状位（紫色）
     // a, 轴状位不变，影响冠状位和矢状位旋转角度成像
     // b, 矢状位不变，影响轴状位和冠状位旋转角度成像
@@ -100,21 +100,60 @@ class MPR3D extends IEvent {
   /** 矢状位 */
   makeSagittalImage() {
     const { spY, spZ } = this.config.spacing
+
+    // const r1 = this.getIntersectionData(this.x, this.z, this.a, column, slice)
+    // const r2 = this.getIntersectionData(this.y, this.z, this.c, row, slice)
+
+    // console.error('~~~~~~~~~~~')
+    // console.error(
+    //   `x:${this.x}, y:${this.y}, z:${this.z}, a:${this.a}, b:${this.b}, c:${this.c}`
+    // )
+    // console.error('r1', r1.p1.toString(), r1.p2.toString(), r1.angle, r1.length)
+    // console.error('r2', r2.p1.toString(), r2.p2.toString(), r2.angle, r2.length)
+
     const { column, row, slice } = this.config.size
+    const newBuffer = [] // 存的是原始PixelData
+    const newColumn = row
+    const newRow = slice
+    const { images: originImageBufferMap } = this.config
 
-    const r1 = this.getIntersectionData(this.x, this.z, this.a, column, slice)
-    const r2 = this.getIntersectionData(this.y, this.z, this.c, row, slice)
+    for (let j = 0; j < newRow; j += 1) {
+      for (let i = 0; i < newColumn; i += 1) {
+        const data = originImageBufferMap.get(j + 1)[i * row + this.x]
+        newBuffer[i * newRow + j] = data
+      }
+    }
 
-    console.error('~~~~~~~~~~~')
-    console.error(
-      `x:${this.x}, y:${this.y}, z:${this.z}, a:${this.a}, b:${this.b}, c:${this.c}`
-    )
-    console.error('r1', r1.p1.toString(), r1.p2.toString(), r1.angle, r1.length)
-    console.error('r2', r2.p1.toString(), r2.p2.toString(), r2.angle, r2.length)
+    this.emit('render', {
+      type: 'sagittal',
+      buffer: newBuffer,
+      width: newRow,
+      height: newColumn
+    })
   }
 
   /** 冠状位 */
-  makeCoronalImage() {}
+  makeCoronalImage() {
+    const { column, row, slice } = this.config.size
+    const { spX, spY, spZ } = this.config.spacing
+    const newBuffer = [] // 存的是原始PixelData
+    const newColumn = column
+    const newRow = slice
+    const { images: originImageBufferMap } = this.config
+    for (let i = 0; i < newRow; i += 1) {
+      for (let j = 0; j < newColumn; j += 1) {
+        const data = originImageBufferMap.get(i + 1)[this.y * column + j]
+        newBuffer[j * newRow + i] = data
+      }
+    }
+
+    this.emit('render', {
+      type: 'coronal',
+      buffer: newBuffer,
+      width: newRow,
+      height: newColumn
+    })
+  }
 
   getIntersectionData(x, y, alpha, width = 512, height = 512) {
     if (alpha === 90 || alpha === 180) {

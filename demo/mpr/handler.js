@@ -1,11 +1,9 @@
 import MPR3D from './mpr3d'
-import { Stage, Layer } from 'konva/lib/'
-import { Image } from 'konva/lib/shapes/Image'
 
 /**
  *
  * Created Date: 2020-04-27, 15:05:29 (zhenliang.sun)
- * Last Modified: 2020-05-06, 04:26:54 (zhenliang.sun)
+ * Last Modified: 2020-04-28, 21:01:24 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -57,11 +55,7 @@ export const addEvent = () => {
 }
 
 const leftAxisChange = e => {
-  // 前后增加
-  const sliceIndex = sdk.currentView.view.sliceIndex.clone()
-  const currentValue = ~~e.target.value + 1
-  sliceIndex.k = currentValue
-  sdk.currentView.view.sliceIndex = sliceIndex
+  gotoPage(~~e.target.value)
 
   document.querySelector('#middle-axis').value = e.target.value
   document.querySelector('#right-axis').value = e.target.value
@@ -97,6 +91,7 @@ const middleSagittalChange = e => {
 }
 
 const middleAxisChange = e => {
+  gotoPage(~~e.target.value)
   document.querySelector('#left-axis').value = e.target.value
   document.querySelector('#right-axis').value = e.target.value
   mprIsOpen && makeMPR()
@@ -119,6 +114,7 @@ const rightSagittalChange = e => {
 }
 
 const rightAxisChange = e => {
+  gotoPage(~~e.target.value)
   document.querySelector('#left-axis').value = e.target.value
   document.querySelector('#middle-axis').value = e.target.value
   mprIsOpen && makeMPR()
@@ -126,6 +122,14 @@ const rightAxisChange = e => {
 
 const rightAngleChange = e => {
   mprIsOpen && makeMPR()
+}
+
+const gotoPage = page => {
+  // 前后增加
+  const sliceIndex = sdk.currentView.view.sliceIndex.clone()
+  const currentValue = page + 1
+  sliceIndex.k = currentValue
+  sdk.currentView.view.sliceIndex = sliceIndex
 }
 
 const makeMPR = () => {
@@ -187,33 +191,25 @@ const openMPR = async e => {
   })
 
   console.log(config)
+
+  window.mpr = mpr
 }
 
-let stage
-let img
-export const initImageContainer = () => {
-  // 显示视图舞台
-  stage = new Stage({
-    container: 'content-right-top',
-    width: 512,
-    height: 512
-  })
-
-  const layer = new Layer()
-  stage.add(layer)
-
-  img = new Image()
-  layer.add(img)
+const buildImageData = async (buffer, width, height) => {
+  const imageData = new ImageData(width, height)
+  generateImageData(imageData, buffer)
+  const imageBitmap = await createImageBitmap(imageData)
+  return imageBitmap
 }
 
-const generateImageData = (buffer, imageData) => {
+const generateImageData = (imageData, originBuffer) => {
   const lut = sdk.currentView.view.windowLut
   const colourMap = sdk.currentView.view.colourMap.colour
 
   let pixelIndex = 0
   let bufferIndex = 0
-  while (pixelIndex < buffer.length) {
-    const pixelData = lut.getValue(buffer[pixelIndex])
+  while (pixelIndex < originBuffer.length) {
+    const pixelData = lut.getValue(originBuffer[pixelIndex])
     imageData.data[bufferIndex] = colourMap.red[pixelData] // red
     imageData.data[bufferIndex + 1] = colourMap.green[pixelData] // green
     imageData.data[bufferIndex + 2] = colourMap.blue[pixelData] // blue
