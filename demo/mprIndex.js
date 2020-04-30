@@ -6,7 +6,7 @@ import SimpleView from '../src/view/simpleView'
 /**
  *
  * Created Date: 2020-04-27, 14:42:09 (zhenliang.sun)
- * Last Modified: 2020-04-28, 21:35:41 (zhenliang.sun)
+ * Last Modified: 2020-04-29, 00:34:27 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.

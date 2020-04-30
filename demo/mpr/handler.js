@@ -3,7 +3,7 @@ import MPR3D from './mpr3d'
 /**
  *
  * Created Date: 2020-04-27, 15:05:29 (zhenliang.sun)
- * Last Modified: 2020-04-28, 21:01:24 (zhenliang.sun)
+ * Last Modified: 2020-04-29, 00:11:34 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -156,6 +156,7 @@ const openMPR = async e => {
 
   // 图像原始数据
   config.images = sdk.currentView.view.image.pixelBuffer
+  config.thickness = sdk.currentView.view.image.metaData.thickness
   // 查找表
   config.lut = sdk.currentView.view.windowLut
   // 窗宽窗位
