@@ -40,6 +40,7 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "gl-matrix": "^3.3.0",
     "happypack": "^5.0.1",
     "html-webpack-plugin": "^4.0.1",
     "konva": "^4.2.2",

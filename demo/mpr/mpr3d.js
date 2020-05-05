@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-04-27, 15:53:26 (zhenliang.sun)
- * Last Modified: 2020-04-28, 02:40:29 (zhenliang.sun)
+ * Last Modified: 2020-05-06, 04:42:55 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -10,6 +10,7 @@
 
 import IEvent from '../../src/component/event'
 import Point2D from '../../src/geometry/point2D'
+import { mat4, vec3 } from 'gl-matrix'
 
 class MPR3D extends IEvent {
   constructor(cfg) {
@@ -42,11 +43,55 @@ class MPR3D extends IEvent {
     */
 
     // 轴状位
-    this.makeAxisImage()
-    // 矢状位
-    this.makeSagittalImage()
-    // 冠状位
-    this.makeCoronalImage()
+    // this.makeAxisImage()
+    // // 矢状位
+    // this.makeSagittalImage()
+    // // 冠状位
+    // this.makeCoronalImage()
+
+    this.test()
+  }
+
+  test() {
+    const angle = Math.max(this.a % 90, 1)
+    const m = mat4.create()
+    const offsetVec = vec3.fromValues(256, 256, 124)
+    mat4.set(m, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
+    mat4.translate(m, m, offsetVec)
+    // mat4.rotateX(m, m, (-45 / 180) * Math.PI)
+    // mat4.rotateY(m, m, (-45 / 180) * Math.PI)
+    mat4.rotateZ(m, m, (angle / 180) * Math.PI)
+    mat4.invert(m, m)
+    const deg = (angle / 180) * Math.PI
+    const newRow = (512 / Math.cos(deg)) >> 0
+    const newColumn = 249
+    const v3 = vec3.create()
+    const data = new Array(newColumn * newColumn).fill(0)
+
+    const { images } = this.config
+    for (let i = 0; i < newRow; i++) {
+      for (let j = 0; j < newColumn; j++) {
+        const x = i * Math.cos(deg)
+        const y = j * Math.sin(deg)
+        vec3.set(v3, x, y, j)
+        vec3.transformMat4(v3, v3, m)
+        vec3.add(v3, v3, offsetVec)
+        if (v3[0] < 512 && v3[1] < 512 && v3[2] > 0 && v3[2] < 249) {
+          data[i * newRow + j] = images.get(~~v3[2] >> 0)[
+            ((v3[0] >> 0) * 512 + v3[1]) >> 0
+          ]
+        } else {
+          data[i * newRow + j] = 0
+        }
+      }
+    }
+
+    this.emit('render', {
+      type: 'sagittal',
+      width: newRow,
+      height: newColumn,
+      buffer: data
+    })
   }
 
   /** 轴状位 */

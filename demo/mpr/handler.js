@@ -1,9 +1,11 @@
 import MPR3D from './mpr3d'
+import { Stage, Layer } from 'konva/lib/'
+import { Image } from 'konva/lib/shapes/Image'
 
 /**
  *
  * Created Date: 2020-04-27, 15:05:29 (zhenliang.sun)
- * Last Modified: 2020-04-28, 01:38:51 (zhenliang.sun)
+ * Last Modified: 2020-05-06, 04:26:54 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -137,7 +139,7 @@ const makeMPR = () => {
   mpr.make(x, y, z, a, b, c)
 }
 
-const openMPR = e => {
+const openMPR = async e => {
   mprIsOpen = true
 
   const config = {}
@@ -167,9 +169,56 @@ const openMPR = e => {
   config.spacing = spacing
 
   mpr = new MPR3D(config)
-  mpr.on('render', e => {
+  mpr.on('render', async e => {
     // 根据渲染出来的不同的层面，在不同容器内进行渲染
+    let imageData
+    switch (e.type) {
+      case 'axis':
+        break
+      case 'sagittal':
+        imageData = new ImageData(e.width, e.height)
+        generateImageData(e.buffer, imageData)
+        img.image(await createImageBitmap(imageData))
+        stage.draw()
+        break
+      default:
+        break
+    }
   })
 
   console.log(config)
+}
+
+let stage
+let img
+export const initImageContainer = () => {
+  // 显示视图舞台
+  stage = new Stage({
+    container: 'content-right-top',
+    width: 512,
+    height: 512
+  })
+
+  const layer = new Layer()
+  stage.add(layer)
+
+  img = new Image()
+  layer.add(img)
+}
+
+const generateImageData = (buffer, imageData) => {
+  const lut = sdk.currentView.view.windowLut
+  const colourMap = sdk.currentView.view.colourMap.colour
+
+  let pixelIndex = 0
+  let bufferIndex = 0
+  while (pixelIndex < buffer.length) {
+    const pixelData = lut.getValue(buffer[pixelIndex])
+    imageData.data[bufferIndex] = colourMap.red[pixelData] // red
+    imageData.data[bufferIndex + 1] = colourMap.green[pixelData] // green
+    imageData.data[bufferIndex + 2] = colourMap.blue[pixelData] // blue
+    imageData.data[bufferIndex + 3] = 0xff // alpha
+    pixelIndex += 1
+    bufferIndex += 4
+  }
 }
