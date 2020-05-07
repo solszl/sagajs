@@ -1,9 +1,12 @@
 import MPR3D from './mpr3d'
+import { Stage, Layer } from 'konva/lib/'
+import { Image } from 'konva/lib/shapes/Image'
+import SimpleView from '../../src/view/simpleView'
 
 /**
  *
  * Created Date: 2020-04-27, 15:05:29 (zhenliang.sun)
- * Last Modified: 2020-04-29, 00:11:34 (zhenliang.sun)
+ * Last Modified: 2020-05-07, 21:53:25 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -11,6 +14,10 @@ import MPR3D from './mpr3d'
  */
 let mprIsOpen = false
 let mpr
+let axisAngle = 0
+let sagittalAngle = 0
+let coronalAngle = 0
+
 export const addEvent = () => {
   document
     .querySelector('#left-axis')
@@ -75,6 +82,11 @@ const leftSagittalChange = e => {
 }
 
 const leftAngleChange = e => {
+  // 轴状位视图旋转会影响到，蓝线和黄线， 对应的黄线和蓝线旋转对应的角度
+  // 矢状位
+  sagittalAngle = e.target.value
+  // 冠状位
+  coronalAngle = e.target.value
   mprIsOpen && makeMPR()
 }
 
@@ -98,6 +110,11 @@ const middleAxisChange = e => {
 }
 
 const middleAngleChange = e => {
+  // 矢状位视图下，旋转角度会影响 蓝线和紫线 对应冠状位和轴状位
+  // 轴状位
+  axisAngle = e.target.value
+  // 冠状位
+  coronalAngle = e.target.value
   mprIsOpen && makeMPR()
 }
 
@@ -121,6 +138,10 @@ const rightAxisChange = e => {
 }
 
 const rightAngleChange = e => {
+  // 冠状位视图下旋转影响 黄线和紫线， 对应矢状位和轴状位
+  // 轴状位
+  axisAngle = e.target.value
+  sagittalAngle = e.target.value
   mprIsOpen && makeMPR()
 }
 
@@ -133,14 +154,11 @@ const gotoPage = page => {
 }
 
 const makeMPR = () => {
-  const x = document.querySelector('#left-sagittal').value
-  const y = document.querySelector('#left-coronal').value
-  const z = document.querySelector('#left-axis').value
-  const a = document.querySelector('#left-angle').value
-  const b = document.querySelector('#middle-angle').value
-  const c = document.querySelector('#right-angle').value
+  const centerX = document.querySelector('#left-sagittal').value
+  const centerY = document.querySelector('#left-coronal').value
+  const centerZ = document.querySelector('#left-axis').value
 
-  mpr.make(x, y, z, a, b, c)
+  mpr.make(centerX, centerY, centerZ, axisAngle, sagittalAngle, coronalAngle)
 }
 
 const openMPR = async e => {
@@ -151,7 +169,7 @@ const openMPR = async e => {
   const size = {}
   size.column = 512
   size.row = 512
-  size.slice = 241
+  size.slice = 225
   config.size = size
 
   // 图像原始数据
@@ -182,9 +200,9 @@ const openMPR = async e => {
         break
       case 'sagittal':
         imageData = new ImageData(e.width, e.height)
-        generateImageData(e.buffer, imageData)
-        img.image(await createImageBitmap(imageData))
-        stage.draw()
+        generateImageData(imageData, e.buffer)
+        middleView.image.image(await createImageBitmap(imageData))
+        middleView.render()
         break
       default:
         break
@@ -194,6 +212,7 @@ const openMPR = async e => {
   console.log(config)
 
   window.mpr = mpr
+  window.middleView = middleView
 }
 
 const buildImageData = async (buffer, width, height) => {
@@ -218,4 +237,12 @@ const generateImageData = (imageData, originBuffer) => {
     pixelIndex += 1
     bufferIndex += 4
   }
+}
+
+let middleView
+let rightView
+export const initImageContainer = () => {
+  // 显示视图舞台
+  middleView = new SimpleView('content-middle')
+  rightView = new SimpleView('content-right')
 }
