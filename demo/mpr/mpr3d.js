@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-04-27, 15:53:26 (zhenliang.sun)
- * Last Modified: 2020-05-07, 22:54:44 (zhenliang.sun)
+ * Last Modified: 2020-05-08, 23:36:19 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -12,6 +12,13 @@ import IEvent from '../../src/component/event'
 import Point2D from '../../src/geometry/point2D'
 import { mat4, vec3 } from 'gl-matrix'
 
+/** 当做绕多于一个坐标轴的旋转变换时
+ *  一般采用Y轴-X轴-Z轴的顺序进行变换
+ *  这同日常生活中人们观察物体的习惯顺序相似
+ *  先观察两侧(绕Y轴)
+ *  再观察上下(绕X轴)
+ *  再观察纵深(绕Z轴)。
+ */
 class MPR3D extends IEvent {
   constructor(cfg) {
     super()
@@ -19,18 +26,18 @@ class MPR3D extends IEvent {
     this.centerX = -1
     this.centerY = -1
     this.centerZ = -1
-    this.axisAngle = 0
-    this.sagittalAngle = 0
-    this.coronalAngle = 0
+    this.angleX = 0
+    this.angleY = 0
+    this.angleZ = 0
   }
 
-  make(centerX, centerY, centerZ, axisAngle, sagittalAngle, coronalAngle) {
+  make(centerX, centerY, centerZ, angleX, angleY, angleZ) {
     this.centerX = ~~centerX
     this.centerY = ~~centerY
     this.centerZ = ~~centerZ
-    this.axisAngle = ~~axisAngle
-    this.sagittalAngle = ~~sagittalAngle
-    this.coronalAngle = ~~coronalAngle
+    this.angleX = ~~angleX
+    this.angleY = ~~angleY
+    this.angleZ = ~~angleZ
     // x,矢状位（黄色）， y,冠状位（蓝色），z,轴状位（紫色）
     // a, 轴状位不变，影响冠状位和矢状位旋转角度成像
     // b, 矢状位不变，影响轴状位和冠状位旋转角度成像
@@ -114,17 +121,20 @@ class MPR3D extends IEvent {
     const { column, row, slice } = this.config.size
     const { images } = this.config
 
-    const newW = Math.round(
-      slice / Math.cos((this.sagittalAngle / 180) * Math.PI)
-    )
-    const newH = Math.round(
-      column / Math.cos((this.sagittalAngle / 180) * Math.PI)
-    )
+    let newW = 0
+    let newH = 0
+    if (this.angleZ < 45) {
+      newW = Math.round(slice / Math.cos((this.angleY / 180) * Math.PI))
+      newH = Math.round(column / Math.cos((this.angleZ / 180) * Math.PI))
+    } else {
+      newW = Math.round(slice / Math.cos((this.angleY / 180) * Math.PI))
+      newH = Math.round(column / Math.cos(((90 - this.angleZ) / 180) * Math.PI))
+    }
+
+    console.log(`newW:${newW}, newH:${newH}, angleZ:${this.angleZ}`)
 
     const matrix = mat4.create()
-    mat4.rotate(matrix, matrix, (this.sagittalAngle / 180) * Math.PI, [1, 0, 0])
-    mat4.rotate(matrix, matrix, (this.sagittalAngle / 180) * Math.PI, [0, 1, 0]) // test
-    // mat4.rotate(matrix, matrix, (this.coronalAngle / 180) * Math.PI, [0, 0, 1])
+    mat4.rotate(matrix, matrix, (this.angleZ / 180) * Math.PI, [0, 0, 1])
     // const center = vec3.create()
     // vec3.set(center, 256, 256, 0)
     // mat4.translate(matrix, matrix, center)
@@ -135,19 +145,15 @@ class MPR3D extends IEvent {
     const data = new Array(newW * newH).fill(0)
     for (let i = 0; i < newH; i += 1) {
       for (let j = 0; j <= newW; j += 1) {
-        vec3.set(va, this.centerY, i, j)
+        vec3.set(va, this.centerX, i, j)
         vec3.transformMat4(va, va, matrix)
         vec3.round(va, va)
-        if (
-          va[0] >= 0 &&
-          va[0] < column &&
-          va[1] >= 0 &&
-          va[1] < row &&
-          va[2] >= 0 &&
-          va[2] < slice - 1
-        ) {
+
+        if (va[0] >= 0 && va[0] <= column && va[1] >= 0 && va[1] <= row && va[2] >= 0 && va[2] < slice - 1) {
           const pixel = images.get(va[2] + 1)[va[1] * row + va[0]]
           data[i * newW + j] = pixel
+        } else {
+          data[i * newW + j] = -2000
         }
       }
     }

@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-04-28, 15:39:46 (zhenliang.sun)
- * Last Modified: 2020-05-07, 20:25:19 (zhenliang.sun)
+ * Last Modified: 2020-05-09, 00:05:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -60,6 +60,37 @@ class SimpleView {
 
   render() {
     this.stage.batchDraw()
+  }
+
+  setImage(bitmapImage) {
+    this.image.image(bitmapImage)
+  }
+
+  imageFit() {
+    let scale = 1
+    if (this.image.getHeight() > 512) {
+      scale = 512 / this.image.getHeight()
+    } else if (this.image.getWidth() > 512) {
+      scale = 512 / this.image.getWidth()
+    }
+
+    if (scale === 1) {
+      return
+    }
+    this.image.scale({ x: scale, y: scale })
+    this.image.x((Math.max(this.image.getWidth(), this.stage.getWidth()) - Math.min(this.image.getWidth(), this.stage.getWidth())) >> 1)
+    this.image.y((Math.max(this.image.getHeight(), this.stage.getHeight()) - Math.min(this.image.getHeight(), this.stage.getHeight())) >> 1)
+    // this.image.offsetX(this.image.getWidth() >> 1)
+    // this.image.offsetY(this.image.getHeight() >> 1)
+
+    console.log('~~~~~~~~~~~~~~~~~~')
+    console.log(`stage: width:${this.stage.getWidth()}, height: ${this.stage.getHeight()}`)
+    console.log(`image: width:${this.image.getWidth()}, height: ${this.image.getHeight()}`)
+    console.log(`image: offsetX:${this.image.offsetX()}, offsetY: ${this.image.offsetY()}`)
+    console.log(`image: x:${this.image.x()}, y: ${this.image.y()}`)
+    console.log(`scale: ${scale}`)
+
+    this.image.getLayer().batchDraw()
   }
 }
 

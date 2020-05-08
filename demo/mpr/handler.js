@@ -6,7 +6,7 @@ import SimpleView from '../../src/view/simpleView'
 /**
  *
  * Created Date: 2020-04-27, 15:05:29 (zhenliang.sun)
- * Last Modified: 2020-05-07, 21:53:25 (zhenliang.sun)
+ * Last Modified: 2020-05-08, 23:57:55 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -14,49 +14,25 @@ import SimpleView from '../../src/view/simpleView'
  */
 let mprIsOpen = false
 let mpr
-let axisAngle = 0
-let sagittalAngle = 0
-let coronalAngle = 0
+let angleX = 0
+let angleY = 0
+let angleZ = 0
 
 export const addEvent = () => {
-  document
-    .querySelector('#left-axis')
-    .addEventListener('input', leftAxisChange.throttle(30))
-  document
-    .querySelector('#left-coronal')
-    .addEventListener('input', leftCoronalChange.throttle(30))
-  document
-    .querySelector('#left-sagittal')
-    .addEventListener('input', leftSagittalChange.throttle(30))
-  document
-    .querySelector('#left-angle')
-    .addEventListener('input', leftAngleChange.throttle(30))
+  document.querySelector('#left-axis').addEventListener('input', leftAxisChange.throttle(30))
+  document.querySelector('#left-coronal').addEventListener('input', leftCoronalChange.throttle(30))
+  document.querySelector('#left-sagittal').addEventListener('input', leftSagittalChange.throttle(30))
+  document.querySelector('#left-angle').addEventListener('input', leftAngleChange.throttle(30))
 
-  document
-    .querySelector('#middle-coronal')
-    .addEventListener('input', middleCoronalChange.throttle(30))
-  document
-    .querySelector('#middle-sagittal')
-    .addEventListener('input', middleSagittalChange.throttle(30))
-  document
-    .querySelector('#middle-axis')
-    .addEventListener('input', middleAxisChange.throttle(30))
-  document
-    .querySelector('#middle-angle')
-    .addEventListener('input', middleAngleChange.throttle(30))
+  document.querySelector('#middle-coronal').addEventListener('input', middleCoronalChange.throttle(30))
+  document.querySelector('#middle-sagittal').addEventListener('input', middleSagittalChange.throttle(30))
+  document.querySelector('#middle-axis').addEventListener('input', middleAxisChange.throttle(30))
+  document.querySelector('#middle-angle').addEventListener('input', middleAngleChange.throttle(30))
 
-  document
-    .querySelector('#right-coronal')
-    .addEventListener('input', rightCoronalChange.throttle(30))
-  document
-    .querySelector('#right-sagittal')
-    .addEventListener('input', rightSagittalChange.throttle(30))
-  document
-    .querySelector('#right-axis')
-    .addEventListener('input', rightAxisChange.throttle(30))
-  document
-    .querySelector('#right-angle')
-    .addEventListener('input', rightAngleChange.throttle(30))
+  document.querySelector('#right-coronal').addEventListener('input', rightCoronalChange.throttle(30))
+  document.querySelector('#right-sagittal').addEventListener('input', rightSagittalChange.throttle(30))
+  document.querySelector('#right-axis').addEventListener('input', rightAxisChange.throttle(30))
+  document.querySelector('#right-angle').addEventListener('input', rightAngleChange.throttle(30))
 
   document.querySelector('#btnMPR').addEventListener('click', openMPR)
 }
@@ -84,9 +60,9 @@ const leftSagittalChange = e => {
 const leftAngleChange = e => {
   // 轴状位视图旋转会影响到，蓝线和黄线， 对应的黄线和蓝线旋转对应的角度
   // 矢状位
-  sagittalAngle = e.target.value
+  angleY = e.target.value
   // 冠状位
-  coronalAngle = e.target.value
+  angleZ = e.target.value
   mprIsOpen && makeMPR()
 }
 
@@ -112,9 +88,9 @@ const middleAxisChange = e => {
 const middleAngleChange = e => {
   // 矢状位视图下，旋转角度会影响 蓝线和紫线 对应冠状位和轴状位
   // 轴状位
-  axisAngle = e.target.value
+  angleX = e.target.value
   // 冠状位
-  coronalAngle = e.target.value
+  angleZ = e.target.value
   mprIsOpen && makeMPR()
 }
 
@@ -140,8 +116,8 @@ const rightAxisChange = e => {
 const rightAngleChange = e => {
   // 冠状位视图下旋转影响 黄线和紫线， 对应矢状位和轴状位
   // 轴状位
-  axisAngle = e.target.value
-  sagittalAngle = e.target.value
+  angleX = e.target.value
+  angleY = e.target.value
   mprIsOpen && makeMPR()
 }
 
@@ -154,11 +130,16 @@ const gotoPage = page => {
 }
 
 const makeMPR = () => {
-  const centerX = document.querySelector('#left-sagittal').value
-  const centerY = document.querySelector('#left-coronal').value
-  const centerZ = document.querySelector('#left-axis').value
+  // const centerX = document.querySelector('#left-sagittal').value
+  // const centerY = document.querySelector('#left-coronal').value
+  // const centerZ = document.querySelector('#left-axis').value
 
-  mpr.make(centerX, centerY, centerZ, axisAngle, sagittalAngle, coronalAngle)
+  const centerX = 256
+  const centerY = 0
+  const centerZ = 0
+  angleX = 0
+  angleY = 0
+  mpr.make(centerX, centerY, centerZ, angleX, angleY, angleZ)
 }
 
 const openMPR = async e => {
@@ -181,11 +162,7 @@ const openMPR = async e => {
   config.colourMap = sdk.currentView.view.colourMap.colour
 
   const spacing = {}
-  const {
-    columnSpacing,
-    rowSpacing,
-    sliceSpacing
-  } = sdk.currentView.view.image.geometry.spacing
+  const { columnSpacing, rowSpacing, sliceSpacing } = sdk.currentView.view.image.geometry.spacing
   spacing.spX = columnSpacing
   spacing.spY = rowSpacing
   spacing.spZ = sliceSpacing
@@ -201,8 +178,11 @@ const openMPR = async e => {
       case 'sagittal':
         imageData = new ImageData(e.width, e.height)
         generateImageData(imageData, e.buffer)
-        middleView.image.image(await createImageBitmap(imageData))
+        middleView.setImage(await createImageBitmap(imageData))
+        middleView.imageFit()
         middleView.render()
+
+        console.log(imageData.width, imageData.height, e.buffer.length)
         break
       default:
         break
@@ -244,5 +224,6 @@ let rightView
 export const initImageContainer = () => {
   // 显示视图舞台
   middleView = new SimpleView('content-middle')
+  // middleView.stage.rotation(90)
   rightView = new SimpleView('content-right')
 }
