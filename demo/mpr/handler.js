@@ -6,7 +6,7 @@ import SimpleView from '../../src/view/simpleView'
 /**
  *
  * Created Date: 2020-04-27, 15:05:29 (zhenliang.sun)
- * Last Modified: 2020-05-08, 23:57:55 (zhenliang.sun)
+ * Last Modified: 2020-05-09, 17:55:25 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -59,10 +59,12 @@ const leftSagittalChange = e => {
 
 const leftAngleChange = e => {
   // 轴状位视图旋转会影响到，蓝线和黄线， 对应的黄线和蓝线旋转对应的角度
-  // 矢状位
-  angleY = e.target.value
-  // 冠状位
-  angleZ = e.target.value
+  // // 矢状位
+  // angleY = e.target.value
+  // // 冠状位
+  // angleZ = e.target.value
+
+  angleX = e.target.value
   mprIsOpen && makeMPR()
 }
 
@@ -88,9 +90,10 @@ const middleAxisChange = e => {
 const middleAngleChange = e => {
   // 矢状位视图下，旋转角度会影响 蓝线和紫线 对应冠状位和轴状位
   // 轴状位
-  angleX = e.target.value
-  // 冠状位
-  angleZ = e.target.value
+  // angleX = e.target.value
+  // // 冠状位
+  // angleZ = e.target.value
+  angleY = e.target.value
   mprIsOpen && makeMPR()
 }
 
@@ -116,8 +119,9 @@ const rightAxisChange = e => {
 const rightAngleChange = e => {
   // 冠状位视图下旋转影响 黄线和紫线， 对应矢状位和轴状位
   // 轴状位
-  angleX = e.target.value
-  angleY = e.target.value
+  // angleX = e.target.value
+  // angleY = e.target.value
+  angleZ = e.target.value
   mprIsOpen && makeMPR()
 }
 
@@ -130,15 +134,10 @@ const gotoPage = page => {
 }
 
 const makeMPR = () => {
-  // const centerX = document.querySelector('#left-sagittal').value
-  // const centerY = document.querySelector('#left-coronal').value
-  // const centerZ = document.querySelector('#left-axis').value
+  const centerX = document.querySelector('#left-sagittal').value
+  const centerY = document.querySelector('#left-coronal').value
+  const centerZ = document.querySelector('#left-axis').value
 
-  const centerX = 256
-  const centerY = 0
-  const centerZ = 0
-  angleX = 0
-  angleY = 0
   mpr.make(centerX, centerY, centerZ, angleX, angleY, angleZ)
 }
 
@@ -179,7 +178,7 @@ const openMPR = async e => {
         imageData = new ImageData(e.width, e.height)
         generateImageData(imageData, e.buffer)
         middleView.setImage(await createImageBitmap(imageData))
-        middleView.imageFit()
+        // middleView.imageFit()
         middleView.render()
 
         console.log(imageData.width, imageData.height, e.buffer.length)
@@ -193,6 +192,8 @@ const openMPR = async e => {
 
   window.mpr = mpr
   window.middleView = middleView
+
+  makeMPR()
 }
 
 const buildImageData = async (buffer, width, height) => {

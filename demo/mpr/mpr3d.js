@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-04-27, 15:53:26 (zhenliang.sun)
- * Last Modified: 2020-05-08, 23:36:19 (zhenliang.sun)
+ * Last Modified: 2020-05-09, 19:02:27 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -117,7 +117,6 @@ class MPR3D extends IEvent {
     // )
     // console.error('r1', r1.p1.toString(), r1.p2.toString(), r1.angle, r1.length)
     // console.error('r2', r2.p1.toString(), r2.p2.toString(), r2.angle, r2.length)
-
     const { column, row, slice } = this.config.size
     const { images } = this.config
 
@@ -133,36 +132,69 @@ class MPR3D extends IEvent {
 
     console.log(`newW:${newW}, newH:${newH}, angleZ:${this.angleZ}`)
 
+    const data = new Array(1000 * 1000).fill(0)
     const matrix = mat4.create()
-    mat4.rotate(matrix, matrix, (this.angleZ / 180) * Math.PI, [0, 0, 1])
-    // const center = vec3.create()
-    // vec3.set(center, 256, 256, 0)
-    // mat4.translate(matrix, matrix, center)
+    const offset = vec3.create()
+    vec3.set(offset, this.centerX, this.centerY, this.centerZ)
+    mat4.translate(matrix, matrix, offset)
 
-    mat4.invert(matrix, matrix)
-    const va = vec3.create()
+    mat4.rotate(matrix, matrix, (this.angleY / 180) * Math.PI, [0, 1, 0])
+    mat4.rotate(matrix, matrix, (this.angleX / 180) * Math.PI, [1, 0, 0])
 
-    const data = new Array(newW * newH).fill(0)
-    for (let i = 0; i < newH; i += 1) {
-      for (let j = 0; j <= newW; j += 1) {
-        vec3.set(va, this.centerX, i, j)
-        vec3.transformMat4(va, va, matrix)
-        vec3.round(va, va)
+    const vm1 = vec3.fromValues(matrix[0], matrix[1], matrix[2])
+    vec3.normalize(vm1, vm1)
+    const m1 = vec3.len(vm1)
+    const vm2 = vec3.fromValues(matrix[4], matrix[5], matrix[6])
+    vec3.normalize(vm2, vm2)
+    const m2 = vec3.len(vm2)
 
-        if (va[0] >= 0 && va[0] <= column && va[1] >= 0 && va[1] <= row && va[2] >= 0 && va[2] < slice - 1) {
-          const pixel = images.get(va[2] + 1)[va[1] * row + va[0]]
-          data[i * newW + j] = pixel
-        } else {
-          data[i * newW + j] = -2000
+    for (let i = 0; i < 725; i += 1) {
+      for (let j = 0; j < 725; j += 1) {
+        const x = i
+        const y = j
+        const ox = (this.centerX + x * matrix[0] * m1 + y * matrix[4] * m2) >> 0
+        const oy = (this.centerY + x * matrix[1] * m1 + y * matrix[5] * m2) >> 0
+        const oz = (this.centerZ + x * matrix[2] * m1 + y * matrix[6] * m2) >> 0
+        if (ox < 0 || ox > 511) {
+          continue
         }
+
+        if (oy < 0 || oy > 511) {
+          continue
+        }
+
+        if (oz < 0 || oz > spZ * slice - 1) {
+          continue
+        }
+
+        data[i * 1000 + j] = images.get(((oz + 1) * spZ) >> 0)[oy * 512 + ox]
       }
     }
+
+    // mat4.invert(matrix, matrix)
+    // const va = vec3.create()
+
+    // const data = new Array(newW * newH).fill(0)
+    // for (let i = 0; i < newH; i += 1) {
+    //   for (let j = 0; j <= newW; j += 1) {
+    //     vec3.set(va, this.centerX, i, j)
+    //     vec3.transformMat4(va, va, matrix)
+    //     vec3.round(va, va)
+
+    //     if (va[0] >= 0 && va[0] <= column && va[1] >= 0 && va[1] <= row && va[2] >= 0 && va[2] < slice - 1) {
+    //       const pixel = images.get(va[2] + 1)[va[1] * row + va[0]]
+    //       data[i * newW + j] = pixel
+    //     } else {
+    //       data[i * newW + j] = -2000
+    //     }
+    //   }
+    // }
 
     this.emit('render', {
       type: 'sagittal',
       buffer: data,
-      width: newW,
-      height: newH
+      width: 1000,
+      height: 1000
     })
   }
 
