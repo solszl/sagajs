@@ -6,7 +6,7 @@ import SimpleView from '../src/view/simpleView'
 /**
  *
  * Created Date: 2020-04-27, 14:42:09 (zhenliang.sun)
- * Last Modified: 2020-05-07, 19:49:00 (zhenliang.sun)
+ * Last Modified: 2020-05-10, 21:54:49 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -16,7 +16,7 @@ import SimpleView from '../src/view/simpleView'
 log.setDefaultLevel(1)
 
 const urls = []
-for (let i = 1; i <= 225; i += 1) {
+for (let i = 1; i <= 249; i += 1) {
   urls.push(
     // `http://127.0.0.1:8887/1.2.840.113619.2.278.3.2831172146.890.1539296548.557.${i}`
     `http://127.0.0.1:8887/${i}`
@@ -26,21 +26,21 @@ for (let i = 1; i <= 225; i += 1) {
 const sdk = new SDK()
 window.sdk = sdk
 
-const leftContainer = new ViewContainer('content')
-leftContainer.setURLs(urls)
-
+const originContainer = new ViewContainer('origin')
+originContainer.setURLs(urls)
 const { viewManager } = sdk
-viewManager.addView(leftContainer)
+viewManager.addView(originContainer)
 
-const middleView = new SimpleView('content-middle')
-middleView.stage.rotation(90)
-viewManager.addView(middleView)
+// const leftView = new SimpleView('content-left')
+// viewManager.addView(leftView)
 
-const rightView = new SimpleView('content-right')
-rightView.stage.rotation(90)
-viewManager.addView(rightView)
+// const middleView = new SimpleView('content-middle')
+// viewManager.addView(middleView)
 
-viewManager.currentView = leftContainer
+// const rightView = new SimpleView('content-right')
+// viewManager.addView(rightView)
+
+viewManager.currentView = originContainer
 
 addEvent()
 

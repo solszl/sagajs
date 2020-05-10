@@ -21,6 +21,11 @@ input {
   width: 160px;
 }
 
+.origin-container {
+  width: 100px;
+  height: 100px;
+}
+
 .wrapper {
   display: flex;
 }

@@ -6,7 +6,7 @@ import SimpleView from '../../src/view/simpleView'
 /**
  *
  * Created Date: 2020-04-27, 15:05:29 (zhenliang.sun)
- * Last Modified: 2020-05-09, 17:55:25 (zhenliang.sun)
+ * Last Modified: 2020-05-11, 03:11:49 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -17,22 +17,22 @@ let mpr
 let angleX = 0
 let angleY = 0
 let angleZ = 0
-
+// .throttle(30)
 export const addEvent = () => {
-  document.querySelector('#left-axis').addEventListener('input', leftAxisChange.throttle(30))
-  document.querySelector('#left-coronal').addEventListener('input', leftCoronalChange.throttle(30))
-  document.querySelector('#left-sagittal').addEventListener('input', leftSagittalChange.throttle(30))
-  document.querySelector('#left-angle').addEventListener('input', leftAngleChange.throttle(30))
+  document.querySelector('#left-axis').addEventListener('input', leftAxisChange)
+  document.querySelector('#left-coronal').addEventListener('input', leftCoronalChange)
+  document.querySelector('#left-sagittal').addEventListener('input', leftSagittalChange)
+  document.querySelector('#left-angle').addEventListener('input', leftAngleChange)
 
-  document.querySelector('#middle-coronal').addEventListener('input', middleCoronalChange.throttle(30))
-  document.querySelector('#middle-sagittal').addEventListener('input', middleSagittalChange.throttle(30))
-  document.querySelector('#middle-axis').addEventListener('input', middleAxisChange.throttle(30))
-  document.querySelector('#middle-angle').addEventListener('input', middleAngleChange.throttle(30))
+  document.querySelector('#middle-coronal').addEventListener('input', middleCoronalChange)
+  document.querySelector('#middle-sagittal').addEventListener('input', middleSagittalChange)
+  document.querySelector('#middle-axis').addEventListener('input', middleAxisChange)
+  document.querySelector('#middle-angle').addEventListener('input', middleAngleChange)
 
-  document.querySelector('#right-coronal').addEventListener('input', rightCoronalChange.throttle(30))
-  document.querySelector('#right-sagittal').addEventListener('input', rightSagittalChange.throttle(30))
-  document.querySelector('#right-axis').addEventListener('input', rightAxisChange.throttle(30))
-  document.querySelector('#right-angle').addEventListener('input', rightAngleChange.throttle(30))
+  document.querySelector('#right-coronal').addEventListener('input', rightCoronalChange)
+  document.querySelector('#right-sagittal').addEventListener('input', rightSagittalChange)
+  document.querySelector('#right-axis').addEventListener('input', rightAxisChange)
+  document.querySelector('#right-angle').addEventListener('input', rightAngleChange)
 
   document.querySelector('#btnMPR').addEventListener('click', openMPR)
 }
@@ -139,6 +139,9 @@ const makeMPR = () => {
   const centerZ = document.querySelector('#left-axis').value
 
   mpr.make(centerX, centerY, centerZ, angleX, angleY, angleZ)
+  mpr.makeAxisImage(angleX, angleY)
+  mpr.makeSagittalImage(angleY, angleZ)
+  mpr.makeCoronalImage(angleX, angleZ)
 }
 
 const openMPR = async e => {
@@ -149,7 +152,7 @@ const openMPR = async e => {
   const size = {}
   size.column = 512
   size.row = 512
-  size.slice = 225
+  size.slice = 249
   config.size = size
 
   // 图像原始数据
@@ -170,18 +173,34 @@ const openMPR = async e => {
   mpr = new MPR3D(config)
   mpr.on('render', async e => {
     // 根据渲染出来的不同的层面，在不同容器内进行渲染
-    let imageData
+    let axisImageData
+    let sagittalImageData
+    let coronalImageData
     switch (e.type) {
       case 'axis':
+        axisImageData = new ImageData(e.width, e.height)
+        console.time('轴状位 加工数据')
+        generateImageData(axisImageData, e.buffer)
+        console.timeEnd('轴状位 加工数据')
+        leftView.setImage(await createImageBitmap(axisImageData))
+        leftView.render()
         break
       case 'sagittal':
-        imageData = new ImageData(e.width, e.height)
-        generateImageData(imageData, e.buffer)
-        middleView.setImage(await createImageBitmap(imageData))
+        sagittalImageData = new ImageData(e.width, e.height)
+        console.time('矢状位 加工数据')
+        generateImageData(sagittalImageData, e.buffer)
+        console.timeEnd('矢状位 加工数据')
+        middleView.setImage(await createImageBitmap(sagittalImageData))
         // middleView.imageFit()
         middleView.render()
-
-        console.log(imageData.width, imageData.height, e.buffer.length)
+        break
+      case 'coronal':
+        coronalImageData = new ImageData(e.width, e.height)
+        console.time('冠状位 加工数据')
+        generateImageData(coronalImageData, e.buffer)
+        console.timeEnd('冠状位 加工数据')
+        rightView.setImage(await createImageBitmap(coronalImageData))
+        rightView.render()
         break
       default:
         break
@@ -195,14 +214,6 @@ const openMPR = async e => {
 
   makeMPR()
 }
-
-const buildImageData = async (buffer, width, height) => {
-  const imageData = new ImageData(width, height)
-  generateImageData(imageData, buffer)
-  const imageBitmap = await createImageBitmap(imageData)
-  return imageBitmap
-}
-
 const generateImageData = (imageData, originBuffer) => {
   const lut = sdk.currentView.view.windowLut
   const colourMap = sdk.currentView.view.colourMap.colour
@@ -220,9 +231,11 @@ const generateImageData = (imageData, originBuffer) => {
   }
 }
 
+let leftView
 let middleView
 let rightView
 export const initImageContainer = () => {
+  leftView = new SimpleView('content-left')
   // 显示视图舞台
   middleView = new SimpleView('content-middle')
   // middleView.stage.rotation(90)
