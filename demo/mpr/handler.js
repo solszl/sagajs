@@ -6,7 +6,7 @@ import SimpleView from '../../src/view/simpleView'
 /**
  *
  * Created Date: 2020-04-27, 15:05:29 (zhenliang.sun)
- * Last Modified: 2020-05-11, 03:11:49 (zhenliang.sun)
+ * Last Modified: 2020-05-12, 11:40:47 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -152,7 +152,7 @@ const openMPR = async e => {
   const size = {}
   size.column = 512
   size.row = 512
-  size.slice = 249
+  size.slice = 225
   config.size = size
 
   // 图像原始数据
