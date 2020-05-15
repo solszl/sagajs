@@ -6,7 +6,7 @@ import SimpleView from '../../src/view/simpleView'
 /**
  *
  * Created Date: 2020-04-27, 15:05:29 (zhenliang.sun)
- * Last Modified: 2020-05-12, 11:40:47 (zhenliang.sun)
+ * Last Modified: 2020-05-14, 21:15:50 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -59,12 +59,8 @@ const leftSagittalChange = e => {
 
 const leftAngleChange = e => {
   // 轴状位视图旋转会影响到，蓝线和黄线， 对应的黄线和蓝线旋转对应的角度
-  // // 矢状位
-  // angleY = e.target.value
-  // // 冠状位
-  // angleZ = e.target.value
-
-  angleX = e.target.value
+  angleX = ~~e.target.value
+  // angleY = ~~e.target.value
   mprIsOpen && makeMPR()
 }
 
@@ -89,11 +85,8 @@ const middleAxisChange = e => {
 
 const middleAngleChange = e => {
   // 矢状位视图下，旋转角度会影响 蓝线和紫线 对应冠状位和轴状位
-  // 轴状位
-  // angleX = e.target.value
-  // // 冠状位
-  // angleZ = e.target.value
-  angleY = e.target.value
+  angleY = ~~e.target.value
+  // angleZ = ~~e.target.value
   mprIsOpen && makeMPR()
 }
 
@@ -118,10 +111,8 @@ const rightAxisChange = e => {
 
 const rightAngleChange = e => {
   // 冠状位视图下旋转影响 黄线和紫线， 对应矢状位和轴状位
-  // 轴状位
-  // angleX = e.target.value
-  // angleY = e.target.value
-  angleZ = e.target.value
+  angleZ = ~~e.target.value
+  // angleX = ~~e.target.value
   mprIsOpen && makeMPR()
 }
 

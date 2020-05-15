@@ -1,16 +1,15 @@
 /**
  *
  * Created Date: 2020-04-27, 15:53:26 (zhenliang.sun)
- * Last Modified: 2020-05-11, 03:08:46 (zhenliang.sun)
+ * Last Modified: 2020-05-14, 21:07:01 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import IEvent from '../../src/component/event'
-import Point2D from '../../src/geometry/point2D'
 import { mat4, vec3 } from 'gl-matrix'
+import IEvent from '../../src/component/event'
 
 /** 当做绕多于一个坐标轴的旋转变换时
  *  一般采用Y轴-X轴-Z轴的顺序进行变换
@@ -29,15 +28,13 @@ class MPR3D extends IEvent {
     this.angleX = 0
     this.angleY = 0
     this.angleZ = 0
+
+    this.lastAngleX = null
+    this.lastAngleY = null
+    this.lastAngleZ = null
   }
 
   make(centerX, centerY, centerZ, angleX, angleY, angleZ) {
-    this.centerX = ~~centerX
-    this.centerY = ~~centerY
-    this.centerZ = ~~centerZ
-    this.angleX = ~~angleX
-    this.angleY = ~~angleY
-    this.angleZ = ~~angleZ
     // x,矢状位（黄色）， y,冠状位（蓝色），z,轴状位（紫色）
     // a, 轴状位不变，影响冠状位和矢状位旋转角度成像
     // b, 矢状位不变，影响轴状位和冠状位旋转角度成像
@@ -56,10 +53,55 @@ class MPR3D extends IEvent {
     // this.makeSagittalImage()
     // // // 冠状位
     // this.makeCoronalImage()
+    const ax = ~~angleX
+    const ay = ~~angleY
+    const az = ~~angleZ
+
+    const cx = ~~centerX
+    const cy = ~~centerY
+    const cz = ~~centerZ
+    this.renderAxis = true
+    this.renderSagittal = true
+    this.renderCoronal = true
+    if (this.lastAngleX === ax && this.lastAngleY === ay) {
+      // axis no render
+      this.renderAxis = false
+    }
+
+    if (this.lastAngleY === ay && this.lastAngleZ === az) {
+      // sagittal no render
+      this.renderSagittal = false
+    }
+
+    if (this.lastAngleZ === az && this.lastAngleX === ax) {
+      // coronal no render
+      this.renderCoronal = false
+    }
+
+    if (this.centerX !== cx || this.centerY !== cy || this.centerZ !== cz) {
+      this.renderAxis = true
+      this.renderSagittal = true
+      this.renderCoronal = true
+    }
+
+    this.centerX = cx
+    this.centerY = cy
+    this.centerZ = cz
+    this.angleX = ax
+    this.angleY = ay
+    this.angleZ = az
+
+    this.lastAngleX = ax
+    this.lastAngleY = ay
+    this.lastAngleZ = az
   }
 
   /** 轴状位 */
   makeAxisImage(angleX, angleY) {
+    if (!this.renderAxis) {
+      return
+    }
+
     console.time('轴状位 数据构建')
     const ax = angleX || this.angleX
     const ay = angleY || this.angleY
@@ -78,20 +120,23 @@ class MPR3D extends IEvent {
     const m2 = vec3.len(vm2)
 
     for (let x = 0; x < 725; x += 1) {
+      const tempX = x - this.centerX
+      const tempMat0 = tempX * matrix[0] * m1
+      const tempMat1 = tempX * matrix[1] * m1
+      const tempMat2 = tempX * matrix[2] * m1
       for (let y = 0; y < 725; y += 1) {
-        const tempX = x - this.centerX
         const tempY = y - this.centerY
-        const ox = (this.centerX + tempX * matrix[0] * m1 + tempY * matrix[4] * m2) >> 0
+        const ox = (this.centerX + tempMat0 + tempY * matrix[4] * m2) >> 0
         if (ox < 0 || ox > 511) {
           continue
         }
 
-        const oy = (this.centerY + tempX * matrix[1] * m1 + tempY * matrix[5] * m2) >> 0
+        const oy = (this.centerY + tempMat1 + tempY * matrix[5] * m2) >> 0
         if (oy < 0 || oy > 511) {
           continue
         }
 
-        const oz = (this.centerZ + tempX * matrix[2] * m1 + tempY * matrix[6] * m2) >> 0
+        const oz = (this.centerZ + tempMat2 + tempY * matrix[6] * m2) >> 0
         if (oz < 0 || oz * spZ > slice - 1) {
           continue
         }
@@ -101,7 +146,6 @@ class MPR3D extends IEvent {
     }
 
     console.timeEnd('轴状位 数据构建')
-
     this.emit('render', {
       type: 'axis',
       buffer: data,
@@ -112,6 +156,10 @@ class MPR3D extends IEvent {
 
   /** 矢状位 */
   makeSagittalImage(angleY, angleZ) {
+    if (!this.renderSagittal) {
+      return
+    }
+
     console.time('矢状位 数据构建')
     const ay = angleY || this.angleY
     const az = angleZ || this.angleZ
@@ -131,20 +179,23 @@ class MPR3D extends IEvent {
     const m2 = vec3.len(vm2)
 
     for (let x = 0; x < 725; x += 1) {
+      const tempX = x - this.centerX
+      const tempMat4 = tempX * matrix[4] * m1
+      const tempMat5 = tempX * matrix[5] * m1
+      const tempMat6 = tempX * matrix[6] * m1
       for (let y = 0; y < 725; y += 1) {
-        const tempX = x - this.centerX
         const tempY = y - this.centerY
-        const ox = (this.centerX + tempX * matrix[4] * m1 + tempY * matrix[8] * m2) >> 0
+        const ox = (this.centerX + tempMat4 + tempY * matrix[8] * m2) >> 0
         if (ox < 0 || ox > 511) {
           continue
         }
 
-        const oy = (this.centerY + tempX * matrix[5] * m1 + tempY * matrix[9] * m2) >> 0
+        const oy = (this.centerY + tempMat5 + tempY * matrix[9] * m2) >> 0
         if (oy < 0 || oy > 511) {
           continue
         }
 
-        const oz = (this.centerZ + tempX * matrix[6] * m1 + tempY * matrix[10] * m2) >> 0
+        const oz = (this.centerZ + tempMat6 + tempY * matrix[10] * m2) >> 0
         if (oz < 0 || oz * spZ > slice - 1) {
           continue
         }
@@ -165,6 +216,10 @@ class MPR3D extends IEvent {
 
   /** 冠状位 */
   makeCoronalImage(angleX, angleZ) {
+    if (!this.renderCoronal) {
+      return
+    }
+
     console.time('冠状位 数据构建')
     const ax = angleX || this.angleX
     const az = angleZ || this.angleZ
@@ -184,20 +239,23 @@ class MPR3D extends IEvent {
     const m2 = vec3.len(vm2)
 
     for (let x = 0; x < 725; x += 1) {
+      const tempX = x - this.centerX
+      const tempMat0 = tempX * matrix[0] * m1
+      const tempMat1 = tempX * matrix[1] * m1
+      const tempMat2 = tempX * matrix[2] * m1
       for (let y = 0; y < 725; y += 1) {
-        const tempX = x - this.centerX
         const tempY = y - this.centerY
-        const ox = (this.centerX + tempX * matrix[0] * m1 + tempY * matrix[8] * m2) >> 0
+        const ox = (this.centerX + tempMat0 + tempY * matrix[8] * m2) >> 0
         if (ox < 0 || ox > 511) {
           continue
         }
 
-        const oy = (this.centerY + tempX * matrix[1] * m1 + tempY * matrix[9] * m2) >> 0
+        const oy = (this.centerY + tempMat1 + tempY * matrix[9] * m2) >> 0
         if (oy < 0 || oy > 511) {
           continue
         }
 
-        const oz = (this.centerZ + tempX * matrix[2] * m1 + tempY * matrix[10] * m2) >> 0
+        const oz = (this.centerZ + tempMat2 + tempY * matrix[10] * m2) >> 0
         if (oz < 0 || oz * spZ > slice - 1) {
           continue
         }
