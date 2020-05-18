@@ -15,7 +15,7 @@ import log from 'loglevel'
 /**
  *
  * Created Date: 2020-02-01, 00:07:39 (zhenliang.sun)
- * Last Modified: 2020-04-01, 17:48:39 (zhenliang.sun)
+ * Last Modified: 2020-04-23, 20:26:00 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -25,7 +25,7 @@ import log from 'loglevel'
 export default class Image extends IEvent {
   constructor() {
     super()
-    this.io = new IO()
+    this.io = new IO({ workerCount: 4 })
     this.io.on(
       LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE,
       this._itemLoadComplete.bind(this)
@@ -84,24 +84,26 @@ export default class Image extends IEvent {
     }
     const _row = new Vector3D(fn(0), fn(1), fn(2))
     const _column = new Vector3D(fn(3), fn(4), fn(5))
-    const _normal = _row.crossProduct(_column)
-    const _orientationMatrix = new Matrix33(
-      _row.x,
-      _row.y,
-      _row.z,
-      _column.x,
-      _column.y,
-      _column.z,
-      _normal.x,
-      _normal.y,
-      _normal.z
-    )
+    // const _normal = _row.crossProduct(_column)
+    // const _orientationMatrix = new Matrix33(
+    //   _row.x,
+    //   _row.y,
+    //   _row.z,
+    //   _column.x,
+    //   _column.y,
+    //   _column.z,
+    //   _normal.x,
+    //   _normal.y,
+    //   _normal.z
+    // )
+
+    const _orientation = { rowVector: _row, columnVector: _column }
 
     const _spacing = new Spacing(pixelSpacing[0], pixelSpacing[1])
 
     const _size = new Size(columns, rows)
 
-    this.geometry = new Geometry(_origin, _spacing, _size, _orientationMatrix)
+    this.geometry = new Geometry(_origin, _spacing, _size, _orientation)
   }
 
   /**
@@ -112,9 +114,64 @@ export default class Image extends IEvent {
    */
   createMetaData(parsedObject) {
     const { bitsStored, pixelRepresentation } = parsedObject
+    // 日期相关
+    const { studyDate, seriesDate, acquisitionDate, contentDate } = parsedObject
+    // 时间相关
+    const { studyTime, seriesTime, acquisitionTime, contentTime } = parsedObject
+    // 压缩相关
+    const { compression, compressRatio, compressMethod } = parsedObject
+    const {
+      rows,
+      columns,
+      thickness,
+      pixelSpacing,
+      orientation,
+      origin
+    } = parsedObject
+    // overlay
+    const {
+      accessionNumber,
+      patientId,
+      studyDescription,
+      seriesDescription,
+      seriesNumber,
+      sliceLocation,
+      spacingBetweenSlice
+    } = parsedObject
+
+    // 获取压缩方式
+    const getCompression = (compress, ratio, method) => {
+      if (compress === '01' && ratio) {
+        const compressMethod = method || 'Lossy: '
+        const compressRatio = parseFloat(ratio).toFixed(2)
+        return `${compressMethod} ${compressRatio} : 1`
+      }
+
+      return 'Lossless / Uncompressed'
+    }
+
+    const { slicePosition } = parsedObject
+
     this.metaData = {
       bitsStored,
-      pixelRepresentation
+      pixelRepresentation,
+      date: seriesDate || contentDate || studyDate || acquisitionDate,
+      time: seriesTime || contentTime || studyTime || acquisitionTime,
+      compress: getCompression(compression, compressRatio, compressMethod),
+      rows,
+      columns,
+      origin,
+      thickness,
+      pixelSpacing,
+      orientation,
+      accessionNumber,
+      patientId,
+      studyDescription,
+      seriesDescription,
+      seriesNumber,
+      sliceLocation,
+      spacingBetweenSlice,
+      slicePosition
     }
   }
 
@@ -139,6 +196,25 @@ export default class Image extends IEvent {
     const { pixelData, slicePosition } = parsedObject
     this.appendSlice(parsedObject)
     this.appendBuffer(pixelData, slicePosition)
+
+    // 如果读不出来层间距。那么就自己计算一下
+    if (!this.metaData.spacingBetweenSlice) {
+      const { sliceLocation, slicePosition } = parsedObject
+      const {
+        sliceLocation: metaSliceLocation,
+        slicePosition: metaSlicePosition
+      } = this.metaData
+
+      const spacingBetweenSlice = Math.abs(
+        (metaSliceLocation - sliceLocation) /
+          (metaSlicePosition - slicePosition)
+      )
+      this.metaData.spacingBetweenSlice = spacingBetweenSlice
+      this.geometry.spacing.sliceSpacing = spacingBetweenSlice
+
+      // 删除掉临时的数据
+      delete this.metaData.slicePosition
+    }
   }
 
   destroy() {

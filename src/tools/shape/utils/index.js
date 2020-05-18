@@ -1,14 +1,14 @@
 /**
  *
  * Created Date: 2020-03-14, 21:13:03 (zhenliang.sun)
- * Last Modified: 2020-04-01, 00:00:41 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 14:28:29 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import Konva from 'konva'
+import { Text } from 'konva/lib/shapes/Text'
 import { Color } from '../theme'
 import Point2D from '../../../geometry/point2D'
 
@@ -26,7 +26,7 @@ const SHADOW = {
 
 /** 创建一个文本组件 */
 export function createTextComponent(text = '') {
-  return new Konva.Text(
+  return new Text(
     Object.assign(
       {
         text,

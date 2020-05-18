@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-01-31, 03:11:34 (zhenliang.sun)
- * Last Modified: 2020-02-02, 03:14:52 (zhenliang.sun)
+ * Last Modified: 2020-04-22, 11:38:06 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -11,6 +11,7 @@
 /**
  * 向量的操作
  * http://www.waitingfy.com/archives/320
+ * https://mp.weixin.qq.com/s/f7RMTgMSFycFM62cWI0bjA
  * @export
  * @class Vector3D
  * @author zhenliang.sun
@@ -39,23 +40,24 @@ export default class Vector3D {
   }
 
   /**
-   * 判断叉积是否与2个向量垂直
+   * 判断叉积是否与2个向量垂直、与该向量缩成平面的法向量
    * [x1,y1,z1] * [x2,y2,z2] = [y1*z2 - z1*y2, z1*x2 - x1*z2, x1*y2 - x2*y1]
    *
    * @param {*} vector3d
    * @memberof Vector3D
-   * @returns 新的差积向量
+   * @returns 新的差积向量(法向量)
    */
   crossProduct(vector3d) {
-    const x = this.y * vector3d.z - vector3d.y * this.z
-    const y = this.z * vector3d.x - vector3d.z * this.x
-    const z = this.x * vector3d.y - vector3d.x * this.y
+    const x = this.y * vector3d.z - this.z * vector3d.y
+    const y = this.z * vector3d.x - this.x * vector3d.z
+    const z = this.x * vector3d.y - this.y * vector3d.x
     return new Vector3D(x, y, z)
   }
 
   /**
    * ∑(ai * bi ) 这里i=1,2..n
    * 点积结果影响两个向量的角度关系
+   * b向量在a向量方向上的投影
    * a * b > 0 锐角
    * a * b = 0 直角
    * a * b < 0 钝角
@@ -79,6 +81,10 @@ export default class Vector3D {
     return Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2)
   }
 
+  multiply(c) {
+    return new Vector3D(this.x * c, this.y * c, this.z * c)
+  }
+
   toArray() {
     return [this.x, this.y, this.z]
   }
@@ -99,5 +105,9 @@ export default class Vector3D {
 
   get z() {
     return this._z
+  }
+
+  toString() {
+    return `(x:${this.x}, y:${this.y}, z:${this.z})`
   }
 }

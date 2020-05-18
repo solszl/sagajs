@@ -1,14 +1,13 @@
 /**
  *
  * Created Date: 2020-03-30, 14:33:06 (zhenliang.sun)
- * Last Modified: 2020-04-02, 15:40:30 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 14:31:19 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import log from 'loglevel'
 import BaseCommand from './baseCommand'
 
 /**
@@ -19,8 +18,8 @@ import BaseCommand from './baseCommand'
  * @author zhenliang.sun
  */
 class ScrollCommand extends BaseCommand {
-  constructor(container) {
-    super(container)
+  constructor() {
+    super()
 
     this._type = 'ScrollCommand'
     Object.assign(this.ee, {
@@ -36,8 +35,7 @@ class ScrollCommand extends BaseCommand {
 
   execute() {
     super.execute()
-    this.removeEvents()
-    this.addEvents()
+    this.rebindEvents()
   }
 
   _mouseDown(e) {

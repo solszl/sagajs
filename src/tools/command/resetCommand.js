@@ -4,7 +4,7 @@ import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
 /**
  *
  * Created Date: 2020-03-10, 01:29:34 (zhenliang.sun)
- * Last Modified: 2020-03-14, 15:16:28 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 22:08:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -19,8 +19,8 @@ import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
  * @author zhenliang.sun
  */
 class ResetCommand extends BaseCommand {
-  constructor(container) {
-    super(container)
+  constructor() {
+    super()
     this._type = 'ResetCommand'
   }
 

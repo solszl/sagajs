@@ -1,14 +1,15 @@
 /**
  *
  * Created Date: 2020-03-19, 02:00:27 (zhenliang.sun)
- * Last Modified: 2020-04-01, 21:58:28 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 14:30:20 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import Konva from 'konva'
+import { Group } from 'konva/lib/Group'
+import { Circle } from 'konva/lib/shapes/Circle'
 import { Color } from './theme'
 
 /**
@@ -18,7 +19,7 @@ import { Color } from './theme'
  * @extends {Konva.Group}
  * @author zhenliang.sun
  */
-class BaseShape extends Konva.Group {
+class BaseShape extends Group {
   constructor(cfg = {}) {
     super(cfg)
 
@@ -90,7 +91,7 @@ class BaseShape extends Konva.Group {
   }
 
   createAnchor() {
-    return new Konva.Circle({
+    return new Circle({
       fill: 'rgba(0,0,0,0.1)',
       stroke: Color.ANCHOR_NORMAL,
       strokeWidth: 2,

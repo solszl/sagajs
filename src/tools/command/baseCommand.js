@@ -2,7 +2,7 @@ import log from 'loglevel'
 /**
  *
  * Created Date: 2020-03-10, 00:32:15 (zhenliang.sun)
- * Last Modified: 2020-04-02, 22:57:32 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 22:08:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -16,10 +16,7 @@ import log from 'loglevel'
  * @author zhenliang.sun
  */
 class BaseCommand {
-  constructor(container) {
-    const { stage, view } = container
-    this.stage = stage
-    this.view = view
+  constructor() {
     this.ee = {
       wheel: this._mouseWheel.bind(this).throttle(30)
     }
@@ -46,6 +43,11 @@ class BaseCommand {
     }
   }
 
+  rebindEvents() {
+    this.removeEvents()
+    this.addEvents()
+  }
+
   _mouseWheel(e) {
     e.evt.preventDefault()
     const sliceIndex = this.view.sliceIndex.clone()
@@ -61,6 +63,17 @@ class BaseCommand {
    */
   get type() {
     return this._type
+  }
+
+  set viewContainer(container) {
+    this._viewContainer = container
+    const { stage, view } = container
+    this.stage = stage
+    this.view = view
+  }
+
+  get viewContainer() {
+    return this._viewContainer
   }
 }
 

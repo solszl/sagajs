@@ -1,17 +1,17 @@
 /**
  *
  * Created Date: 2020-03-14, 15:03:22 (zhenliang.sun)
- * Last Modified: 2020-04-01, 00:07:10 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 12:38:06 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import Konva from 'konva'
+import { Group } from 'konva/lib/Group'
 import { createTextComponent } from './utils'
 
-class Probe extends Konva.Group {
+class Probe extends Group {
   constructor(cfg, tooltipTpl) {
     super(cfg)
     this.tooltipTpl = tooltipTpl

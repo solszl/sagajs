@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-03-14, 14:51:55 (zhenliang.sun)
- * Last Modified: 2020-04-02, 15:42:16 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 22:08:10 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -20,8 +20,8 @@ import { getRelativePointerPosition } from './utils/index'
  * @author zhenliang.sun
  */
 class ProbeCommand extends BaseCommand {
-  constructor(container, config = { tooltip: 'CT: {ct}' }) {
-    super(container)
+  constructor(config = { tooltip: 'CT: {ct}' }) {
+    super()
 
     this.config = config
 
@@ -41,10 +41,7 @@ class ProbeCommand extends BaseCommand {
   execute() {
     super.execute()
 
-    // 给stage绑定事件
-    for (const event in this.ee) {
-      this.stage.on(event, this.ee[event])
-    }
+    this.rebindEvents()
   }
 
   _mouseDown(e) {

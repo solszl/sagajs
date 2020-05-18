@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./mpr.css" />
+    <title>MPR</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div id="origin" class="origin-container"></div>
+      <div id="container-left" class="content-wrapper">
+        <div id="content-left" class="content"></div>
+        <div class="control">
+          轴状位
+          <input type="range" id="left-axis" min="0" max="241" value="1" step="1" />
+          冠状位
+          <input type="range" id="left-coronal" min="0" max="512" value="256" step="1" />
+          矢状位
+          <input type="range" id="left-sagittal" min="0" max="512" value="256" step="1" />
+          角度
+          <input type="range" id="left-angle" min="-89" max="89" value="0" step="1" />
+        </div>
+      </div>
+      <div id="container-middle" class="content-wrapper">
+        <div id="content-middle" class="content"></div>
+        <div class="control">
+          矢状位
+          <input type="range" id="middle-sagittal" min="0" max="512" value="256" step="1" />
+          轴状位
+          <input type="range" id="middle-axis" min="0" max="241" value="1" step="1" />
+          冠状位
+          <input type="range" id="middle-coronal" min="0" max="512" value="256" step="1" />
+          角度
+          <input type="range" id="middle-angle" min="-89" max="89" value="0" step="1" />
+        </div>
+      </div>
+      <div id="container-right" class="content-wrapper">
+        <div id="content-right" class="content"></div>
+        <div class="control">
+          冠状位
+          <input type="range" id="right-coronal" min="0" max="512" value="256" step="1" />
+          轴状位
+          <input type="range" id="right-axis" min="0" max="241" value="1" step="1" />
+          矢状位
+          <input type="range" id="right-sagittal" min="0" max="512" value="256" step="1" />
+          角度
+          <input type="range" id="right-angle" min="-89" max="89" value="0" step="1" />
+        </div>
+      </div>
+    </div>
+    <button id="btnMPR">MPR</button>
+  </body>
+</html>

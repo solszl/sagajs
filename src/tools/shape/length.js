@@ -1,14 +1,14 @@
 /**
  *
  * Created Date: 2020-03-16, 16:51:48 (zhenliang.sun)
- * Last Modified: 2020-04-01, 22:00:49 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 14:30:30 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
 
-import Konva from 'konva'
+import { Line } from 'konva/lib/shapes/Line'
 import Point2D from '../../geometry/point2D'
 import { getRelativePointerPosition } from './../command/utils'
 import BaseShape from './baseShape'
@@ -62,7 +62,7 @@ class Length extends BaseShape {
     this.add(this.anchor2)
     this.anchor2.position({ x: 0, y: 0 })
 
-    this.line = new Konva.Line({
+    this.line = new Line({
       stroke: Color.ITEM_NORMAL,
       hitStrokeWidth: 20,
       name: 'node-item'
@@ -139,7 +139,7 @@ class Length extends BaseShape {
     // 判断是否存在虚线
     this.dashLine = this.dashLine || this.findOne('#dashLine')
     if (!this.dashLine) {
-      this.dashLine = new Konva.Line({
+      this.dashLine = new Line({
         stroke: Color.ITEM_NORMAL,
         strokeWidth: 2,
         lineJoin: 'round',

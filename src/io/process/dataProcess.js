@@ -9,7 +9,7 @@ import { decodeImageData } from './decode'
 /**
  *
  * Created Date: 2020-01-19, 15:05:20 (zhenliang.sun)
- * Last Modified: 2020-02-02, 04:03:14 (zhenliang.sun)
+ * Last Modified: 2020-04-14, 23:51:01 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -42,6 +42,32 @@ const parse = async buffer => {
 
   const slicePosition = getData(dataSet, METADATA_TYPE.SLICE_POSITION)
 
+  const accessionNumber = getData(dataSet, METADATA_TYPE.ACCESSION_NUMBER)
+  const patientId = getData(dataSet, METADATA_TYPE.PATIENT_ID)
+  const studyDescription = getData(dataSet, METADATA_TYPE.STUDY_DESCRIPTION)
+  const seriesDescription = getData(dataSet, METADATA_TYPE.SERIES_DESCRIPTION)
+  const studyDate = getData(dataSet, METADATA_TYPE.STUDY_DATE)
+  const seriesDate = getData(dataSet, METADATA_TYPE.SERIES_DATE)
+  const acquisitionDate = getData(dataSet, METADATA_TYPE.ACQUISITION_DATE)
+  const contentDate = getData(dataSet, METADATA_TYPE.CONTENT_DATE)
+
+  const seriesTime = getData(dataSet, METADATA_TYPE.SERIES_TIME)
+  const studyTime = getData(dataSet, METADATA_TYPE.STUDY_TIME)
+  const acquisitionTime = getData(dataSet, METADATA_TYPE.ACQUISITION_TIME)
+  const contentTime = getData(dataSet, METADATA_TYPE.CONTENT_TIME)
+
+  const seriesNumber = getData(dataSet, METADATA_TYPE.SERIES_NUMBER)
+  const sliceLocation = getData(dataSet, METADATA_TYPE.SLICE_LOCATION)
+
+  const compression = getData(dataSet, METADATA_TYPE.COMPRESSION)
+  const compressRatio = getData(dataSet, METADATA_TYPE.COMPRESS_RATIO)
+  const compressMethod = getData(dataSet, METADATA_TYPE.COMPRESS_METHOD)
+
+  const spacingBetweenSlice = getData(
+    dataSet,
+    METADATA_TYPE.SPACING_BETWEEN_SLICES
+  )
+
   return {
     samplesPerPixel,
     photometricInterpretation,
@@ -54,6 +80,24 @@ const parse = async buffer => {
     pixelSpacing,
     thickness,
     slicePosition,
+    accessionNumber,
+    patientId,
+    studyDescription,
+    seriesDescription,
+    studyDate,
+    seriesDate,
+    acquisitionDate,
+    contentDate,
+    studyTime,
+    seriesTime,
+    acquisitionTime,
+    contentTime,
+    seriesNumber,
+    sliceLocation,
+    compression,
+    compressRatio,
+    compressMethod,
+    spacingBetweenSlice,
     ...(await decodeImageData(dataSet))
   }
 }

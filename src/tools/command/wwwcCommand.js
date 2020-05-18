@@ -2,14 +2,14 @@
 
  *
  * Created Date: 2020-03-14, 13:21:31 (zhenliang.sun)
- * Last Modified: 2020-04-02, 15:42:36 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 14:31:19 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
  * Copyright (c) 2020 infervision
  */
-import BaseCommand from './baseCommand'
 import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
+import BaseCommand from './baseCommand'
 /**
  * 窗宽窗位
  * 派发deltaWindowWidth、deltaWindowCenter
@@ -19,8 +19,8 @@ import { INTERNAL_EVENT_ENUM } from '../../constants/internal-event'
  * @author zhenliang.sun
  */
 class WWWCCommand extends BaseCommand {
-  constructor(container) {
-    super(container)
+  constructor() {
+    super()
 
     Object.assign(this.ee, {
       mousedown: this._mouseDown.bind(this),
@@ -38,10 +38,7 @@ class WWWCCommand extends BaseCommand {
   execute() {
     super.execute()
 
-    // 给stage绑定事件
-    for (const event in this.ee) {
-      this.stage.on(event, this.ee[event])
-    }
+    this.rebindEvents()
 
     this.stage.draggable(false)
   }

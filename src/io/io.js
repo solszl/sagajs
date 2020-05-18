@@ -1,16 +1,17 @@
-import LoadContext from './strategy/loadContext'
-import DynamicStrategy from './strategy/dynamicStrategy'
-import SequenceStrategy from './strategy/SequenceStrategy'
-import Loader from './loader'
-import Cache from './cache'
-import { LOAD_EVENT_ENUM } from '../constants/loader-event'
-import { parse } from './process/dataProcess'
+import { delay } from 'nanodelay'
 import IEvent from '../component/event'
+import { LOAD_EVENT_ENUM } from '../constants/loader-event'
+import Cache from './cache'
+import Loader from './loader'
+import { parse } from './process/dataProcess'
+import DynamicStrategy from './strategy/dynamicStrategy'
+import LoadContext from './strategy/loadContext'
+import SequenceStrategy from './strategy/SequenceStrategy'
 
 /**
  *
  * Created Date: 2020-01-19, 01:52:21 (zhenliang.sun)
- * Last Modified: 2020-04-01, 17:48:18 (zhenliang.sun)
+ * Last Modified: 2020-04-16, 21:55:04 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -34,16 +35,21 @@ export default class IO extends IEvent {
       : new SequenceStrategy()
 
     // 创建loader
-    this.loader = new Loader()
+    this.loaders = []
+    const count = option.workerCount || 2
+
+    for (let i = 0; i < count; i += 1) {
+      const ldr = new Loader()
+      // 添加事件监听
+      ldr.on(
+        LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE,
+        this._itemLoadComplete.bind(this)
+      )
+      this.loaders.push(ldr)
+    }
 
     // 创建缓存
     this.cache = new Cache()
-
-    // 添加事件监听
-    this.loader.on(
-      LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE,
-      this._itemLoadComplete.bind(this)
-    )
 
     this.itemLoadCallBK = null
   }
@@ -64,14 +70,17 @@ export default class IO extends IEvent {
   }
 
   _itemLoadComplete(e) {
-    if (this.context.isAllComplete()) {
+    const { buffer, imageId } = e
+    this.cache.setCache(imageId, parse(buffer))
+    this.emit(LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE, e)
+
+    const someLoaderWorking = this.loaders.some(ldr => ldr.isLoading === true)
+
+    if (!someLoaderWorking && this.context.isAllComplete()) {
       this._allLoadComplete()
       return
     }
 
-    const { buffer, imageId } = e
-    this.cache.setCache(imageId, parse(buffer))
-    this.emit(LOAD_EVENT_ENUM.ITEM_LOAD_COMPLETE, e)
     this._next()
   }
 
@@ -80,8 +89,17 @@ export default class IO extends IEvent {
   }
 
   async _next() {
-    const task = await this.context.pick()
-    this.loader.load(task.imageId)
+    // for CPU performance. from: 10~14% to 7~8%
+    // 理论上，间隔越大CPU使用率越低，调整间隔500ms， cpu使用率越在2%
+    await delay(50)
+    this.loaders
+      .filter(loader => loader.isLoading === false)
+      .forEach(async ldr => {
+        const task = await this.context.pick()
+        if (task) {
+          ldr.load(task.imageId)
+        }
+      })
   }
 
   destroy() {

@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-04-01, 21:13:10 (zhenliang.sun)
- * Last Modified: 2020-04-01, 21:47:51 (zhenliang.sun)
+ * Last Modified: 2020-04-08, 14:31:19 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -9,7 +9,6 @@
  */
 
 import BaseCommand from './baseCommand'
-import log from 'loglevel'
 
 /**
  * 播放命令， 再次点击就是停止
@@ -19,8 +18,8 @@ import log from 'loglevel'
  * @author zhenliang.sun
  */
 class PlaybackCommand extends BaseCommand {
-  constructor(container, config = { framerate: 20 }) {
-    super(container)
+  constructor(config = { framerate: 20 }) {
+    super()
     this._type = 'PlaybackCommand'
 
     const { framerate } = config

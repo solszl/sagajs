@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-02-25, 23:56:38 (zhenliang.sun)
- * Last Modified: 2020-04-01, 16:02:35 (zhenliang.sun)
+ * Last Modified: 2020-04-07, 16:15:57 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -22,5 +22,7 @@ export const INTERNAL_EVENT_ENUM = {
   /** 反色命令 */
   INVERSE_COLOR: 'internal_inverse_color',
   /** 重置位置、缩放、窗宽窗位、水平翻转、角度旋转、反色 */
-  RESET: 'internal_reset'
+  RESET: 'internal_reset',
+  /** 当前主视图发生变化（多视图的情况下，鼠标划过哪个，哪个就是变更为正在操作的视图） */
+  VIEW_CHANGE: 'internal_view_change'
 }
