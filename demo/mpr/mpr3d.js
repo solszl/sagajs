@@ -1,7 +1,7 @@
 /**
  *
  * Created Date: 2020-04-27, 15:53:26 (zhenliang.sun)
- * Last Modified: 2020-05-14, 21:07:01 (zhenliang.sun)
+ * Last Modified: 2020-05-20, 17:51:46 (zhenliang.sun)
  * Email: zhenliang.sun@gmail.com
  *
  * Distributed under the MIT license. See LICENSE file for details.
@@ -137,11 +137,12 @@ class MPR3D extends IEvent {
         }
 
         const oz = (this.centerZ + tempMat2 + tempY * matrix[6] * m2) >> 0
-        if (oz < 0 || oz * spZ > slice - 1) {
+        if (oz < 0 || oz > spZ * (slice - 1)) {
           continue
         }
 
-        data[y * 725 + x] = images.get(((oz + 1) * spZ) >> 0)[oy * 512 + ox]
+        const zIndex = Math.max(((oz + 1) / spZ) >> 0, 1)
+        data[y * 725 + x] = images.get(zIndex)[oy * 512 + ox]
       }
     }
 
@@ -167,6 +168,7 @@ class MPR3D extends IEvent {
     const { column, row, slice } = this.config.size
     const { images } = this.config
 
+    console.error(ay, az)
     const data = new Array(725 * 725).fill(0)
     const matrix = mat4.create()
 
@@ -196,11 +198,12 @@ class MPR3D extends IEvent {
         }
 
         const oz = (this.centerZ + tempMat6 + tempY * matrix[10] * m2) >> 0
-        if (oz < 0 || oz * spZ > slice - 1) {
+        if (oz < 0 || oz > spZ * (slice - 1)) {
           continue
         }
 
-        data[y * 725 + x] = images.get(((oz + 1) * spZ) >> 0)[oy * 512 + ox]
+        const zIndex = Math.max(((oz + 1) / spZ) >> 0, 1)
+        data[y * 725 + x] = images.get(zIndex)[oy * 512 + ox]
       }
     }
 
@@ -256,11 +259,12 @@ class MPR3D extends IEvent {
         }
 
         const oz = (this.centerZ + tempMat2 + tempY * matrix[10] * m2) >> 0
-        if (oz < 0 || oz * spZ > slice - 1) {
+        if (oz < 0 || oz > spZ * (slice - 1)) {
           continue
         }
 
-        data[y * 725 + x] = images.get(((oz + 1) * spZ) >> 0)[oy * 512 + ox]
+        const zIndex = Math.max(((oz + 1) / spZ) >> 0, 1)
+        data[y * 725 + x] = images.get(zIndex)[oy * 512 + ox]
       }
     }
 
