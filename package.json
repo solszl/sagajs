@@ -1,8 +1,8 @@
 {
   "name": "sagajs",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=local BUILD_ENV=local webpack-dev-server --config build/webpack.config.js",
     "build:dev": "cross-env NODE_ENV=development BUILD_ENV=dev node build/build.js",
