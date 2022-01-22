@@ -63,7 +63,7 @@
     "mousetrap": "^1.6.5",
     "nanodelay": "^1.0.2",
     "nanoevents": "^5.1.6",
-    "nanoid": "^3.1.7",
+    "nanoid": "^3.1.31",
     "ora": "^4.0.4",
     "progress-bar-webpack-plugin": "^2.1.0",
     "stats.js": "^0.17.0",
